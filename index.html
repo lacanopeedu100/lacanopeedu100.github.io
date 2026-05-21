@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Ressources & guides en kinésithérapie esthétique et médicale — La Canopée du 100, Lorient">
+<title>Ressources — La Canopée du 100</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --beige: #EDE8D8;
+  --beige-dark: #D8D0B8;
+  --green-deep: #2D4A1E;
+  --green-mid: #3D6228;
+  --sage: #7A9A5A;
+  --sage-light: #C8D8A8;
+  --sage-pale: #EBF2DC;
+  --white: #FAFAF5;
+  --text: #2A2A1E;
+  --text-light: #6A6A55;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--white);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--green-deep);
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Botanical SVG background */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-bg svg {
+  width: 100%; height: 100%;
+  opacity: 0.06;
+}
+
+/* Top stripe */
+.stripe {
+  height: 6px;
+  background: linear-gradient(90deg, var(--sage) 0%, var(--sage-light) 50%, var(--sage) 100%);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* Nav */
+.nav {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+}
+
+.nav-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--beige);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.nav-instagram {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--sage-light);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.nav-instagram:hover { opacity: 1; }
+
+.nav-instagram svg { width: 14px; height: 14px; fill: var(--sage-light); }
+
+/* Hero body */
+.hero-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px 80px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-eyebrow {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  color: var(--sage-light);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  opacity: 0.75;
+  animation: fadeUp 0.8s ease both;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(38px, 8vw, 72px);
+  font-weight: 300;
+  color: var(--beige);
+  line-height: 1.08;
+  margin-bottom: 24px;
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--sage-light);
+}
+
+.hero-sub {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--sage-light);
+  line-height: 1.75;
+  max-width: 400px;
+  margin-bottom: 40px;
+  opacity: 0.8;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+
+.hero-divider {
+  width: 40px;
+  height: 1px;
+  background: var(--sage);
+  margin: 0 auto 40px;
+  animation: fadeUp 0.8s 0.25s ease both;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--sage-light);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.45;
+  animation: fadeUp 1s 0.6s ease both;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 32px;
+  background: var(--sage);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* ── CATALOGUE SECTION ── */
+.catalogue {
+  background: var(--white);
+  padding: 80px 24px 100px;
+  position: relative;
+}
+
+.catalogue::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--sage-light), transparent);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-tag {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: var(--sage);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 400;
+  color: var(--green-deep);
+  line-height: 1.2;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* Card */
+.card {
+  background: var(--white);
+  border: 1px solid rgba(122,154,90,0.2);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(45,74,30,0.12);
+  border-color: rgba(122,154,90,0.5);
+}
+
+.card-header {
+  background: var(--green-deep);
+  padding: 24px 24px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-header::after {
+  content: '';
+  position: absolute;
+  bottom: -20px; right: -20px;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: rgba(200,216,168,0.06);
+}
+
+.card-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--sage);
+  letter-spacing: 0.2em;
+  margin-bottom: 10px;
+  display: block;
+  opacity: 0.7;
+}
+
+.card-icon {
+  width: 36px; height: 36px;
+  background: rgba(122,154,90,0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.card-icon svg { width: 20px; height: 20px; }
+
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--beige);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.card-subtitle {
+  font-size: 10px;
+  color: var(--sage-light);
+  font-style: italic;
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.card-body {
+  padding: 20px 24px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-desc {
+  font-size: 12px;
+  color: var(--text-light);
+  line-height: 1.65;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.tag {
+  background: var(--sage-pale);
+  border: 1px solid rgba(122,154,90,0.25);
+  border-radius: 4px;
+  padding: 3px 9px;
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--green-deep);
+  letter-spacing: 0.04em;
+}
+
+.card-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--green-deep);
+  color: var(--beige);
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.card-cta:hover {
+  background: var(--green-mid);
+}
+
+.card-cta svg { width: 14px; height: 14px; fill: currentColor; }
+
+/* Coming soon card */
+.card.soon {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.card.soon .card-header { background: #3A3A2E; }
+
+.soon-badge {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: rgba(200,216,168,0.15);
+  border: 1px solid rgba(200,216,168,0.3);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--sage-light);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--green-deep);
+  padding: 40px 24px;
+  text-align: center;
+  position: relative;
+}
+
+footer::before {
+  content: '';
+  display: block;
+  height: 4px;
+  background: linear-gradient(90deg, var(--sage) 0%, var(--sage-light) 50%, var(--sage) 100%);
+  position: absolute;
+  top: 0; left: 0; right: 0;
+}
+
+.footer-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--beige);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.footer-info {
+  font-size: 11px;
+  color: var(--sage-light);
+  opacity: 0.6;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.footer-ig {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--sage-light);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.footer-ig:hover { opacity: 1; }
+.footer-ig svg { width: 13px; height: 13px; fill: var(--sage-light); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(1); opacity: 0.45; }
+  50% { transform: scaleY(0.6); opacity: 0.2; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .nav { padding: 16px 20px; }
+  .catalogue { padding: 60px 16px 80px; }
+  .grid { grid-template-columns: 1fr; gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="stripe"></div>
+
+  <!-- Botanical background -->
+  <div class="hero-bg">
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 600 C100 600 200 400 400 350 C600 300 700 200 600 100" stroke="#C8D8A8" stroke-width="1.5"/>
+      <path d="M400 350 C350 320 300 280 320 200" stroke="#C8D8A8" stroke-width="1"/>
+      <path d="M400 350 C430 310 460 260 480 180" stroke="#C8D8A8" stroke-width="1"/>
+      <path d="M500 420 C500 420 650 350 750 250 C850 150 950 100 1100 80" stroke="#C8D8A8" stroke-width="1.5"/>
+      <path d="M750 250 C720 230 690 200 710 140" stroke="#C8D8A8" stroke-width="0.8"/>
+      <path d="M750 250 C770 220 790 180 820 120" stroke="#C8D8A8" stroke-width="0.8"/>
+      <ellipse cx="320" cy="195" rx="30" ry="18" stroke="#C8D8A8" stroke-width="0.8" transform="rotate(-30 320 195)"/>
+      <ellipse cx="480" cy="175" rx="28" ry="16" stroke="#C8D8A8" stroke-width="0.8" transform="rotate(-45 480 175)"/>
+      <ellipse cx="712" cy="136" rx="25" ry="15" stroke="#C8D8A8" stroke-width="0.8" transform="rotate(-20 712 136)"/>
+      <ellipse cx="822" cy="116" rx="22" ry="13" stroke="#C8D8A8" stroke-width="0.8" transform="rotate(-50 822 116)"/>
+      <path d="M900 700 C900 700 950 550 1050 480 C1150 410 1180 300 1100 200" stroke="#C8D8A8" stroke-width="1"/>
+      <path d="M50 750 C80 700 130 680 180 640 C250 590 280 520 240 450" stroke="#C8D8A8" stroke-width="0.8"/>
+    </svg>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-brand">La Canopée du 100</div>
+    <a href="https://instagram.com/la_canopee_du_100" target="_blank" class="nav-instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      @la_canopee_du_100
+    </a>
+  </nav>
+
+  <div class="hero-body">
+    <div class="hero-eyebrow">Kinésithérapie esthétique &amp; médicale — Lorient</div>
+    <h1 class="hero-title">Ressources<br><em>&amp; guides</em></h1>
+    <p class="hero-sub">Des documents conçus pour vous accompagner avant, pendant et après vos soins. Libres d'accès, à lire ou à télécharger.</p>
+    <div class="hero-divider"></div>
+    <a href="#catalogue" style="display:inline-flex;align-items:center;gap:8px;background:rgba(200,216,168,0.12);border:1px solid rgba(200,216,168,0.25);border-radius:8px;padding:12px 24px;font-size:11px;font-weight:600;letter-spacing:0.12em;color:var(--sage-light);text-decoration:none;text-transform:uppercase;transition:all 0.2s;">
+      Voir les documents
+    </a>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Défiler</span>
+  </div>
+</section>
+
+<!-- ── CATALOGUE ── -->
+<section class="catalogue" id="catalogue">
+  <div class="section-header reveal">
+    <span class="section-tag">Bibliothèque</span>
+    <h2 class="section-title">Documents disponibles</h2>
+  </div>
+
+  <div class="grid">
+
+    <!-- Doc 1 — Livret post-op (DISPONIBLE) -->
+    <div class="card reveal">
+      <div class="card-header">
+        <span class="card-number">01</span>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 20C12 20 6 16 6 11C6 8 8.5 6 12 6C15.5 6 18 8 18 11C18 16 12 20 12 20Z" stroke="#C8D8A8" stroke-width="1.5"/>
+            <line x1="12" y1="20" x2="12" y2="8" stroke="#C8D8A8" stroke-width="0.8" stroke-dasharray="1.5,1.5"/>
+            <path d="M12 14 C10 12 8 11 7 9" stroke="#C8D8A8" stroke-width="0.8"/>
+            <path d="M12 12 C14 10 16 9 17 7" stroke="#C8D8A8" stroke-width="0.8"/>
+          </svg>
+        </div>
+        <div class="card-title">Livret Post-Opératoire</div>
+        <div class="card-subtitle">Accompagnement en rééducation après chirurgie</div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Guide complet couvrant les phases de récupération, les protocoles LPG, TECAR et Microlab Matim, les soins cicatriciels et les recommandations d'hygiène de vie.</p>
+        <div class="card-tags">
+          <span class="tag">Post-opératoire</span>
+          <span class="tag">Cicatrices</span>
+          <span class="tag">LPG · TECAR · Microlab</span>
+        </div>
+        <a href="Livret_PostOperatoire_LaCanopee100_EBOOK.html" class="card-cta">
+          <svg viewBox="0 0 24 24"><path d="M12 16l-6-6h4V4h4v6h4l-6 6zm-6 2h12v2H6v-2z"/></svg>
+          Ouvrir le livret
+        </a>
+      </div>
+    </div>
+
+    <!-- Doc 2 — Lipoedème (À VENIR) -->
+    <div class="card reveal">
+      <div class="card-header">
+        <span class="card-number">02</span>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="7" stroke="#C8D8A8" stroke-width="1.2"/>
+            <path d="M9 10 C9 8 11 7 12 7 C14 7 15 8.5 15 10 C15 11.5 14 12.5 12 13" stroke="#C8D8A8" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="12" cy="16" r="0.8" fill="#C8D8A8"/>
+          </svg>
+        </div>
+        <div class="card-title">Comprendre le Lipoedème</div>
+        <div class="card-subtitle">Symptômes, stades et prise en charge</div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Guide complet sur le lipoedème — diagnostic différentiel avec l'obésité, les stades évolutifs, et le rôle du drainage et de l'endermologie dans la prise en charge.</p>
+        <div class="card-tags">
+          <span class="tag">Lipoedème</span>
+          <span class="tag">Santé de la femme</span>
+          <span class="tag">LPG Cellu M6</span>
+        </div>
+        <a href="Guide_Lipoedem_LaCanopee100.html" class="card-cta">
+          <svg viewBox="0 0 24 24"><path d="M12 16l-6-6h4V4h4v6h4l-6 6zm-6 2h12v2H6v-2z"/></svg>
+          Ouvrir le guide
+        </a>
+      </div>
+    </div>
+
+    <!-- Doc 3 — Cicatrices (À VENIR) -->
+    <div class="card soon reveal">
+      <div class="card-header">
+        <span class="card-number">03</span>
+        <div class="soon-badge">Bientôt</div>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M5 12 Q8 7 12 12 Q16 17 19 12" stroke="#C8D8A8" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="5" cy="12" r="1.2" fill="#C8D8A8" opacity="0.6"/>
+            <circle cx="19" cy="12" r="1.2" fill="#C8D8A8" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="card-title">Guide Cicatrices</div>
+        <div class="card-subtitle">Auto-massage, suivi et signaux d'alerte</div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Protocole d'auto-massage cicatriciel à domicile, tableau des aspects normaux versus à surveiller, et rôle des microcourants dans la prévention du kéloïde.</p>
+        <div class="card-tags">
+          <span class="tag">Cicatrices</span>
+          <span class="tag">Microlab Matim</span>
+          <span class="tag">Auto-soins</span>
+        </div>
+        <a href="#" class="card-cta">
+          <svg viewBox="0 0 24 24"><path d="M12 16l-6-6h4V4h4v6h4l-6 6zm-6 2h12v2H6v-2z"/></svg>
+          Bientôt disponible
+        </a>
+      </div>
+    </div>
+
+    <!-- Doc 4 — Drainage (À VENIR) -->
+    <div class="card soon reveal">
+      <div class="card-header">
+        <span class="card-number">04</span>
+        <div class="soon-badge">Bientôt</div>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 4 C12 4 8 8 8 13 C8 16 10 18 12 18 C14 18 16 16 16 13 C16 8 12 4 12 4Z" stroke="#C8D8A8" stroke-width="1.2"/>
+            <path d="M12 18 L12 21" stroke="#C8D8A8" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M9 15 C8 14 7 12 7.5 10" stroke="#C8D8A8" stroke-width="0.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="card-title">Guide Drainage Lymphatique</div>
+        <div class="card-subtitle">Indications, fréquence et bénéfices</div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Tout comprendre sur le drainage lymphatique — ce qu'il traite, ce qu'il ne fait pas, la fréquence optimale selon votre situation et les signes qui indiquent d'en bénéficier.</p>
+        <div class="card-tags">
+          <span class="tag">Drainage</span>
+          <span class="tag">Œdèmes</span>
+          <span class="tag">Récupération</span>
+        </div>
+        <a href="#" class="card-cta">
+          <svg viewBox="0 0 24 24"><path d="M12 16l-6-6h4V4h4v6h4l-6 6zm-6 2h12v2H6v-2z"/></svg>
+          Bientôt disponible
+        </a>
+      </div>
+    </div>
+
+    <!-- Doc 5 — Cycle féminin (À VENIR) -->
+    <div class="card soon reveal">
+      <div class="card-header">
+        <span class="card-number">05</span>
+        <div class="soon-badge">Bientôt</div>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="7" stroke="#C8D8A8" stroke-width="1.2"/>
+            <path d="M12 5 A7 7 0 0 1 19 12" stroke="#7A9A5A" stroke-width="1.8" stroke-linecap="round"/>
+            <circle cx="12" cy="5" r="1" fill="#C8D8A8"/>
+          </svg>
+        </div>
+        <div class="card-title">Cycle Menstruel &amp; Récupération</div>
+        <div class="card-subtitle">Adapter son quotidien par phase</div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Comment le cycle hormonal influence la récupération physique, la rétention d'eau, la douleur et la tolérance à l'effort — avec des recommandations concrètes par phase.</p>
+        <div class="card-tags">
+          <span class="tag">Santé de la femme</span>
+          <span class="tag">Hormones</span>
+          <span class="tag">Récupération</span>
+        </div>
+        <a href="#" class="card-cta">
+          <svg viewBox="0 0 24 24"><path d="M12 16l-6-6h4V4h4v6h4l-6 6zm-6 2h12v2H6v-2z"/></svg>
+          Bientôt disponible
+        </a>
+      </div>
+    </div>
+
+    <!-- Doc 6 — Ménopause (À VENIR) -->
+    <div class="card soon reveal">
+      <div class="card-header">
+        <span class="card-number">06</span>
+        <div class="soon-badge">Bientôt</div>
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3 L13.5 8 L19 8 L14.5 11.5 L16 17 L12 13.5 L8 17 L9.5 11.5 L5 8 L10.5 8 Z" stroke="#C8D8A8" stroke-width="1.1" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="card-title">Ménopause &amp; Tissu Conjonctif</div>
+        <div class="card-subtitle">Ce qui change, ce qu'on peut faire</div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Impact de la chute estrogénique sur la peau, le collagène et la silhouette. Rôle de l'endermologie et du TECAR dans l'accompagnement des femmes en péri et post-ménopause.</p>
+        <div class="card-tags">
+          <span class="tag">Ménopause</span>
+          <span class="tag">Collagène</span>
+          <span class="tag">LPG · TECAR</span>
+        </div>
+        <a href="#" class="card-cta">
+          <svg viewBox="0 0 24 24"><path d="M12 16l-6-6h4V4h4v6h4l-6 6zm-6 2h12v2H6v-2z"/></svg>
+          Bientôt disponible
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-brand">La Canopée du 100</div>
+  <div class="footer-info">
+    100 rue Lazare Carnot — Lorient<br>
+    Julien Fresnaud · Masseur-Kinésithérapeute Diplômé d'État<br>
+    Kinésithérapie esthétique &amp; médicale · Santé de la femme · Cicatrices
+  </div>
+  <a href="https://instagram.com/la_canopee_du_100" target="_blank" class="footer-ig">
+    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    @la_canopee_du_100
+  </a>
+</footer>
+
+<script>
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+// Smooth scroll for anchor
+document.querySelector('a[href="#catalogue"]').addEventListener('click', e => {
+  e.preventDefault();
+  document.getElementById('catalogue').scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+</body>
+</html>
