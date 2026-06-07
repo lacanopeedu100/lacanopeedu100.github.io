@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Guide Cicatrices — La Canopée du 100</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --beige: #EDE8D8;
-  --vert: #2D4A1E;
-  --vert-mid: #3D6228;
+  --green-deep: #2D4A1E;
+  --green-mid: #3D6228;
   --sage: #7A9A5A;
   --sage-light: #C8D8A8;
   --sage-pale: #EBF2DC;
@@ -19,66 +19,138 @@
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html, body { height: 100%; overflow: hidden; }
+
 body {
   font-family: 'Montserrat', sans-serif;
-  background: var(--white);
-  color: var(--text);
-  overflow-x: hidden;
+  background: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
 }
 
-/* ── STRIPE ── */
-.stripe {
-  height: 5px;
-  background: linear-gradient(90deg, var(--sage), var(--sage-light), var(--sage));
-}
-
-/* ── HERO ── */
-.hero {
-  background: var(--vert);
-  padding: 40px 24px 48px;
-  text-align: center;
+/* ── BOOK WRAPPER ── */
+.book {
+  width: 100vw;
+  height: 100vh;
   position: relative;
   overflow: hidden;
 }
-.hero::before {
+
+/* ── PAGES ── */
+.page {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  display: none;
+  flex-direction: column;
+  -webkit-overflow-scrolling: touch;
+}
+.page.active { display: flex; }
+
+/* ── NAV BAR ── */
+.nav-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--green-deep);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  z-index: 100;
+  border-top: 1px solid rgba(200,216,168,0.15);
+}
+.nav-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--sage-light);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-btn:active { background: var(--sage); }
+.nav-indicator {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sage-light);
+  letter-spacing: 1px;
+}
+.nav-dots {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  cursor: pointer;
+  transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-dot.active { background: var(--sage-light); width: 16px; border-radius: 3px; }
+
+/* ── PAGE CONTENT PADDING (account for nav bar) ── */
+.page-content {
+  flex: 1;
+  padding-bottom: 60px;
+}
+
+/* ════════════════════════════════
+   PAGE 1 — COUVERTURE
+════════════════════════════════ */
+.p1 { background: var(--green-deep); }
+.p1 .page-content {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 60px);
+  padding: 0;
+}
+.p1-stripe { height: 5px; background: linear-gradient(90deg, var(--sage), var(--sage-light), var(--sage)); flex-shrink: 0; }
+.p1-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  flex-shrink: 0;
+}
+.p1-brand { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--sage-light); opacity: 0.7; }
+.p1-back { font-size: 10px; color: var(--sage-light); text-decoration: none; opacity: 0.6; }
+.p1-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px 28px 32px;
+  position: relative;
+  overflow: hidden;
+}
+.p1-body::before {
   content: 'C';
   position: absolute;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 300px;
+  font-size: 280px;
   color: rgba(255,255,255,0.03);
   top: -60px; right: -40px;
   line-height: 1;
   pointer-events: none;
 }
-.hero-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 40px;
-}
-.hero-nav-brand {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--sage-light);
-  opacity: 0.7;
-}
-.hero-nav-back {
-  font-size: 10px;
-  color: var(--sage-light);
-  text-decoration: none;
-  opacity: 0.6;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.hero-tag {
+.p1-tag {
   display: inline-block;
   background: var(--sage);
   color: #fff;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -86,759 +158,655 @@ body {
   border-radius: 2px;
   margin-bottom: 20px;
 }
-.hero-title {
+.p1-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 44px;
+  font-size: 42px;
   font-weight: 300;
   color: var(--beige);
-  line-height: 1.1;
-  margin-bottom: 12px;
+  line-height: 1.08;
+  margin-bottom: 10px;
 }
-.hero-title em { font-style: italic; color: var(--sage-light); }
-.hero-sub {
-  font-size: 12px;
+.p1-title em { font-style: italic; color: var(--sage-light); }
+.p1-sub {
+  font-size: 11px;
   color: var(--sage-light);
   line-height: 1.75;
   opacity: 0.75;
-  max-width: 320px;
-  margin: 0 auto 32px;
+  max-width: 280px;
+  margin: 0 auto 28px;
 }
-.hero-stats {
+.p1-stats {
   display: flex;
+  gap: 10px;
   justify-content: center;
-  gap: 12px;
+  margin-bottom: 28px;
 }
-.hero-stat {
+.p1-stat {
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 10px;
-  padding: 12px 16px;
+  padding: 12px 14px;
   text-align: center;
 }
-.hero-stat .n {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 26px;
-  color: var(--sage-light);
-  line-height: 1;
-}
-.hero-stat .l {
-  font-size: 8px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-  margin-top: 4px;
-}
-
-/* ── SOMMAIRE ── */
-.sommaire {
-  background: var(--beige);
-  padding: 28px 24px;
-  border-bottom: 1px solid rgba(122,154,90,0.2);
-}
-.sommaire-title {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--sage);
-  margin-bottom: 14px;
-}
-.sommaire-list {
+.p1-stat .n { font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--sage-light); line-height: 1; }
+.p1-stat .l { font-size: 8px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 4px; }
+.p1-footer {
+  padding: 16px 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.sommaire-item {
-  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  color: var(--text);
-}
-.sommaire-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 13px;
-  color: var(--sage);
-  width: 20px;
   flex-shrink: 0;
 }
-.sommaire-label {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--vert);
-}
+.p1-footer-left { font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 1px; line-height: 1.5; }
+.p1-footer-right { font-size: 9px; color: var(--sage); font-weight: 600; letter-spacing: 1px; }
 
-/* ── SECTIONS ── */
-.section {
-  padding: 40px 24px;
-}
-.section.dark {
-  background: var(--vert);
-}
-.section.light {
-  background: var(--white);
-}
-.section.pale {
-  background: var(--beige);
-}
+/* ════════════════════════════════
+   SHARED COMPONENTS
+════════════════════════════════ */
+.pg-stripe-top { height: 4px; background: linear-gradient(90deg, var(--sage), var(--sage-light), var(--sage)); flex-shrink: 0; }
 
-.section-header {
+.pg-header {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid;
 }
-.section.dark .section-header { border-bottom: 1px solid rgba(255,255,255,0.1); }
-.section.light .section-header, .section.pale .section-header { border-bottom: 1px solid rgba(122,154,90,0.25); }
+.pg-header.on-dark { border-color: rgba(255,255,255,0.1); }
+.pg-header.on-light { border-color: rgba(122,154,90,0.2); }
 
-.section-num {
+.pg-num {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 36px;
+  font-size: 40px;
   line-height: 1;
-  opacity: 0.2;
-  flex-shrink: 0;
+  opacity: 0.15;
 }
-.section.dark .section-num { color: #fff; }
-.section.light .section-num, .section.pale .section-num { color: var(--vert); }
+.on-dark .pg-num { color: #fff; }
+.on-light .pg-num { color: var(--green-deep); }
 
-.section-titles {}
-.section-tag-sm {
+.pg-titles { text-align: right; }
+.pg-tag {
   font-size: 8px;
   font-weight: 700;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  margin-bottom: 4px;
   display: block;
+  margin-bottom: 4px;
 }
-.section.dark .section-tag-sm { color: var(--sage-light); }
-.section.light .section-tag-sm, .section.pale .section-tag-sm { color: var(--sage); }
+.on-dark .pg-tag { color: var(--sage-light); }
+.on-light .pg-tag { color: var(--sage); }
 
-.section-title {
+.pg-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 500;
   line-height: 1.2;
 }
-.section.dark .section-title { color: var(--beige); }
-.section.light .section-title, .section.pale .section-title { color: var(--vert); }
+.on-dark .pg-title { color: var(--beige); }
+.on-light .pg-title { color: var(--green-deep); }
 
-/* ── BODY TEXT ── */
+.pg-body { padding: 18px 20px; flex: 1; }
+
 .body-text {
-  font-size: 13px;
+  font-size: 12.5px;
   line-height: 1.8;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
-.section.dark .body-text { color: rgba(237,232,216,0.8); }
-.section.light .body-text, .section.pale .body-text { color: var(--text-light); }
+.on-dark .body-text { color: rgba(237,232,216,0.8); }
+.on-light .body-text { color: var(--text-light); }
 
-/* ── HIGHLIGHT BOX ── */
 .hbox {
   border-radius: 10px;
-  padding: 16px 18px;
-  margin-bottom: 16px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
 }
-.section.dark .hbox { background: rgba(255,255,255,0.07); border-left: 3px solid var(--sage-light); }
-.section.light .hbox, .section.pale .hbox { background: var(--sage-pale); border-left: 3px solid var(--sage); }
+.on-dark .hbox { background: rgba(255,255,255,0.07); border-left: 3px solid var(--sage-light); }
+.on-light .hbox { background: var(--sage-pale); border-left: 3px solid var(--sage); }
 
 .hbox-title {
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 7px;
 }
-.section.dark .hbox-title { color: var(--sage-light); }
-.section.light .hbox-title, .section.pale .hbox-title { color: var(--vert); }
+.on-dark .hbox-title { color: var(--sage-light); }
+.on-light .hbox-title { color: var(--green-deep); }
 
-.hbox-text {
-  font-size: 12px;
-  line-height: 1.75;
+.hbox-text { font-size: 11.5px; line-height: 1.75; }
+.on-dark .hbox-text { color: rgba(237,232,216,0.8); }
+.on-light .hbox-text { color: var(--text-light); }
+
+.pg-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid;
+  margin-top: auto;
+  flex-shrink: 0;
 }
-.section.dark .hbox-text { color: rgba(237,232,216,0.8); }
-.section.light .hbox-text, .section.pale .hbox-text { color: var(--text-light); }
+.on-dark .pg-footer { border-color: rgba(255,255,255,0.08); }
+.on-light .pg-footer { border-color: rgba(122,154,90,0.2); }
+
+.pg-footer-brand {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.on-dark .pg-footer-brand { color: var(--sage-light); }
+.on-light .pg-footer-brand { color: var(--sage); }
+
+.pg-footer-brand::before,
+.pg-footer-brand::after {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 1.5px;
+}
+.on-dark .pg-footer-brand::before,
+.on-dark .pg-footer-brand::after { background: var(--sage-light); }
+.on-light .pg-footer-brand::before,
+.on-light .pg-footer-brand::after { background: var(--sage); }
+
+.pg-footer-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  opacity: 0.2;
+}
+.on-dark .pg-footer-num { color: #fff; }
+.on-light .pg-footer-num { color: var(--green-deep); }
 
 /* ── PHASE CARDS ── */
 .phase-card {
   border-radius: 10px;
-  padding: 16px 18px;
-  margin-bottom: 12px;
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  border-left: 3px solid;
 }
-.section.dark .phase-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.08); }
+.on-dark .phase-card { background: rgba(255,255,255,0.07); }
 
-.phase-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 32px;
-  line-height: 1;
-  flex-shrink: 0;
-  width: 36px;
-}
-.section.dark .phase-num { color: var(--sage-light); }
-
-.phase-content {}
-.phase-name {
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-.section.dark .phase-name { color: var(--beige); }
+.phase-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 6px; }
+.phase-name { font-size: 12.5px; font-weight: 700; }
+.on-dark .phase-name { color: var(--beige); }
+.on-light .phase-name { color: var(--green-deep); }
 
 .phase-timing {
   display: inline-block;
   background: var(--sage);
   color: #fff;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 700;
   letter-spacing: 1px;
-  padding: 3px 9px;
+  padding: 3px 8px;
   border-radius: 20px;
-  margin-bottom: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: 8px;
 }
-.phase-detail {
-  font-size: 11.5px;
-  line-height: 1.7;
-}
-.section.dark .phase-detail { color: rgba(237,232,216,0.7); }
+.phase-detail { font-size: 11.5px; line-height: 1.7; }
+.on-dark .phase-detail { color: rgba(237,232,216,0.7); }
+.on-light .phase-detail { color: var(--text-light); }
 
 /* ── TYPE CARDS ── */
 .type-card {
   background: #fff;
   border-radius: 10px;
-  padding: 16px 18px;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 10px rgba(45,74,30,0.06);
-  border-left: 3px solid transparent;
+  padding: 13px 15px;
+  margin-bottom: 9px;
+  border-left: 3px solid;
+  box-shadow: 0 2px 8px rgba(45,74,30,0.06);
 }
-.type-card .type-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-.type-icon { font-size: 18px; }
-.type-name { font-size: 13px; font-weight: 700; color: var(--vert); }
+.type-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.type-icon { font-size: 16px; flex-shrink: 0; }
+.type-name { font-size: 12px; font-weight: 700; color: var(--green-deep); flex: 1; }
 .type-badge {
-  display: inline-block;
-  font-size: 8px;
+  font-size: 7.5px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  padding: 2px 7px;
+  padding: 2px 6px;
   border-radius: 3px;
-  margin-left: auto;
+  flex-shrink: 0;
 }
 .badge-red    { background: #fdecea; color: #c0392b; }
 .badge-orange { background: #fef3e2; color: #e67e22; }
-.badge-green  { background: var(--sage-pale); color: var(--vert); }
+.badge-green  { background: var(--sage-pale); color: var(--green-deep); }
 .badge-blue   { background: #e8f4fd; color: #2980b9; }
-.type-desc { font-size: 11.5px; color: var(--text-light); line-height: 1.65; }
+.type-desc { font-size: 11px; color: var(--text-light); line-height: 1.65; }
 
 /* ── DEVICE BLOCK ── */
 .device-block {
   border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 16px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
 }
-.section.dark .device-block { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); }
-.section.pale .device-block { background: #fff; border: 1px solid rgba(122,154,90,0.2); box-shadow: 0 2px 12px rgba(45,74,30,0.06); }
+.on-dark .device-block { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); }
+.on-light .device-block { background: #fff; border: 1px solid rgba(122,154,90,0.2); box-shadow: 0 2px 10px rgba(45,74,30,0.06); }
 
-.device-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  margin-bottom: 4px;
-}
-.section.dark .device-name { color: var(--beige); }
-.section.pale .device-name { color: var(--vert); }
+.device-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; margin-bottom: 4px; }
+.on-dark .device-name { color: var(--beige); }
+.on-light .device-name { color: var(--green-deep); }
 
-.device-tech {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-.section.dark .device-tech { color: var(--sage-light); }
-.section.pale .device-tech { color: var(--sage); }
+.device-tech { font-size: 8.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+.on-dark .device-tech { color: var(--sage-light); }
+.on-light .device-tech { color: var(--sage); }
 
-.device-desc {
-  font-size: 12px;
-  line-height: 1.75;
-}
-.section.dark .device-desc { color: rgba(237,232,216,0.8); }
-.section.pale .device-desc { color: var(--text-light); }
+.device-desc { font-size: 11.5px; line-height: 1.75; }
+.on-dark .device-desc { color: rgba(237,232,216,0.8); }
+.on-light .device-desc { color: var(--text-light); }
 
 /* ── INDICATION ITEMS ── */
 .ind-item {
   display: flex;
   gap: 10px;
   align-items: flex-start;
-  padding: 11px 14px;
+  padding: 10px 12px;
   border-radius: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 7px;
 }
-.section.dark .ind-item { background: rgba(255,255,255,0.05); }
-.section.pale .ind-item { background: var(--sage-pale); }
+.on-dark .ind-item { background: rgba(255,255,255,0.05); }
+.on-light .ind-item { background: var(--sage-pale); }
 
-.ind-dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  margin-top: 5px;
-}
-.section.dark .ind-dot { background: var(--sage-light); }
-.section.pale .ind-dot { background: var(--sage); }
+.ind-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.on-dark .ind-dot { background: var(--sage-light); }
+.on-light .ind-dot { background: var(--sage); }
 
-.ind-text { font-size: 12px; line-height: 1.7; }
-.section.dark .ind-text { color: rgba(237,232,216,0.8); }
-.section.pale .ind-text { color: var(--text-light); }
-.section.dark .ind-text strong { color: var(--beige); }
-.section.pale .ind-text strong { color: var(--vert); }
+.ind-text { font-size: 11.5px; line-height: 1.7; }
+.on-dark .ind-text { color: rgba(237,232,216,0.8); }
+.on-light .ind-text { color: var(--text-light); }
+.on-dark .ind-text strong { color: var(--beige); }
+.on-light .ind-text strong { color: var(--green-deep); }
 
-/* ── CONSEILS GRID ── */
-.conseils-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-.conseil-card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 14px;
-  box-shadow: 0 2px 8px rgba(45,74,30,0.06);
-}
-.conseil-icon { font-size: 18px; margin-bottom: 6px; }
-.conseil-title { font-size: 11px; font-weight: 700; color: var(--vert); margin-bottom: 5px; }
-.conseil-text { font-size: 10.5px; color: var(--text-light); line-height: 1.6; }
+/* ── CONSEILS ── */
+.conseils-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.conseil-card { background: #fff; border-radius: 10px; padding: 12px 13px; box-shadow: 0 2px 8px rgba(45,74,30,0.06); }
+.conseil-icon { font-size: 17px; margin-bottom: 5px; }
+.conseil-title { font-size: 10.5px; font-weight: 700; color: var(--green-deep); margin-bottom: 4px; }
+.conseil-text { font-size: 10px; color: var(--text-light); line-height: 1.6; }
 
-/* ── WARNING ── */
 .warning {
   background: #fef3e2;
   border-left: 3px solid #e67e22;
   border-radius: 0 8px 8px 0;
-  padding: 14px 16px;
+  padding: 12px 14px;
   margin-top: 4px;
 }
-.warning-title { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #e67e22; margin-bottom: 6px; }
-.warning-text { font-size: 11.5px; color: #6b4f1a; line-height: 1.7; }
+.warning-title { font-size: 8.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #e67e22; margin-bottom: 5px; }
+.warning-text { font-size: 11px; color: #6b4f1a; line-height: 1.7; }
 
 /* ── SOURCE NOTE ── */
-.source-note {
-  font-size: 9.5px;
-  font-style: italic;
-  line-height: 1.7;
-  margin-top: 16px;
-  padding-top: 14px;
-}
-.section.dark .source-note { color: rgba(237,232,216,0.3); border-top: 1px solid rgba(255,255,255,0.08); }
-.section.light .source-note, .section.pale .source-note { color: #9aaa8a; border-top: 1px solid rgba(122,154,90,0.2); }
+.source-note { font-size: 9px; font-style: italic; line-height: 1.7; margin-top: 14px; padding-top: 12px; }
+.on-dark .source-note { color: rgba(237,232,216,0.3); border-top: 1px solid rgba(255,255,255,0.08); }
+.on-light .source-note { color: #9aaa8a; border-top: 1px solid rgba(122,154,90,0.2); }
 
-/* ── CONTACT ── */
-.contact {
-  background: var(--vert);
-  padding: 40px 24px;
-  text-align: center;
-}
+/* ── CONTACT PAGE ── */
+.p-contact { background: var(--green-deep); }
+.contact-body { padding: 24px 20px; }
 .contact-emblem {
-  width: 64px; height: 64px;
+  width: 60px; height: 60px;
   border: 2px solid var(--sage-light);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 28px;
-  color: var(--sage-light);
-  margin: 0 auto 16px;
+  font-size: 26px; color: var(--sage-light);
+  margin: 0 auto 14px;
 }
-.contact-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 26px;
-  color: var(--beige);
-  margin-bottom: 6px;
-}
-.contact-sub {
-  font-size: 10px;
-  color: var(--sage-light);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  opacity: 0.7;
-  margin-bottom: 28px;
-}
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.contact-item {
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 10px;
-  padding: 12px 14px;
-  text-align: left;
-}
-.contact-label {
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--sage-light);
-  margin-bottom: 5px;
-}
-.contact-value {
-  font-size: 11.5px;
-  color: var(--beige);
-  line-height: 1.5;
-}
-.contact-lib {
-  background: rgba(255,255,255,0.07);
-  border-left: 3px solid var(--sage-light);
-  border-radius: 0 10px 10px 0;
-  padding: 14px 16px;
-  text-align: left;
-  margin-bottom: 20px;
-}
-.contact-lib-title { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--sage-light); margin-bottom: 8px; }
-.contact-lib-text { font-size: 12px; color: rgba(237,232,216,0.8); line-height: 1.7; }
+.contact-name { font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--beige); text-align: center; margin-bottom: 4px; }
+.contact-sub { font-size: 9px; color: var(--sage-light); letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; text-align: center; margin-bottom: 22px; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.contact-item { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 11px 13px; }
+.contact-label { font-size: 7.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--sage-light); margin-bottom: 5px; }
+.contact-value { font-size: 11px; color: var(--beige); line-height: 1.5; }
+.contact-lib { background: rgba(255,255,255,0.07); border-left: 3px solid var(--sage-light); border-radius: 0 10px 10px 0; padding: 12px 14px; margin-bottom: 16px; }
+.contact-lib-title { font-size: 8px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--sage-light); margin-bottom: 7px; }
+.contact-lib-text { font-size: 11.5px; color: rgba(237,232,216,0.8); line-height: 1.7; }
 .contact-lib-url { color: var(--beige); font-weight: 600; }
-.contact-sources { font-size: 9px; color: rgba(237,232,216,0.3); font-style: italic; line-height: 1.8; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); }
-
-/* ── FOOTER STRIPE ── */
-.stripe-bottom {
-  height: 5px;
-  background: linear-gradient(90deg, var(--sage), var(--sage-light), var(--sage));
-}
+.contact-sources { font-size: 8.5px; color: rgba(237,232,216,0.3); font-style: italic; line-height: 1.8; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); }
 </style>
 </head>
 <body>
 
-<div class="stripe"></div>
+<div class="book" id="book">
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-nav">
-    <div class="hero-nav-brand">La Canopée du 100</div>
-    <a href="index.html" class="hero-nav-back">← Retour</a>
-  </div>
-  <div class="hero-tag">Guide patient · Éducation thérapeutique</div>
-  <div class="hero-title">Comprendre<br>et soigner<br><em>vos cicatrices</em></div>
-  <div class="hero-sub">De la phase inflammatoire à la maturation finale — chaque étape peut être accompagnée.</div>
-  <div class="hero-stats">
-    <div class="hero-stat"><div class="n">3</div><div class="l">Phases bio.</div></div>
-    <div class="hero-stat"><div class="n">5</div><div class="l">Types</div></div>
-    <div class="hero-stat"><div class="n">3</div><div class="l">Dispositifs</div></div>
+<!-- ══════════════════════════════
+     PAGE 1 — COUVERTURE
+══════════════════════════════ -->
+<div class="page p1 active" id="p1">
+  <div class="page-content">
+    <div class="p1-stripe"></div>
+    <div class="p1-nav">
+      <div class="p1-brand">La Canopée du 100</div>
+      <a href="index.html" class="p1-back">← Retour</a>
+    </div>
+    <div class="p1-body">
+      <div class="p1-tag">Guide patient · Éducation thérapeutique</div>
+      <div class="p1-title">Comprendre<br>et soigner<br><em>vos cicatrices</em></div>
+      <div class="p1-sub">De la phase inflammatoire à la maturation finale — chaque étape peut être accompagnée pour orienter votre guérison.</div>
+      <div class="p1-stats">
+        <div class="p1-stat"><div class="n">3</div><div class="l">Phases bio.</div></div>
+        <div class="p1-stat"><div class="n">5</div><div class="l">Types</div></div>
+        <div class="p1-stat"><div class="n">3</div><div class="l">Dispositifs</div></div>
+      </div>
+    </div>
+    <div class="p1-footer">
+      <div class="p1-footer-left">100 rue Lazare Carnot · Lorient<br>Julien Fresnaud · MK D.E.</div>
+      <div class="p1-footer-right">Édition 2026</div>
+    </div>
   </div>
 </div>
 
-<!-- SOMMAIRE -->
-<div class="sommaire">
-  <div class="sommaire-title">Sommaire</div>
-  <div class="sommaire-list">
-    <a href="#s1" class="sommaire-item"><span class="sommaire-num">01</span><span class="sommaire-label">Qu'est-ce qu'une cicatrice ?</span></a>
-    <a href="#s2" class="sommaire-item"><span class="sommaire-num">02</span><span class="sommaire-label">Les 3 phases de cicatrisation</span></a>
-    <a href="#s3" class="sommaire-item"><span class="sommaire-num">03</span><span class="sommaire-label">Les 5 types pathologiques</span></a>
-    <a href="#s4" class="sommaire-item"><span class="sommaire-num">04</span><span class="sommaire-label">Microlab Matim — Microcourants</span></a>
-    <a href="#s5" class="sommaire-item"><span class="sommaire-num">05</span><span class="sommaire-label">LPG Cellu M6 — Endermologie</span></a>
-    <a href="#s6" class="sommaire-item"><span class="sommaire-num">06</span><span class="sommaire-label">Winback TECAR</span></a>
-    <a href="#s7" class="sommaire-item"><span class="sommaire-num">07</span><span class="sommaire-label">Conseils au quotidien</span></a>
+<!-- ══════════════════════════════
+     PAGE 2 — QU'EST-CE QU'UNE CICATRICE
+══════════════════════════════ -->
+<div class="page" id="p2" style="background:var(--white);">
+  <div class="page-content on-light" style="display:flex;flex-direction:column;min-height:calc(100vh - 60px);">
+    <div class="pg-stripe-top"></div>
+    <div class="pg-header on-light">
+      <div class="pg-num on-light">01</div>
+      <div class="pg-titles">
+        <span class="pg-tag on-light">Comprendre</span>
+        <div class="pg-title on-light">Qu'est-ce qu'une cicatrice ?</div>
+      </div>
+    </div>
+    <div class="pg-body">
+      <p class="body-text on-light">La cicatrisation est un processus biologique complexe par lequel l'organisme répare une solution de continuité cutanée. Elle mobilise plaquettes, macrophages, fibroblastes et kératinocytes sous l'action de facteurs de croissance (PDGF, TGF-β, VEGF).</p>
+      <div class="hbox on-light">
+        <div class="hbox-title on-light">Définition clinique</div>
+        <div class="hbox-text on-light">Une cicatrice est le tissu fibro-conjonctif qui remplace définitivement la peau détruite. Le collagène cicatriciel (type III → type I) s'organise en axes parallèles — non en réseau 3D — d'où sa résistance moindre (~70–80 %) et l'absence d'annexes (follicules, glandes).<br><em style="font-size:10px;opacity:0.7;">Ref : Broughton G et al., Plast Reconstr Surg, 2006.</em></div>
+      </div>
+      <div class="hbox on-light">
+        <div class="hbox-title on-light">Rôle de la kinésithérapie</div>
+        <div class="hbox-text on-light">La kiné cicatricielle agit sur la <strong>viscoélasticité</strong>, la <strong>vascularisation locale</strong>, la <strong>réorganisation du collagène</strong> et la <strong>désensibilisation neurologique</strong>. Elle prévient adhérences, rétractions et cordons fibreux.</div>
+      </div>
+    </div>
+    <div class="pg-footer on-light"><span class="pg-footer-brand on-light">La Canopée du 100</span><span class="pg-footer-num on-light">2</span></div>
   </div>
 </div>
 
-<!-- S1 — INTRO -->
-<div class="section pale" id="s1">
-  <div class="section-header">
-    <div class="section-num">01</div>
-    <div class="section-titles">
-      <span class="section-tag-sm">Comprendre</span>
-      <div class="section-title">Qu'est-ce qu'une cicatrice ?</div>
+<!-- ══════════════════════════════
+     PAGE 3 — PHASES
+══════════════════════════════ -->
+<div class="page" id="p3" style="background:var(--green-deep);">
+  <div class="page-content on-dark" style="display:flex;flex-direction:column;min-height:calc(100vh - 60px);">
+    <div class="pg-stripe-top"></div>
+    <div class="pg-header on-dark">
+      <div class="pg-num on-dark">02</div>
+      <div class="pg-titles">
+        <span class="pg-tag on-dark">Biologie</span>
+        <div class="pg-title on-dark">Les 3 phases de cicatrisation</div>
+      </div>
     </div>
-  </div>
-  <p class="body-text">La cicatrisation est un processus biologique complexe par lequel l'organisme répare une solution de continuité cutanée. Elle mobilise plaquettes, macrophages, fibroblastes et kératinocytes sous l'action de facteurs de croissance (PDGF, TGF-β, VEGF).</p>
-  <div class="hbox">
-    <div class="hbox-title">Définition clinique</div>
-    <div class="hbox-text">Une cicatrice est le tissu fibro-conjonctif qui remplace définitivement la peau détruite. Le collagène cicatriciel (type III → type I) s'organise en axes parallèles — et non en réseau 3D — d'où sa résistance moindre (~70–80 %) et l'absence d'annexes (follicules, glandes).<br><em style="font-size:10px;opacity:0.7;">Ref : Broughton G et al., Plast Reconstr Surg, 2006.</em></div>
-  </div>
-  <div class="hbox">
-    <div class="hbox-title">Rôle de la kinésithérapie</div>
-    <div class="hbox-text">La kiné cicatricielle agit sur la <strong>viscoélasticité</strong>, la <strong>vascularisation locale</strong>, la <strong>réorganisation du collagène</strong> et la <strong>désensibilisation neurologique</strong>. Elle prévient adhérences, rétractions et cordons fibreux.</div>
+    <div class="pg-body">
+      <div class="phase-card on-dark" style="border-left-color:#e74c3c;">
+        <div class="phase-head">
+          <div class="phase-name on-dark">Phase inflammatoire</div>
+          <span class="phase-timing">J0 → J5</span>
+        </div>
+        <div class="phase-detail on-dark">Hémostase, afflux de macrophages M1 (débridement) puis M2 (initiation réparatrice). Libération de TGF-β1, EGF, PDGF. Signes : rougeur, chaleur, œdème, douleur.</div>
+      </div>
+      <div class="phase-card on-dark" style="border-left-color:#f39c12;">
+        <div class="phase-head">
+          <div class="phase-name on-dark">Phase proliférative (fibroplasie)</div>
+          <span class="phase-timing">J5 → J21</span>
+        </div>
+        <div class="phase-detail on-dark">Synthèse de collagène III, angiogenèse sous VEGF, tissu de granulation. Cicatrice rouge et en relief. <strong style="color:var(--sage-light);">Fenêtre thérapeutique la plus favorable.</strong></div>
+      </div>
+      <div class="phase-card on-dark" style="border-left-color:var(--sage-light);">
+        <div class="phase-head">
+          <div class="phase-name on-dark">Phase de remodelage (maturation)</div>
+          <span class="phase-timing">J21 → 24 mois</span>
+        </div>
+        <div class="phase-detail on-dark">Collagène III → I, réorganisation des fibres (loi de Wolff), régression vasculaire. La cicatrice s'assouplit et pâlit. Cible principale des dispositifs instrumentaux.</div>
+      </div>
+      <div class="hbox on-dark">
+        <div class="hbox-title on-dark">Démarrer tôt</div>
+        <div class="hbox-text on-dark">La prise en charge peut débuter dès la <strong style="color:var(--beige);">cicatrice fermée</strong> (J15–J21). Intervenir tôt oriente l'organisation du collagène et prévient l'adhérence.<br><em style="font-size:10px;opacity:0.55;">Ref : Singer AJ & Clark RAF, NEJM, 1999.</em></div>
+      </div>
+    </div>
+    <div class="pg-footer on-dark"><span class="pg-footer-brand on-dark">La Canopée du 100</span><span class="pg-footer-num on-dark">3</span></div>
   </div>
 </div>
 
-<!-- S2 — PHASES -->
-<div class="section dark" id="s2">
-  <div class="section-header">
-    <div class="section-num">02</div>
-    <div class="section-titles">
-      <span class="section-tag-sm">Biologie</span>
-      <div class="section-title">Les 3 phases de cicatrisation</div>
+<!-- ══════════════════════════════
+     PAGE 4 — TYPES
+══════════════════════════════ -->
+<div class="page" id="p4" style="background:var(--white);">
+  <div class="page-content on-light" style="display:flex;flex-direction:column;min-height:calc(100vh - 60px);">
+    <div class="pg-stripe-top"></div>
+    <div class="pg-header on-light">
+      <div class="pg-num on-light">03</div>
+      <div class="pg-titles">
+        <span class="pg-tag on-light">Classification</span>
+        <div class="pg-title on-light">Les 5 types pathologiques</div>
+      </div>
     </div>
-  </div>
-
-  <div class="phase-card" style="border-left:3px solid #e74c3c;">
-    <div class="phase-num">1</div>
-    <div class="phase-content">
-      <div class="phase-name">Phase inflammatoire</div>
-      <span class="phase-timing">J0 → J5</span>
-      <div class="phase-detail">Hémostase, afflux de macrophages M1 puis M2. Libération de TGF-β1, EGF, PDGF. Signes : rougeur, chaleur, œdème, douleur.</div>
+    <div class="pg-body">
+      <div class="type-card" style="border-left-color:#c0392b;">
+        <div class="type-head"><span class="type-icon">🔴</span><span class="type-name">Chéloïde</span><span class="type-badge badge-red">Hors berges</span></div>
+        <div class="type-desc">Tissu envahissant débordant les berges. Prédisposition génétique (phototypes IV–VI). Fibroblastes résistant à l'apoptose. Récidive fréquente.</div>
+      </div>
+      <div class="type-card" style="border-left-color:#e67e22;">
+        <div class="type-head"><span class="type-icon">🟠</span><span class="type-name">Hypertrophique</span><span class="type-badge badge-orange">Dans les berges</span></div>
+        <div class="type-desc">Excès de collagène dans les limites de la plaie. Secondaire à tension excessive ou infection. Peut s'atténuer spontanément sur 12–18 mois.</div>
+      </div>
+      <div class="type-card" style="border-left-color:#8e44ad;">
+        <div class="type-head"><span class="type-icon">🟣</span><span class="type-name">Rétractile</span><span class="type-badge badge-red">Fonctionnelle</span></div>
+        <div class="type-desc">Contracturée en pont, limitant le mouvement articulaire. Fréquente après brûlures ou incisions transversales en zones de forte mobilité.</div>
+      </div>
+      <div class="type-card" style="border-left-color:#2980b9;">
+        <div class="type-head"><span class="type-icon">⚪</span><span class="type-name">Atrophique / Déprimée</span><span class="type-badge badge-blue">Déficit</span></div>
+        <div class="type-desc">Aspect creux, mou. Post-acné, post-varicelle ou post-chirurgicale. Microcourants et endermologie stimulent la synthèse dermique.</div>
+      </div>
+      <div class="type-card" style="border-left-color:var(--sage);">
+        <div class="type-head"><span class="type-icon">🟢</span><span class="type-name">Adhérente / Rétractée</span><span class="type-badge badge-green">Plans profonds</span></div>
+        <div class="type-desc">Adhérence aux fascias, tendons, capsules. Fréquente post-césarienne, post-mastectomie. Traitement : massage transversal, endermologie.</div>
+      </div>
+      <div class="source-note on-light">Ref : Bayat A et al. BMJ 2003 · Gauglitz GG et al. JOIBD 2011</div>
     </div>
-  </div>
-
-  <div class="phase-card" style="border-left:3px solid #f39c12;">
-    <div class="phase-num">2</div>
-    <div class="phase-content">
-      <div class="phase-name">Phase proliférative (fibroplasie)</div>
-      <span class="phase-timing">J5 → J21</span>
-      <div class="phase-detail">Migration des fibroblastes, synthèse de collagène III, angiogenèse sous VEGF. Tissu de granulation rouge et en relief. <strong style="color:var(--sage-light);">Fenêtre thérapeutique optimale.</strong></div>
-    </div>
-  </div>
-
-  <div class="phase-card" style="border-left:3px solid var(--sage-light);">
-    <div class="phase-num">3</div>
-    <div class="phase-content">
-      <div class="phase-name">Phase de remodelage (maturation)</div>
-      <span class="phase-timing">J21 → 24 mois</span>
-      <div class="phase-detail">Collagène III → I, réorganisation des fibres (loi de Wolff), régression vasculaire. La cicatrice s'assouplit et pâlit. Cible principale des dispositifs instrumentaux.</div>
-    </div>
-  </div>
-
-  <div class="hbox">
-    <div class="hbox-title">Démarrer tôt</div>
-    <div class="hbox-text">La prise en charge peut débuter dès la <strong style="color:var(--beige);">cicatrice fermée</strong> (J15–J21), avant la fin de la phase proliférative. Intervenir tôt oriente l'organisation du collagène et prévient l'adhérence.<br><em style="font-size:10px;opacity:0.55;">Ref : Singer AJ & Clark RAF, NEJM, 1999.</em></div>
+    <div class="pg-footer on-light"><span class="pg-footer-brand on-light">La Canopée du 100</span><span class="pg-footer-num on-light">4</span></div>
   </div>
 </div>
 
-<!-- S3 — TYPES -->
-<div class="section light" id="s3">
-  <div class="section-header">
-    <div class="section-num">03</div>
-    <div class="section-titles">
-      <span class="section-tag-sm">Classification</span>
-      <div class="section-title">Les 5 types pathologiques</div>
+<!-- ══════════════════════════════
+     PAGE 5 — MICROLAB
+══════════════════════════════ -->
+<div class="page" id="p5" style="background:var(--green-deep);">
+  <div class="page-content on-dark" style="display:flex;flex-direction:column;min-height:calc(100vh - 60px);">
+    <div class="pg-stripe-top"></div>
+    <div class="pg-header on-dark">
+      <div class="pg-num on-dark">04</div>
+      <div class="pg-titles">
+        <span class="pg-tag on-dark">Dispositif médical</span>
+        <div class="pg-title on-dark">Microlab Matim Performance</div>
+      </div>
     </div>
-  </div>
-
-  <div class="type-card" style="border-left-color:#c0392b;">
-    <div class="type-head"><span class="type-icon">🔴</span><span class="type-name">Chéloïde</span><span class="type-badge badge-red">Hors berges</span></div>
-    <div class="type-desc">Tissu envahissant débordant les berges. Prédisposition génétique (phototypes IV–VI). Fibroblastes résistant à l'apoptose. Récidive fréquente après exérèse seule.</div>
-  </div>
-
-  <div class="type-card" style="border-left-color:#e67e22;">
-    <div class="type-head"><span class="type-icon">🟠</span><span class="type-name">Hypertrophique</span><span class="type-badge badge-orange">Dans les berges</span></div>
-    <div class="type-desc">Excès de collagène dans les limites de la plaie. Secondaire à tension excessive ou infection. Peut s'atténuer spontanément sur 12–18 mois. Sensible aux pressions.</div>
-  </div>
-
-  <div class="type-card" style="border-left-color:#8e44ad;">
-    <div class="type-head"><span class="type-icon">🟣</span><span class="type-name">Rétractile</span><span class="type-badge badge-red">Fonctionnelle</span></div>
-    <div class="type-desc">Contracturée en pont, limitant le mouvement articulaire. Fréquente après brûlures profondes ou incisions transversales en zones de forte mobilité.</div>
-  </div>
-
-  <div class="type-card" style="border-left-color:#2980b9;">
-    <div class="type-head"><span class="type-icon">⚪</span><span class="type-name">Atrophique / Déprimée</span><span class="type-badge badge-blue">Déficit collagène</span></div>
-    <div class="type-desc">Aspect creux, mou. Post-acné, post-varicelle ou post-chirurgicale. Microcourants et endermologie stimulent la synthèse dermique locale.</div>
-  </div>
-
-  <div class="type-card" style="border-left-color:var(--sage);">
-    <div class="type-head"><span class="type-icon">🟢</span><span class="type-name">Adhérente / Rétractée</span><span class="type-badge badge-green">Plans profonds</span></div>
-    <div class="type-desc">Adhérence aux fascias, tendons, capsules. Fréquente post-césarienne, post-mastectomie. Traitement : massage transversal profond, endermologie.</div>
-  </div>
-
-  <div class="source-note">Ref : Bayat A et al. BMJ 2003 · Gauglitz GG et al. JOIBD 2011</div>
-</div>
-
-<!-- S4 — MICROLAB -->
-<div class="section dark" id="s4">
-  <div class="section-header">
-    <div class="section-num">04</div>
-    <div class="section-titles">
-      <span class="section-tag-sm">Dispositif médical</span>
-      <div class="section-title">Microlab Matim Performance</div>
+    <div class="pg-body">
+      <div class="device-block on-dark">
+        <div class="device-name on-dark">Microcourants thérapeutiques</div>
+        <div class="device-tech on-dark">Électrothérapie subliminale · &lt; 500 μA</div>
+        <div class="device-desc on-dark">Les microcourants reproduisent les bio-courants endogènes de la cicatrisation. Intensité infra-perceptible — action directement cellulaire, sans effet thermique ni contractile.</div>
+      </div>
+      <div class="ind-item on-dark"><div class="ind-dot on-dark"></div><div class="ind-text on-dark"><strong>Chéloïdes :</strong> inhibition des fibroblastes hyperactifs, réduction du TGF-β1. Résultats sur 12 semaines bihebdomadaires.</div></div>
+      <div class="ind-item on-dark"><div class="ind-dot on-dark"></div><div class="ind-text on-dark"><strong>Hypertrophiques :</strong> +500 % synthèse ATP (Cheng 1982), activation Na+/K+ ATPase, réorientation des fibres de collagène.</div></div>
+      <div class="ind-item on-dark"><div class="ind-dot on-dark"></div><div class="ind-text on-dark"><strong>Post-opératoire récente :</strong> accélération phase proliférative, stimulation néovasculaire, réduction prurit et allodynie.</div></div>
+      <div class="ind-item on-dark"><div class="ind-dot on-dark"></div><div class="ind-text on-dark"><strong>Post-césarienne / Post-mastectomie :</strong> adhérences profondes en association avec massage manuel.</div></div>
+      <div class="source-note on-dark">Ref : Cheng N et al. Clin Orthop 1982 · Kloth LC, Adv Wound Care 2005 · HORS nomenclature.</div>
     </div>
-  </div>
-
-  <div class="device-block">
-    <div class="device-name">Microcourants thérapeutiques</div>
-    <div class="device-tech">Électrothérapie subliminale · &lt; 500 μA</div>
-    <div class="device-desc">Les microcourants reproduisent les bio-courants endogènes de la cicatrisation. Leur intensité infra-perceptible confère une action directement cellulaire, sans effet thermique ni contractile.</div>
-  </div>
-
-  <div class="ind-item">
-    <div class="ind-dot"></div>
-    <div class="ind-text"><strong>Chéloïdes :</strong> inhibition des fibroblastes hyperactifs, réduction du TGF-β1. Résultats documentés sur 12 semaines bihebdomadaires.</div>
-  </div>
-  <div class="ind-item">
-    <div class="ind-dot"></div>
-    <div class="ind-text"><strong>Hypertrophiques :</strong> +500 % synthèse ATP (Cheng 1982), activation Na+/K+ ATPase, réorientation des fibres de collagène.</div>
-  </div>
-  <div class="ind-item">
-    <div class="ind-dot"></div>
-    <div class="ind-text"><strong>Post-opératoire récente :</strong> accélération de la phase proliférative, stimulation néovasculaire, réduction prurit et allodynie (fibres C).</div>
-  </div>
-  <div class="ind-item">
-    <div class="ind-dot"></div>
-    <div class="ind-text"><strong>Post-césarienne / Post-mastectomie :</strong> action sur adhérences profondes en association avec massage manuel.</div>
-  </div>
-
-  <div class="source-note">Ref : Cheng N et al. Clin Orthop 1982 · Kloth LC, Adv Wound Care 2005 · Protocole HORS nomenclature.</div>
-</div>
-
-<!-- S5 — LPG -->
-<div class="section pale" id="s5">
-  <div class="section-header">
-    <div class="section-num">05</div>
-    <div class="section-titles">
-      <span class="section-tag-sm">Dispositif médical</span>
-      <div class="section-title">LPG Cellu M6 Integral</div>
-    </div>
-  </div>
-
-  <div class="device-block">
-    <div class="device-name">Endermologie mécanique</div>
-    <div class="device-tech">Mécanotransduction · Aspiration + rouleaux motorisés</div>
-    <div class="device-desc">L'endermologie active les fibroblastes par mécanotransduction, favorisant la synthèse de collagène, d'élastine et d'acide hyaluronique. Dispositif médical classe IIa (marquage CE).</div>
-  </div>
-
-  <div class="ind-item">
-    <div class="ind-dot"></div>
-    <div class="ind-text"><strong>Adhérences post-chirurgicales :</strong> levée des adhérences dermiques et sous-dermiques. Efficace dès J30–J45. Post-césarienne, post-liposuccion, post-abdominoplastie.</div>
-  </div>
-  <div class="ind-item">
-    <div class="ind-dot"></div>
-    <div class="ind-text"><strong>Fibrose post-radique :</strong> amélioration vascularisation et mobilité cutanée après radiothérapie mammaire. Action sur fibrose sous-cutanée et lymphœdème associé.</div>
-  </div>
-  <div class="ind-item">
-    <div class="ind-dot"></div>
-    <div class="ind-text"><strong>Hypertrophiques :</strong> en complément des microcourants. Ramollissement et aplatissement. Amélioration de l'élasticité dès 8 séances.</div>
-  </div>
-  <div class="ind-item">
-    <div class="ind-dot"></div>
-    <div class="ind-text"><strong>Atrophiques :</strong> stimulation de la néo-synthèse dermique par activation des fibroblastes quiescents.</div>
-  </div>
-
-  <div class="source-note">Ref : Fouré A et al. J Appl Physiol 2016 · Protocole HORS nomenclature — acte non remboursé CPAM.</div>
-</div>
-
-<!-- S6 — WINBACK -->
-<div class="section dark" id="s6">
-  <div class="section-header">
-    <div class="section-num">06</div>
-    <div class="section-titles">
-      <span class="section-tag-sm">Dispositif médical</span>
-      <div class="section-title">Winback TECAR</div>
-    </div>
-  </div>
-
-  <div class="device-block">
-    <div class="device-name">TECAR haute fréquence</div>
-    <div class="device-tech">Transfert énergétique capacitif & résistif · 300 kHz–1 MHz</div>
-    <div class="device-desc">La TECAR génère un champ électrique alternatif haute fréquence pénétrant en profondeur. Effet thermique endogène contrôlé (mode R) ou athermique (mode C basse puissance).</div>
-  </div>
-
-  <div class="ind-item">
-    <div class="ind-dot"></div>
-    <div class="ind-text"><strong>Fibrose profonde :</strong> mode résistif pour effet viscoélastique sur fascias et aponévroses. Association avec mobilisation passive.</div>
-  </div>
-  <div class="ind-item">
-    <div class="ind-dot"></div>
-    <div class="ind-text"><strong>Œdème péri-cicatriciel :</strong> mode capacitif athermique pour optimiser retour veineux et lymphatique. Complément au drainage lymphatique manuel.</div>
-  </div>
-  <div class="ind-item">
-    <div class="ind-dot"></div>
-    <div class="ind-text"><strong>Douleurs et allodynie :</strong> modulation thermique douce sur nocicepteurs. Réduction hyperesthésie et prurit post-cicatriciel.</div>
-  </div>
-  <div class="ind-item">
-    <div class="ind-dot"></div>
-    <div class="ind-text"><strong>Prévention rétraction :</strong> application dès J21 sur cicatrices à haut risque pour maintenir la compliance tissulaire.</div>
-  </div>
-
-  <div class="source-note">Ref : Kumaran B & Watson T. Clin Rehabil 2019 · Hernández-Bule ML et al. Bioelectrochemistry 2014 · Protocole HORS nomenclature.</div>
-</div>
-
-<!-- S7 — CONSEILS -->
-<div class="section pale" id="s7">
-  <div class="section-header">
-    <div class="section-num">07</div>
-    <div class="section-titles">
-      <span class="section-tag-sm">Au quotidien</span>
-      <div class="section-title">Prendre soin de sa cicatrice</div>
-    </div>
-  </div>
-
-  <div class="conseils-grid">
-    <div class="conseil-card">
-      <div class="conseil-icon">🛡️</div>
-      <div class="conseil-title">Protection solaire</div>
-      <div class="conseil-text">SPF 50+ obligatoire pendant 1 an. Les UV induisent une hyperpigmentation définitive sur cicatrice immature.</div>
-    </div>
-    <div class="conseil-card">
-      <div class="conseil-icon">💧</div>
-      <div class="conseil-title">Hydratation</div>
-      <div class="conseil-text">1–2 fois/jour, crème émolliente sans parfum (rose musquée, centella asiatica). Dès J15 sur plaie fermée.</div>
-    </div>
-    <div class="conseil-card">
-      <div class="conseil-icon">🤲</div>
-      <div class="conseil-title">Massage</div>
-      <div class="conseil-text">Massage transversal profond (Cyriax) pour prévenir l'adhérence. Progressif, dans toutes les directions.</div>
-    </div>
-    <div class="conseil-card">
-      <div class="conseil-icon">🧷</div>
-      <div class="conseil-title">Silicone</div>
-      <div class="conseil-text">Plaques 12–23 h/j pendant 3–6 mois. Réduisent l'hypertrophie par hypoxie locale. NP B (HAS 2012).</div>
-    </div>
-    <div class="conseil-card">
-      <div class="conseil-icon">🚭</div>
-      <div class="conseil-title">Tabac</div>
-      <div class="conseil-text">Retarde la cicatrisation de 30–50 %. Diabète non équilibré et corticothérapie : facteurs péjoratifs majeurs.</div>
-    </div>
-    <div class="conseil-card">
-      <div class="conseil-icon">🏃‍♀️</div>
-      <div class="conseil-title">Activité</div>
-      <div class="conseil-text">Marche dès J1–J2. Reprise partielle à J15–J21. Effort intense à partir de 6–8 semaines selon le site.</div>
-    </div>
-  </div>
-
-  <div class="warning">
-    <div class="warning-title">⚠️ Signaux d'alarme — Consulter</div>
-    <div class="warning-text">Rougeur extensive après J15 · Écoulement purulent · Ouverture · Douleur croissante · Fièvre · Extension rapide d'une chéloïde.</div>
+    <div class="pg-footer on-dark"><span class="pg-footer-brand on-dark">La Canopée du 100</span><span class="pg-footer-num on-dark">5</span></div>
   </div>
 </div>
 
-<!-- CONTACT -->
-<div class="contact">
-  <div class="contact-emblem">C</div>
-  <div class="contact-name">La Canopée du 100</div>
-  <div class="contact-sub">Kinésithérapie spécialisée · Lorient</div>
-  <div class="contact-grid">
-    <div class="contact-item">
-      <div class="contact-label">Adresse</div>
-      <div class="contact-value">100 rue Lazare Carnot<br>56100 Lorient</div>
+<!-- ══════════════════════════════
+     PAGE 6 — LPG
+══════════════════════════════ -->
+<div class="page" id="p6" style="background:var(--white);">
+  <div class="page-content on-light" style="display:flex;flex-direction:column;min-height:calc(100vh - 60px);">
+    <div class="pg-stripe-top"></div>
+    <div class="pg-header on-light">
+      <div class="pg-num on-light">05</div>
+      <div class="pg-titles">
+        <span class="pg-tag on-light">Dispositif médical</span>
+        <div class="pg-title on-light">LPG Cellu M6 Integral</div>
+      </div>
     </div>
-    <div class="contact-item">
-      <div class="contact-label">Praticien</div>
-      <div class="contact-value">Julien Fresnaud<br>MK D.E.<br>ADELI 567017157</div>
+    <div class="pg-body">
+      <div class="device-block on-light">
+        <div class="device-name on-light">Endermologie mécanique</div>
+        <div class="device-tech on-light">Mécanotransduction · Aspiration + rouleaux motorisés</div>
+        <div class="device-desc on-light">L'endermologie active les fibroblastes par mécanotransduction, favorisant la synthèse de collagène, d'élastine et d'acide hyaluronique. Dispositif médical classe IIa (CE).</div>
+      </div>
+      <div class="ind-item on-light"><div class="ind-dot on-light"></div><div class="ind-text on-light"><strong>Adhérences post-chirurgicales :</strong> levée des adhérences dermiques dès J30–J45. Post-césarienne, post-liposuccion, post-abdominoplastie.</div></div>
+      <div class="ind-item on-light"><div class="ind-dot on-light"></div><div class="ind-text on-light"><strong>Fibrose post-radique :</strong> amélioration vascularisation et mobilité après radiothérapie mammaire. Action sur fibrose sous-cutanée et lymphœdème.</div></div>
+      <div class="ind-item on-light"><div class="ind-dot on-light"></div><div class="ind-text on-light"><strong>Hypertrophiques :</strong> ramollissement et aplatissement en complément des microcourants. Amélioration élasticité dès 8 séances.</div></div>
+      <div class="ind-item on-light"><div class="ind-dot on-light"></div><div class="ind-text on-light"><strong>Atrophiques :</strong> stimulation néo-synthèse dermique par activation des fibroblastes quiescents.</div></div>
+      <div class="source-note on-light">Ref : Fouré A et al. J Appl Physiol 2016 · HORS nomenclature — acte non remboursé CPAM.</div>
     </div>
-    <div class="contact-item">
-      <div class="contact-label">Instagram</div>
-      <div class="contact-value">@la_canopee_du_100</div>
-    </div>
-    <div class="contact-item">
-      <div class="contact-label">Spécialités</div>
-      <div class="contact-value">Chéloïde · Hypertrophique · Post-op · Post-cancer</div>
-    </div>
-  </div>
-  <div class="contact-lib">
-    <div class="contact-lib-title">Bibliothèque patients</div>
-    <div class="contact-lib-text">Tous les guides disponibles sur :<br><span class="contact-lib-url">lacanopeedu100.github.io</span></div>
-  </div>
-  <div class="contact-sources">
-    Sources : Broughton G et al. 2006 · Singer & Clark 1999 · Bayat A et al. 2003 · Gauglitz GG et al. 2011 · Cheng N et al. 1982 · Kloth LC 2005 · Kumaran & Watson 2019 · Silverstein P 2010 · HAS 2012.<br>
-    Document d'éducation thérapeutique à vocation informative. Ne constitue pas un avis médical.
+    <div class="pg-footer on-light"><span class="pg-footer-brand on-light">La Canopée du 100</span><span class="pg-footer-num on-light">6</span></div>
   </div>
 </div>
 
-<div class="stripe-bottom"></div>
+<!-- ══════════════════════════════
+     PAGE 7 — WINBACK
+══════════════════════════════ -->
+<div class="page" id="p7" style="background:var(--green-deep);">
+  <div class="page-content on-dark" style="display:flex;flex-direction:column;min-height:calc(100vh - 60px);">
+    <div class="pg-stripe-top"></div>
+    <div class="pg-header on-dark">
+      <div class="pg-num on-dark">06</div>
+      <div class="pg-titles">
+        <span class="pg-tag on-dark">Dispositif médical</span>
+        <div class="pg-title on-dark">Winback TECAR</div>
+      </div>
+    </div>
+    <div class="pg-body">
+      <div class="device-block on-dark">
+        <div class="device-name on-dark">TECAR haute fréquence</div>
+        <div class="device-tech on-dark">Transfert énergétique capacitif &amp; résistif · 300 kHz–1 MHz</div>
+        <div class="device-desc on-dark">Champ électrique alternatif haute fréquence pénétrant en profondeur. Effet thermique endogène contrôlé (mode R) ou athermique (mode C basse puissance) selon l'indication.</div>
+      </div>
+      <div class="ind-item on-dark"><div class="ind-dot on-dark"></div><div class="ind-text on-dark"><strong>Fibrose profonde :</strong> mode résistif pour effet viscoélastique sur fascias et aponévroses. Association avec mobilisation passive.</div></div>
+      <div class="ind-item on-dark"><div class="ind-dot on-dark"></div><div class="ind-text on-dark"><strong>Œdème péri-cicatriciel :</strong> mode capacitif athermique pour optimiser retour veineux et lymphatique. Complément au DLM.</div></div>
+      <div class="ind-item on-dark"><div class="ind-dot on-dark"></div><div class="ind-text on-dark"><strong>Douleurs et allodynie :</strong> modulation thermique douce sur nocicepteurs. Réduction hyperesthésie et prurit post-cicatriciel.</div></div>
+      <div class="ind-item on-dark"><div class="ind-dot on-dark"></div><div class="ind-text on-dark"><strong>Prévention rétraction :</strong> dès J21 sur cicatrices à haut risque pour maintenir la compliance tissulaire pendant le remodelage.</div></div>
+      <div class="source-note on-dark">Ref : Kumaran B &amp; Watson T. Clin Rehabil 2019 · Hernández-Bule ML et al. Bioelectrochemistry 2014 · HORS nomenclature.</div>
+    </div>
+    <div class="pg-footer on-dark"><span class="pg-footer-brand on-dark">La Canopée du 100</span><span class="pg-footer-num on-dark">7</span></div>
+  </div>
+</div>
 
+<!-- ══════════════════════════════
+     PAGE 8 — CONSEILS
+══════════════════════════════ -->
+<div class="page" id="p8" style="background:var(--white);">
+  <div class="page-content on-light" style="display:flex;flex-direction:column;min-height:calc(100vh - 60px);">
+    <div class="pg-stripe-top"></div>
+    <div class="pg-header on-light">
+      <div class="pg-num on-light">07</div>
+      <div class="pg-titles">
+        <span class="pg-tag on-light">Au quotidien</span>
+        <div class="pg-title on-light">Prendre soin de sa cicatrice</div>
+      </div>
+    </div>
+    <div class="pg-body">
+      <div class="conseils-grid">
+        <div class="conseil-card"><div class="conseil-icon">🛡️</div><div class="conseil-title">Protection solaire</div><div class="conseil-text">SPF 50+ obligatoire pendant 1 an. Les UV induisent une hyperpigmentation définitive sur cicatrice immature.</div></div>
+        <div class="conseil-card"><div class="conseil-icon">💧</div><div class="conseil-title">Hydratation</div><div class="conseil-text">1–2 fois/jour, crème émolliente sans parfum (rose musquée, centella). Dès J15 sur plaie fermée.</div></div>
+        <div class="conseil-card"><div class="conseil-icon">🤲</div><div class="conseil-title">Massage</div><div class="conseil-text">Massage transversal profond (Cyriax) pour prévenir l'adhérence. Progressif, dans toutes les directions.</div></div>
+        <div class="conseil-card"><div class="conseil-icon">🧷</div><div class="conseil-title">Silicone</div><div class="conseil-text">Plaques 12–23 h/j, 3–6 mois. Réduisent l'hypertrophie par hypoxie locale. NP B (HAS 2012).</div></div>
+        <div class="conseil-card"><div class="conseil-icon">🚭</div><div class="conseil-title">Tabac</div><div class="conseil-text">Retarde la cicatrisation de 30–50 %. Diabète non équilibré : facteur péjoratif majeur.</div></div>
+        <div class="conseil-card"><div class="conseil-icon">🏃‍♀️</div><div class="conseil-title">Activité</div><div class="conseil-text">Marche dès J1–J2. Reprise partielle à J15–J21. Effort intense à 6–8 semaines selon le site.</div></div>
+      </div>
+      <div class="warning">
+        <div class="warning-title">⚠️ Signaux d'alarme — Consulter</div>
+        <div class="warning-text">Rougeur extensive après J15 · Écoulement purulent · Ouverture · Douleur croissante · Fièvre · Extension rapide d'une chéloïde.</div>
+      </div>
+    </div>
+    <div class="pg-footer on-light"><span class="pg-footer-brand on-light">La Canopée du 100</span><span class="pg-footer-num on-light">8</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PAGE 9 — CONTACT
+══════════════════════════════ -->
+<div class="page p-contact" id="p9">
+  <div class="page-content on-dark" style="display:flex;flex-direction:column;min-height:calc(100vh - 60px);">
+    <div class="pg-stripe-top"></div>
+    <div class="contact-body" style="flex:1;">
+      <div class="contact-emblem">C</div>
+      <div class="contact-name">La Canopée du 100</div>
+      <div class="contact-sub">Kinésithérapie spécialisée · Lorient</div>
+      <div class="contact-grid">
+        <div class="contact-item"><div class="contact-label">Adresse</div><div class="contact-value">100 rue Lazare Carnot<br>56100 Lorient</div></div>
+        <div class="contact-item"><div class="contact-label">Praticien</div><div class="contact-value">Julien Fresnaud<br>MK D.E.<br>ADELI 567017157</div></div>
+        <div class="contact-item"><div class="contact-label">Instagram</div><div class="contact-value">@la_canopee_du_100</div></div>
+        <div class="contact-item"><div class="contact-label">Spécialités</div><div class="contact-value">Chéloïde · Hypertrophique<br>Post-op · Post-cancer</div></div>
+      </div>
+      <div class="contact-lib">
+        <div class="contact-lib-title">Bibliothèque patients</div>
+        <div class="contact-lib-text">Tous les guides disponibles sur :<br><span class="contact-lib-url">lacanopeedu100.github.io</span></div>
+      </div>
+      <div class="contact-sources">Sources : Broughton G et al. 2006 · Singer &amp; Clark 1999 · Bayat A et al. 2003 · Gauglitz GG et al. 2011 · Cheng N et al. 1982 · Kloth LC 2005 · Kumaran &amp; Watson 2019 · Silverstein P 2010 · HAS 2012.<br>Document d'éducation thérapeutique à vocation informative. Ne constitue pas un avis médical.</div>
+    </div>
+    <div class="pg-footer on-dark"><span class="pg-footer-brand on-dark">La Canopée du 100</span><span class="pg-footer-num on-dark">9</span></div>
+  </div>
+</div>
+
+</div><!-- end book -->
+
+<!-- ── NAV BAR ── -->
+<div class="nav-bar">
+  <button class="nav-btn" id="prev" onclick="changePage(-1)">←</button>
+  <div class="nav-dots" id="dots"></div>
+  <span class="nav-indicator" id="indicator">1 / 9</span>
+  <button class="nav-btn" id="next" onclick="changePage(1)">→</button>
+</div>
+
+<script>
+const TOTAL = 9;
+let cur = 1;
+
+// Build dots
+const dotsEl = document.getElementById('dots');
+for (let i = 1; i <= TOTAL; i++) {
+  const d = document.createElement('div');
+  d.className = 'nav-dot' + (i === 1 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+
+function goTo(n) {
+  document.getElementById('p' + cur).classList.remove('active');
+  dotsEl.children[cur - 1].classList.remove('active');
+  cur = Math.max(1, Math.min(TOTAL, n));
+  document.getElementById('p' + cur).classList.add('active');
+  dotsEl.children[cur - 1].classList.add('active');
+  document.getElementById('indicator').textContent = cur + ' / ' + TOTAL;
+  // scroll to top of new page
+  document.getElementById('p' + cur).scrollTop = 0;
+}
+
+function changePage(dir) { goTo(cur + dir); }
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changePage(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changePage(-1);
+});
+
+// Swipe
+let tx = 0;
+const book = document.getElementById('book');
+book.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+book.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 50) changePage(dx < 0 ? 1 : -1);
+}, { passive: true });
+</script>
 </body>
 </html>
