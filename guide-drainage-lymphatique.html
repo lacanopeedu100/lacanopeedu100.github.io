@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Guide DLM — La Canopée du 100</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+:root {
+  --vert:   #2D4A1E;
+  --beige:  #EDE8D8;
+  --sauge:  #7A9A5A;
+  --sauge2: #C8D8A8;
+  --blanc:  #FAFAF6;
+  --texte:  #1a2e0e;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family:'Montserrat','Segoe UI',Arial,sans-serif;
+  background: linear-gradient(135deg, #1a2e0e 0%, #2D4A1E 60%, #3d6628 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px 32px;
+  user-select: none;
+}
+
+/* ══ BOOK ══ */
+.book-wrap {
+  position: relative;
+  width: min(920px, 100%);
+}
+.book-shadow {
+  position: absolute;
+  bottom: -16px; left: 4%; right: 4%;
+  height: 28px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.45) 0%, transparent 70%);
+  filter: blur(8px);
+}
+.book-spine {
+  position: absolute;
+  left: 50%; top: 0; bottom: 0;
+  width: 5px;
+  transform: translateX(-50%);
+  background: linear-gradient(to right,
+    rgba(0,0,0,0.22),
+    rgba(255,255,255,0.1),
+    rgba(0,0,0,0.12));
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* ══ SPREAD ══ */
+.spread {
+  display: none;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: opacity 0.2s ease;
+}
+.spread.active { display: flex; }
+.spread.out { opacity: 0; }
+
+/* ══ PAGES ══ */
+.pg {
+  width: 50%;
+  position: relative;
+  overflow: hidden;
+}
+.pg-left  { border-radius: 4px 0 0 4px; }
+.pg-right { border-radius: 0 4px 4px 0; }
+.pg-left::after {
+  content: '';
+  position: absolute; right: 0; top: 0; bottom: 0; width: 20px;
+  background: linear-gradient(to left, rgba(0,0,0,0.13), transparent);
+  pointer-events: none; z-index: 5;
+}
+.pg-right::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 20px;
+  background: linear-gradient(to right, rgba(0,0,0,0.10), transparent);
+  pointer-events: none; z-index: 5;
+}
+
+.bg-vert  { background-color: var(--vert); }
+.bg-beige { background-color: var(--beige); }
+
+/* ══ INNER ══ */
+.inner {
+  padding: 22px 26px 22px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ══ PAGE NUMBER ══ */
+.pnum {
+  position: absolute;
+  bottom: 12px;
+  font-size: 9.5px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; opacity: 0.32;
+}
+.pg-left  .pnum { right: 24px; }
+.pg-right .pnum { left: 24px; }
+.pnum-dark  { color: var(--vert); }
+.pnum-light { color: var(--beige); }
+
+/* ══ SECTION HEADER ══ */
+.sh-badge {
+  font-size: 9px; font-weight: 700; letter-spacing: 2.5px;
+  text-transform: uppercase; margin-bottom: 3px;
+}
+.sh-title {
+  font-size: 20px; font-weight: 800; line-height: 1.15;
+  margin-bottom: 8px;
+}
+.sh-rule {
+  width: 38px; height: 3px; border-radius: 2px;
+  margin-bottom: 13px;
+}
+.on-beige .sh-badge { color: var(--sauge); }
+.on-beige .sh-title { color: var(--vert); }
+.on-beige .sh-rule  { background: var(--sauge); }
+.on-vert  .sh-badge { color: var(--sauge2); }
+.on-vert  .sh-title { color: var(--beige); }
+.on-vert  .sh-rule  { background: var(--sauge2); }
+
+/* ══ CARD ══ */
+.card {
+  background: var(--blanc);
+  border-radius: 8px;
+  padding: 9px 12px;
+  border-left: 3px solid var(--sauge);
+  margin-bottom: 7px;
+  box-shadow: 0 1px 5px rgba(45,74,30,0.07);
+}
+.card.on-vert-card {
+  background: rgba(237,232,216,0.11);
+  border-left-color: var(--sauge2);
+}
+.card.red   { border-left-color: #c0392b; }
+.card.orange{ border-left-color: #e67e22; }
+.card-t {
+  font-size: 11px; font-weight: 700;
+  margin-bottom: 3px;
+  display: flex; align-items: center; gap: 5px;
+}
+.card-t.dark  { color: var(--vert); }
+.card-t.light { color: var(--sauge2); }
+.card-t.red   { color: #c0392b; }
+.card-b {
+  font-size: 10.5px; line-height: 1.6;
+}
+.card-b.dark  { color: #3a4a2a; }
+.card-b.light { color: rgba(237,232,216,0.86); }
+
+/* ══ GRID 2 ══ */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 7px; }
+
+/* ══ ALERT ══ */
+.alert {
+  border-radius: 7px; padding: 8px 11px;
+  font-size: 10.5px; line-height: 1.6; margin-bottom: 7px;
+}
+.alert strong { display: block; font-size: 9.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+.a-red    { background:#fdf2f2; border-left:3px solid #c0392b; color:#7a1a1a; }
+.a-orange { background:#fdf6ed; border-left:3px solid #e67e22; color:#7a4010; }
+.a-green  { background:#f2f7ee; border-left:3px solid var(--sauge); color:#2a4a1a; }
+.a-blue   { background:#eef4fb; border-left:3px solid #2980b9; color:#1a3a5a; }
+.a-ghost  { background:rgba(237,232,216,0.12); border-left:3px solid var(--sauge2); color:rgba(237,232,216,0.85); }
+
+/* ══ TAGS ══ */
+.tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:7px; }
+.tag  { background:var(--sauge2); color:var(--vert); font-size:10px; font-weight:600; padding:3px 9px; border-radius:20px; }
+.tag.red  { background:#fde8e8; color:#c0392b; }
+.tag.blue { background:#d6eaf8; color:#1a4a7a; }
+.tag.ora  { background:#fdebd0; color:#a04010; }
+
+/* ══ TIMELINE ══ */
+.tl { position:relative; padding-left:20px; }
+.tl::before {
+  content:''; position:absolute;
+  left:6px; top:5px; bottom:5px; width:2px;
+  background: linear-gradient(to bottom, var(--sauge2), rgba(200,216,168,0.25));
+}
+.tl-row { position:relative; margin-bottom:10px; }
+.tl-dot {
+  position:absolute; left:-17px; top:4px;
+  width:9px; height:9px;
+  background:var(--sauge2); border-radius:50%;
+  border:2px solid var(--vert);
+}
+.tl-yr { font-size:9px; font-weight:700; color:var(--sauge2); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:2px; }
+.tl-tx { font-size:10.5px; color:rgba(237,232,216,0.86); line-height:1.55; }
+.tl-tx strong { color:var(--sauge2); }
+
+/* ══ STEPS ══ */
+.steps { list-style:none; counter-reset:st; }
+.steps li {
+  counter-increment:st;
+  position:relative; padding:7px 10px 7px 38px;
+  background:var(--blanc); border-radius:7px; margin-bottom:5px;
+  font-size:10.5px; color:var(--texte); line-height:1.55;
+  box-shadow:0 1px 4px rgba(45,74,30,0.06);
+}
+.steps li::before {
+  content:counter(st);
+  position:absolute; left:9px; top:50%; transform:translateY(-50%);
+  width:20px; height:20px;
+  background:var(--vert); color:var(--beige);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:9px; font-weight:800;
+}
+
+/* ══ TABLE ══ */
+.tbl { width:100%; border-collapse:collapse; font-size:10.5px;
+  border-radius:8px; overflow:hidden; box-shadow:0 1px 5px rgba(45,74,30,0.07); }
+.tbl th { background:var(--vert); color:var(--beige); padding:7px 10px;
+  text-align:left; font-size:9.5px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; }
+.tbl th.light { background:rgba(200,216,168,0.22); color:var(--beige); }
+.tbl td { padding:7px 10px; border-bottom:1px solid #e8e0cc; color:var(--texte); line-height:1.5; }
+.tbl td.light { border-color:rgba(200,216,168,0.15); background:transparent !important; color:rgba(237,232,216,0.86); }
+.tbl tr:nth-child(even) td { background:#f7f3ea; }
+.tbl tr:nth-child(even) td.light { background:rgba(255,255,255,0.04) !important; }
+.tbl tr:last-child td { border-bottom:none; }
+
+/* ══ FAQ ══ */
+.faq { margin-bottom:9px; }
+.fq { font-size:11px; font-weight:700; color:var(--vert); margin-bottom:3px;
+  display:flex; align-items:flex-start; gap:6px; }
+.fq::before { content:'Q'; background:var(--vert); color:var(--beige);
+  border-radius:4px; padding:1px 5px; font-size:9px; flex-shrink:0; }
+.fa { font-size:10.5px; color:#3a4a2a; line-height:1.6;
+  padding-left:18px; border-left:2px solid var(--sauge); margin-left:4px; }
+
+/* ══ SOURCES ══ */
+.src { font-size:10.5px; color:#3a4a2a; line-height:1.6;
+  padding:6px 0; border-bottom:1px solid #ddd8c8; }
+.src:last-child { border:none; }
+.src strong { color:var(--vert); }
+
+/* ══ QUOTE ══ */
+.quote {
+  background:var(--vert); color:var(--beige);
+  border-radius:8px; padding:12px 15px;
+  font-size:11.5px; font-style:italic; line-height:1.65;
+  position:relative; overflow:hidden; margin-bottom:8px;
+}
+.quote::before {
+  content:'"'; position:absolute; top:-14px; left:10px;
+  font-size:72px; font-family:Georgia,serif;
+  color:rgba(200,216,168,0.18); line-height:1;
+}
+.quote cite { display:block; margin-top:6px; font-size:9px; font-weight:700;
+  font-style:normal; color:var(--sauge2); letter-spacing:1px; text-transform:uppercase; }
+
+/* ══ COVER ══ */
+.cov-medallion {
+  width:52px; height:52px;
+  background:rgba(200,216,168,0.18);
+  border:2px solid rgba(200,216,168,0.45);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; margin-bottom:12px;
+}
+.cov-badge {
+  display:inline-block;
+  background:rgba(200,216,168,0.16);
+  border:1px solid rgba(200,216,168,0.4);
+  color:var(--sauge2);
+  font-size:9px; font-weight:700; letter-spacing:2.5px;
+  text-transform:uppercase; padding:3px 10px; border-radius:20px; margin-bottom:10px;
+}
+.cov-title { color:var(--beige); font-size:25px; font-weight:800; line-height:1.12; margin-bottom:6px; }
+.cov-title span { color:var(--sauge2); }
+.cov-rule { width:38px; height:3px; background:var(--sauge2); border-radius:2px; margin-bottom:10px; }
+.cov-sub { color:rgba(237,232,216,0.75); font-size:11px; line-height:1.65; max-width:310px; margin-bottom:12px; }
+.cov-toc { list-style:none; margin-top:auto; }
+.cov-toc li {
+  color:rgba(237,232,216,0.68); font-size:10.5px; font-weight:500;
+  padding:3px 0; border-bottom:1px solid rgba(237,232,216,0.1);
+  display:flex; align-items:center; gap:7px;
+}
+.cov-toc li::before { content:'→'; color:var(--sauge2); font-size:10px; }
+
+/* ══ REMBOURSEMENT TABLE ══ */
+.remb-tbl { width:100%; border-collapse:collapse; font-size:10px;
+  border-radius:8px; overflow:hidden; margin-bottom:8px; }
+.remb-tbl th { padding:6px 8px; text-align:left; font-size:9px; font-weight:700;
+  letter-spacing:0.5px; text-transform:uppercase; }
+.remb-tbl th.h-dark { background:var(--vert); color:var(--beige); }
+.remb-tbl th.h-light { background:rgba(200,216,168,0.22); color:var(--beige); }
+.remb-tbl td { padding:6px 8px; border-bottom:1px solid #e8e0cc; line-height:1.45; color:var(--texte); }
+.remb-tbl td.light { border-color:rgba(200,216,168,0.15); color:rgba(237,232,216,0.86); background:transparent !important; }
+.remb-tbl tr.row-oui td { background:#edf3ea; border-left:3px solid var(--sauge); }
+.remb-tbl tr.row-non td { background:rgba(237,232,216,0.08); border-left:3px solid rgba(200,216,168,0.4); }
+.remb-tbl tr:nth-child(even) td { background:#f1f7ee; }
+.remb-tbl tr:nth-child(even) td.light { background:rgba(255,255,255,0.05) !important; }
+.remb-tbl tr:last-child td { border-bottom:none; }
+.remb-tbl td sub { display:block; font-size:9px; color:#888; }
+
+/* ══ PUSH ══ */
+.push { margin-top:auto; }
+
+/* ══ NAV ══ */
+.nav-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 14px; margin-top: 22px;
+}
+.nbtn {
+  width: 46px; height: 46px;
+  background: rgba(237,232,216,0.13);
+  border: 1px solid rgba(237,232,216,0.28);
+  border-radius: 50%; color: var(--beige);
+  font-size: 19px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; backdrop-filter: blur(4px);
+}
+.nbtn:hover:not(:disabled) { background:rgba(237,232,216,0.25); transform:scale(1.08); }
+.nbtn:disabled { opacity:0.22; cursor:default; }
+.dots { display:flex; gap:5px; align-items:center; }
+.dot {
+  width:6px; height:6px; border-radius:50%;
+  background:rgba(237,232,216,0.2);
+  border:1px solid rgba(237,232,216,0.3);
+  cursor:pointer; transition:all 0.2s;
+}
+.dot.on { background:var(--sauge2); width:18px; border-radius:3px; }
+.pctr {
+  color:rgba(237,232,216,0.65); font-size:10.5px;
+  font-weight:600; letter-spacing:1.5px; text-transform:uppercase;
+  min-width:160px; text-align:center;
+}
+.khint { color:rgba(237,232,216,0.3); font-size:9.5px; letter-spacing:1px; margin-top:8px; text-align:center; }
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 600px) {
+  .spread { flex-direction: column; }
+  .pg { width: 100%; }
+  .pg-left  { border-radius: 4px 4px 0 0; }
+  .pg-right { border-radius: 0 0 4px 4px; }
+  .pg-left::after, .pg-right::before { display:none; }
+  .book-spine { display:none; }
+  .inner { padding: 24px 20px 28px; }
+}
+</style>
+</head>
+<body>
+
+<div class="book-wrap">
+<div class="book-shadow"></div>
+<div class="book-spine"></div>
+
+<!-- ═══ S0 — COUVERTURE + AVANT-PROPOS ═══ -->
+<div class="spread active" id="s0">
+  <div class="pg pg-left bg-vert">
+    <div class="inner">
+      <div class="cov-medallion">🌿</div>
+      <div class="cov-badge">La Canopée du 100 · Guide Patient</div>
+      <div class="cov-title">Drainage<br>Lymphatique<br><span>Manuel</span></div>
+      <div class="cov-rule"></div>
+      <div class="cov-sub">Comprendre et bénéficier du DLM — un soin doux, précis et scientifiquement fondé.</div>
+      <ul class="cov-toc">
+        <li>Le système lymphatique</li>
+        <li>Histoire &amp; définition</li>
+        <li>Indications &amp; remboursement</li>
+        <li>Santé de la femme</li>
+        <li>La séance pas à pas</li>
+        <li>Contre-indications &amp; FAQ</li>
+      </ul>
+    </div>
+    <span class="pnum pnum-light">Couverture</span>
+  </div>
+  <div class="pg pg-right bg-beige">
+    <div class="inner on-beige">
+      <div class="sh-badge">Avant-propos</div>
+      <div class="sh-title">Bienvenue<br>dans ce guide</div>
+      <div class="sh-rule"></div>
+      <p style="font-size:13px;color:#3a4a2a;line-height:1.78;margin-bottom:14px;">Le drainage lymphatique manuel (DLM) est l'un des soins les plus méconnus et pourtant les plus puissants de la rééducation moderne. Ni simple massage de détente, ni technique ésotérique — c'est un acte médical réglementé, pratiqué exclusivement par les masseurs-kinésithérapeutes diplômés d'État.</p>
+      <div class="quote">
+        <p>Le DLM n'est pas un soin parmi d'autres. C'est une conversation muette avec un réseau silencieux qui œuvre chaque jour à l'équilibre de votre corps.</p>
+        <cite>Julien Fresnaud · MK-DE · ADELI 567017157</cite>
+      </div>
+      <p style="font-size:12.5px;color:#3a4a2a;line-height:1.75;">Ce guide vous accompagne pas à pas : de l'anatomie à la séance, des indications aux contre-indications — avec rigueur scientifique et clarté patient.</p>
+      <div class="tags push" style="margin-top:auto;padding-top:16px;">
+        <span class="tag">Fondé sur preuves</span>
+        <span class="tag">Sources citées</span>
+        <span class="tag">Actualisé 2025</span>
+      </div>
+    </div>
+    <span class="pnum pnum-dark">Page 1</span>
+  </div>
+</div>
+
+<!-- ═══ S1 — ANATOMIE ═══ -->
+<div class="spread" id="s1">
+  <div class="pg pg-left bg-beige">
+    <div class="inner on-beige">
+      <div class="sh-badge">Anatomie &amp; Physiologie — 1/2</div>
+      <div class="sh-title">Le système<br>lymphatique</div>
+      <div class="sh-rule"></div>
+      <div class="card">
+        <div class="card-t dark">🔬 Un réseau silencieux et vital</div>
+        <p class="card-b dark">Parallèle au système veineux, le réseau lymphatique collecte chaque jour <strong>2 à 4 litres de lymphe</strong> — liquide interstitiel chargé de protéines, déchets métaboliques et lymphocytes — et le reconduit vers la circulation sanguine via les canaux thoraciques.</p>
+      </div>
+      <div class="g2">
+        <div class="card">
+          <div class="card-t dark">🌊 Capillaires</div>
+          <p class="card-b dark">Vaisseaux borgnes à paroi très fine. Ils absorbent le liquide et les débris cellulaires dans les tissus. Ce sont les cibles directes du DLM.</p>
+        </div>
+        <div class="card">
+          <div class="card-t dark">🔗 Collecteurs</div>
+          <p class="card-b dark">Dotés de valves anti-retour et d'une paroi musculaire lisse, ils propulsent la lymphe vers les ganglions. Le DLM amplifie ce mécanisme.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-t dark">⚡ Les 4 fonctions essentielles</div>
+        <div class="tags">
+          <span class="tag">Drainage des œdèmes</span>
+          <span class="tag">Immunité</span>
+          <span class="tag">Absorption des graisses digestives</span>
+          <span class="tag">Épuration métabolique</span>
+        </div>
+      </div>
+    </div>
+    <span class="pnum pnum-dark">Page 2</span>
+  </div>
+  <div class="pg pg-right bg-vert">
+    <div class="inner on-vert">
+      <div class="sh-badge">Anatomie &amp; Physiologie — 2/2</div>
+      <div class="sh-title">Schéma<br>anatomique</div>
+      <div class="sh-rule"></div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 260 340" width="220" style="max-width:100%;">
+          <ellipse cx="130" cy="38" rx="24" ry="28" fill="#EDE8D8" stroke="#2D4A1E" stroke-width="1.2"/>
+          <rect x="106" y="64" width="48" height="80" rx="8" fill="#EDE8D8" stroke="#2D4A1E" stroke-width="1.2"/>
+          <path d="M106 70 Q88 105 90 138" fill="none" stroke="#EDE8D8" stroke-width="9" stroke-linecap="round"/>
+          <path d="M154 70 Q172 105 170 138" fill="none" stroke="#EDE8D8" stroke-width="9" stroke-linecap="round"/>
+          <path d="M118 143 Q112 190 110 240" fill="none" stroke="#EDE8D8" stroke-width="10" stroke-linecap="round"/>
+          <path d="M142 143 Q148 190 150 240" fill="none" stroke="#EDE8D8" stroke-width="10" stroke-linecap="round"/>
+          <path d="M130 65 L130 145" fill="none" stroke="#7A9A5A" stroke-width="2" stroke-dasharray="5,3"/>
+          <path d="M106 74 Q93 100 91 124" fill="none" stroke="#7A9A5A" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <path d="M154 74 Q167 100 169 124" fill="none" stroke="#7A9A5A" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <path d="M118 145 Q112 184 110 220" fill="none" stroke="#7A9A5A" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <path d="M142 145 Q148 184 150 220" fill="none" stroke="#7A9A5A" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <circle cx="130" cy="65" r="6" fill="#7A9A5A" stroke="#EDE8D8" stroke-width="1.2"/>
+          <circle cx="106" cy="98" r="5.5" fill="#7A9A5A" stroke="#EDE8D8" stroke-width="1.2"/>
+          <circle cx="154" cy="98" r="5.5" fill="#7A9A5A" stroke="#EDE8D8" stroke-width="1.2"/>
+          <circle cx="130" cy="118" r="4.5" fill="#7A9A5A" stroke="#EDE8D8" stroke-width="1.2"/>
+          <circle cx="118" cy="147" r="5" fill="#7A9A5A" stroke="#EDE8D8" stroke-width="1.2"/>
+          <circle cx="142" cy="147" r="5" fill="#7A9A5A" stroke="#EDE8D8" stroke-width="1.2"/>
+          <circle cx="110" cy="196" r="4" fill="#C8D8A8" stroke="#EDE8D8" stroke-width="1"/>
+          <circle cx="150" cy="196" r="4" fill="#C8D8A8" stroke="#EDE8D8" stroke-width="1"/>
+          <text x="140" y="63" font-family="Montserrat,Arial,sans-serif" font-size="8.5" fill="#C8D8A8" font-weight="700">Cervicaux</text>
+          <text x="58"  y="101" font-family="Montserrat,Arial,sans-serif" font-size="8"   fill="#C8D8A8" font-weight="700">Axillaires</text>
+          <text x="162" y="101" font-family="Montserrat,Arial,sans-serif" font-size="8"   fill="#C8D8A8" font-weight="700">Axillaires</text>
+          <text x="72"  y="151" font-family="Montserrat,Arial,sans-serif" font-size="8"   fill="#C8D8A8" font-weight="700">Inguinaux</text>
+          <text x="150" y="151" font-family="Montserrat,Arial,sans-serif" font-size="8"   fill="#C8D8A8" font-weight="700">Inguinaux</text>
+          <line x1="14" y1="270" x2="34" y2="270" stroke="#7A9A5A" stroke-width="2" stroke-dasharray="4,2"/>
+          <text x="39" y="274" font-family="Montserrat,Arial,sans-serif" font-size="8.5" fill="rgba(237,232,216,0.72)">Réseau lymphatique</text>
+          <circle cx="24" cy="285" r="4.5" fill="#7A9A5A" stroke="#C8D8A8" stroke-width="1"/>
+          <text x="33" y="289" font-family="Montserrat,Arial,sans-serif" font-size="8.5" fill="rgba(237,232,216,0.72)">Ganglions (profonds)</text>
+          <circle cx="24" cy="300" r="4.5" fill="#C8D8A8" stroke="#C8D8A8" stroke-width="1"/>
+          <text x="33" y="304" font-family="Montserrat,Arial,sans-serif" font-size="8.5" fill="rgba(237,232,216,0.72)">Ganglions (superficiels)</text>
+        </svg>
+      </div>
+      <div class="alert a-ghost" style="margin-top:8px;">
+        <strong>📚 Ferrandez / AKTL, 2006</strong>
+        Le DLM agit mécaniquement sur les capillaires, pré-collecteurs et collecteurs. La stimulation ganglionnaire est réflexe et indirecte — jamais directe.
+      </div>
+    </div>
+    <span class="pnum pnum-light">Page 3</span>
+  </div>
+</div>
+
+<!-- ═══ S2 — HISTOIRE + DÉFINITION ═══ -->
+<div class="spread" id="s2">
+  <div class="pg pg-left bg-vert">
+    <div class="inner on-vert">
+      <div class="sh-badge">Histoire</div>
+      <div class="sh-title">Naissance<br>du DLM</div>
+      <div class="sh-rule"></div>
+      <div class="tl">
+        <div class="tl-row">
+          <div class="tl-dot"></div>
+          <div class="tl-yr">1932</div>
+          <div class="tl-tx"><strong>Emil Vodder</strong>, biologiste danois, développe la technique au Cap d'Antibes. Il observe l'effet bénéfique de manipulations douces des ganglions cervicaux sur les infections ORL chroniques récurrentes.</div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-dot"></div>
+          <div class="tl-yr">1960–1970</div>
+          <div class="tl-tx">Le médecin allemand <strong>Foldi</strong> intègre le DLM dans la <em>Thérapie Décongestive Complexe (TDC)</em>, associant DLM, bandages multicouches, exercice et soins cutanés.</div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-dot"></div>
+          <div class="tl-yr">1990–2000</div>
+          <div class="tl-tx"><strong>Albert et Olivier Leduc</strong> (Belgique) et <strong>Jean-Claude Ferrandez</strong> (AKTL, France) publient les travaux de référence francophone. Le DLM est reconnu comme acte de masso-kinésithérapie.</div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-dot"></div>
+          <div class="tl-yr">Aujourd'hui</div>
+          <div class="tl-tx">Inscrit à la <strong>NGAP Article 7</strong> — remboursé par l'Assurance Maladie dans les indications pathologiques documentées, sur prescription médicale.</div>
+        </div>
+      </div>
+    </div>
+    <span class="pnum pnum-light">Page 4</span>
+  </div>
+  <div class="pg pg-right bg-beige">
+    <div class="inner on-beige">
+      <div class="sh-badge">Définition clinique</div>
+      <div class="sh-title">Qu'est-ce que<br>le DLM ?</div>
+      <div class="sh-rule"></div>
+      <div class="quote">
+        <p>Technique de massage thérapeutique douce, rythmée et non invasive, visant à stimuler la circulation lymphatique superficielle par des manœuvres de pression légère, circulaires et directionnelles sur la peau.</p>
+        <cite>Leduc A. &amp; Leduc O. — Le drainage lymphatique, Masson, 2003</cite>
+      </div>
+      <div class="card">
+        <div class="card-t dark">🎯 Principe fondamental</div>
+        <p class="card-b dark">Le DLM utilise des pressions <strong>inférieures à 30–40 mmHg</strong>. Une pression excessive comprime les capillaires lymphatiques à paroi très fine et interrompt le flux. C'est précisément cette légèreté qui distingue le DLM de tout autre massage.</p>
+      </div>
+      <div class="card">
+        <div class="card-t dark">⚖️ DLM ≠ Pressothérapie</div>
+        <p class="card-b dark">Le DLM est <strong>manuel</strong>, réalisé par un MK-DE avec ses mains. La pressothérapie est pneumatique (manchons gonflables). Mécanismes, indications et niveaux de preuve sont distincts — elles ne sont pas substituables.</p>
+      </div>
+      <div class="alert a-green push" style="margin-top:auto;">
+        <strong>⚕️ Acte réglementé</strong>
+        Réservé aux Masseurs-Kinésithérapeutes Diplômés d'État (MK-DE). Sa pratique par un non-professionnel expose à des risques cliniques réels.
+      </div>
+    </div>
+    <span class="pnum pnum-dark">Page 5</span>
+  </div>
+</div>
+
+<!-- ═══ S3 — REMBOURSEMENT ═══ -->
+<div class="spread" id="s3">
+  <div class="pg pg-left bg-beige">
+    <div class="inner on-beige">
+      <div class="sh-badge">Remboursement — 1/2</div>
+      <div class="sh-title">Indications<br>remboursées</div>
+      <div class="sh-rule"></div>
+      <p style="font-size:11.5px;color:#3a4a2a;line-height:1.7;margin-bottom:12px;">Référence : <strong>NGAP – Article 7 – Rééducation</strong>. Trois conditions cumulatives : ordonnance médicale explicite, MK-DE conventionné, pathologie reconnue à la nomenclature.</p>
+      <table class="remb-tbl">
+        <thead><tr><th class="h-dark">Indication</th><th class="h-dark">Libellé ordonnance</th></tr></thead>
+        <tbody>
+          <tr class="row-oui">
+            <td><strong>Lymphœdème congénital</strong></td>
+            <td><em>« Lymphœdème congénital »</em></td>
+          </tr>
+          <tr class="row-oui">
+            <td><strong>Lymphœdème secondaire</strong><sub>post cancer, chirurgie, radiothérapie</sub></td>
+            <td><em>« Lymphœdème secondaire post chirurgie / radiothérapie »</em></td>
+          </tr>
+          <tr class="row-oui">
+            <td><strong>IVC</strong><sub>avec troubles trophiques ou retentissement articulaire</sub></td>
+            <td><em>« IVC avec troubles trophiques »</em></td>
+          </tr>
+          <tr class="row-oui">
+            <td><strong>Lipœdème + lymphœdème associé</strong></td>
+            <td><em>« Lipœdème associé à un lymphœdème »</em></td>
+          </tr>
+          <tr class="row-oui">
+            <td><strong>Lipœdème + IVC chronique diagnostiquée</strong></td>
+            <td><em>« Lipœdème associé à une IVC diagnostiquée »</em></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="alert a-orange" style="margin-top:4px;">
+        <strong>⚠️ Lipœdème isolé</strong>
+        Sans pathologie vasculaire ou lymphatique associée documentée, le lipœdème seul n'ouvre <em>pas</em> droit au remboursement NGAP Art.7.
+      </div>
+    </div>
+    <span class="pnum pnum-dark">Page 6</span>
+  </div>
+  <div class="pg pg-right bg-vert">
+    <div class="inner on-vert">
+      <div class="sh-badge">Remboursement — 2/2</div>
+      <div class="sh-title">Hors<br>nomenclature</div>
+      <div class="sh-rule"></div>
+      <table class="remb-tbl" style="margin-bottom:10px;">
+        <thead><tr><th class="h-light">Indication</th><th class="h-light">Statut</th></tr></thead>
+        <tbody>
+          <tr><td class="light">Jambes lourdes simples</td><td class="light"><span class="tag red" style="font-size:9px;">❌ Non</span></td></tr>
+          <tr><td class="light">Rétention d'eau</td><td class="light"><span class="tag red" style="font-size:9px;">❌ Non</span></td></tr>
+          <tr><td class="light">Cellulite</td><td class="light"><span class="tag red" style="font-size:9px;">❌ Non</span></td></tr>
+          <tr><td class="light">Post-chirurgie esthétique</td><td class="light"><span class="tag red" style="font-size:9px;">❌ Non</span></td></tr>
+          <tr><td class="light">Récupération sportive</td><td class="light"><span class="tag red" style="font-size:9px;">❌ Non</span></td></tr>
+          <tr><td class="light">Fibromyalgie / douleurs diffuses</td><td class="light"><span class="tag red" style="font-size:9px;">❌ Non</span></td></tr>
+        </tbody>
+      </table>
+      <div class="alert a-ghost push" style="margin-top:auto;">
+        <strong>💡 Bénéfice clinique réel</strong>
+        L'absence de remboursement ne signifie pas l'absence d'efficacité. Ces indications font l'objet d'une littérature croissante et sont intégrées dans de nombreux protocoles de soins.
+      </div>
+      <div class="alert a-ghost" style="margin-top:8px;">
+        <strong>📋 Points de vigilance</strong>
+        Ordonnance : diagnostic explicite requis. Classification Allen/Marshall (lipœdème) ou Stemmer (lymphœdème) renforce la recevabilité en cas de contrôle AM.
+      </div>
+    </div>
+    <span class="pnum pnum-light">Page 7</span>
+  </div>
+</div>
+
+<!-- ═══ S4 — SANTÉ DE LA FEMME ═══ -->
+<div class="spread" id="s4">
+  <div class="pg pg-left bg-beige">
+    <div class="inner on-beige">
+      <div class="sh-badge">Santé de la femme — 1/2</div>
+      <div class="sh-title">Indications<br>féminines</div>
+      <div class="sh-rule"></div>
+      <div class="card">
+        <div class="card-t dark">🌸 Cycle menstruel</div>
+        <p class="card-b dark">Gestion des œdèmes de la phase lutéale — rétention hydrique prémenstruelle, sensations de jambes lourdes et tension mammaire en fin de cycle. Le DLM réduit la stase lymphatique induite par les variations hormonales.</p>
+      </div>
+      <div class="card">
+        <div class="card-t dark">🤱 Grossesse &amp; post-partum</div>
+        <p class="card-b dark">Accompagnement pré-natal (jambes lourdes gravides) et post-natal : œdèmes des membres inférieurs, cicatrice de césarienne, engorgement mammaire.</p>
+      </div>
+      <div class="card">
+        <div class="card-t dark">💊 Ménopause</div>
+        <p class="card-b dark">La chute œstrogénique fragilise la paroi capillaire et favorise la rétention hydrique. Le DLM soutient l'équilibre tissulaire et atténue la sensation de pesanteur des membres.</p>
+      </div>
+      <div class="card">
+        <div class="card-t dark">🩺 Endométriose</div>
+        <p class="card-b dark">Effet antalgique et décongestif pelvien. Le DLM s'intègre dans un protocole de soins global en complément du traitement médical.</p>
+      </div>
+    </div>
+    <span class="pnum pnum-dark">Page 8</span>
+  </div>
+  <div class="pg pg-right bg-vert">
+    <div class="inner on-vert">
+      <div class="sh-badge">Santé de la femme — 2/2</div>
+      <div class="sh-title">Oncologie<br>mammaire</div>
+      <div class="sh-rule"></div>
+      <div class="card on-vert-card">
+        <div class="card-t light">🎗️ Curage axillaire</div>
+        <p class="card-b light">L'exérèse des ganglions axillaires lors d'un cancer du sein crée un risque de lymphœdème du membre supérieur. Le DLM est l'acte de référence en prévention et traitement — remboursé dans ce contexte.</p>
+      </div>
+      <div class="card on-vert-card">
+        <div class="card-t light">🔄 Reconstruction mammaire</div>
+        <p class="card-b light">Post-mastectomie ou prothèse, le DLM favorise la résorption de l'œdème péri-prothétique, améliore la souplesse tissulaire et accompagne l'intégration de la cicatrice.</p>
+      </div>
+      <div class="card on-vert-card">
+        <div class="card-t light">🩺 Gynécologie chirurgicale</div>
+        <p class="card-b light">Hystérectomie, myomectomie, curage inguinal — le DLM gère la stase post-opératoire pelvienne et prévient la fibrose des cicatrices profondes.</p>
+      </div>
+      <div class="alert a-ghost push" style="margin-top:auto;">
+        <strong>📚 Note clinique</strong>
+        Dans le parcours oncologique, le DLM s'intègre dans la TDC (Thérapie Décongestive Complexe) — accord médical requis avant initiation.
+      </div>
+    </div>
+    <span class="pnum pnum-light">Page 9</span>
+  </div>
+</div>
+
+<!-- ═══ S5 — LA SÉANCE ═══ -->
+<div class="spread" id="s5">
+  <div class="pg pg-left bg-beige">
+    <div class="inner on-beige">
+      <div class="sh-badge">La séance — 1/2</div>
+      <div class="sh-title">Déroulement<br>pas à pas</div>
+      <div class="sh-rule"></div>
+      <ol class="steps">
+        <li><strong>Bilan initial</strong> — Périmétrie, pli cutané, antécédents, lecture de la prescription médicale</li>
+        <li><strong>Mise en position</strong> — Décubitus dorsal ou ventral selon la zone cible</li>
+        <li><strong>Vidange proximale</strong> — Ganglions inguinaux / axillaires / cervicaux préparés en premier (logique hydraulique)</li>
+        <li><strong>Manœuvres distales</strong> — Pressions &lt; 30 mmHg, rythmées, sans friction cutanée</li>
+        <li><strong>Recouvrement proximal</strong> — Remontée périphérie → centre, poussant la lymphe vers les relais libérés</li>
+        <li><strong>Contention</strong> — Bandage multicouches ou manchon élastique pour maintenir le bénéfice</li>
+      </ol>
+      <div class="alert a-green push" style="margin-top:auto;">
+        <strong>⏱️ Fréquence</strong>
+        Phase intensive : jusqu'à 5 séances/semaine. Phase d'entretien : 1 à 2 séances/semaine selon l'indication.
+      </div>
+    </div>
+    <span class="pnum pnum-dark">Page 10</span>
+  </div>
+  <div class="pg pg-right bg-vert">
+    <div class="inner on-vert">
+      <div class="sh-badge">La séance — 2/2</div>
+      <div class="sh-title">4 Techniques<br>Vodder</div>
+      <div class="sh-rule"></div>
+      <div class="card on-vert-card">
+        <div class="card-t light">① Cercles stationnaires</div>
+        <p class="card-b light">Mouvements circulaires sur place. La peau est mobilisée en phase de pression puis relâchée, créant une aspiration rythmique. Utilisés sur les ganglions et les zones de départ.</p>
+      </div>
+      <div class="card on-vert-card">
+        <div class="card-t light">② Pompage (Pumping)</div>
+        <p class="card-b light">Main en cuillère qui se referme et s'ouvre, propulsant la lymphe dans le sens des collecteurs. Technique de choix sur les membres supérieurs et inférieurs.</p>
+      </div>
+      <div class="card on-vert-card">
+        <div class="card-t light">③ Rotation (Drehung)</div>
+        <p class="card-b light">Pouce fixe + 4 doigts en arc avec déplacement progressif. Couvre les grandes surfaces planes : dos, thorax, abdomen.</p>
+      </div>
+      <div class="card on-vert-card">
+        <div class="card-t light">④ Captage (Schöpfen)</div>
+        <p class="card-b light">Deux mains en cuillère alternées enveloppant le membre. Technique bimanuelle et continue, adaptée aux membres inférieurs œdématiés.</p>
+      </div>
+    </div>
+    <span class="pnum pnum-light">Page 11</span>
+  </div>
+</div>
+
+<!-- ═══ S6 — APRÈS LA SÉANCE + CI ABSOLUES ═══ -->
+<div class="spread" id="s6">
+  <div class="pg pg-left bg-beige">
+    <div class="inner on-beige">
+      <div class="sh-badge">Après la séance</div>
+      <div class="sh-title">Conseils<br>pratiques</div>
+      <div class="sh-rule"></div>
+      <div class="card">
+        <div class="card-t dark">💧 Hydratation</div>
+        <p class="card-b dark">Boire 1,5 à 2 litres d'eau dans les heures suivantes pour faciliter l'élimination rénale des déchets mobilisés par le drainage.</p>
+      </div>
+      <div class="card">
+        <div class="card-t dark">🧦 Contention</div>
+        <p class="card-b dark">Porter systématiquement la contention prescrite (bas, collants, manchon) immédiatement après la séance pour maintenir le bénéfice décongestif.</p>
+      </div>
+      <div class="card">
+        <div class="card-t dark">🚫 À éviter 24 h</div>
+        <p class="card-b dark">Bains chauds, sauna, exposition solaire intense — la chaleur dilate les capillaires et contre le drainage effectué.</p>
+      </div>
+      <div class="card">
+        <div class="card-t dark">🦵 Surélévation</div>
+        <p class="card-b dark">Surélever le membre traité au repos (coussin sous les jambes). Éviter la position debout ou assise prolongée sans mouvement.</p>
+      </div>
+      <div class="alert a-green push" style="margin-top:auto;">
+        <strong>ℹ️ Réaction normale</strong>
+        Une légère fatigue et une envie fréquente d'uriner les premières heures témoignent de l'activation du système lymphatique — c'est un signe positif.
+      </div>
+    </div>
+    <span class="pnum pnum-dark">Page 12</span>
+  </div>
+  <div class="pg pg-right bg-vert">
+    <div class="inner on-vert">
+      <div class="sh-badge">Sécurité clinique — 1/2</div>
+      <div class="sh-title">Contre-indications<br>absolues</div>
+      <div class="sh-rule"></div>
+      <div class="alert a-red">
+        <strong>🛑 Abstention totale obligatoire</strong>
+        Ces situations imposent l'arrêt ou l'abstention formelle du DLM. Informez toujours votre MK de votre état de santé complet avant toute séance.
+      </div>
+      <div class="card red">
+        <div class="card-t red">🛑 Cancer évolutif non traité</div>
+        <p class="card-b dark">Lymphome actif ou néoplasie non stabilisée. Un accord oncologique documenté est requis avant toute initiation de DLM.</p>
+      </div>
+      <div class="card red">
+        <div class="card-t red">🛑 Thrombose veineuse profonde aiguë</div>
+        <p class="card-b dark">Risque d'embolie pulmonaire par mobilisation du thrombus. Anticoagulation efficace et stabilisation documentées requises.</p>
+      </div>
+      <div class="card red">
+        <div class="card-t red">🛑 Infection aiguë (érysipèle, lymphangite)</div>
+        <p class="card-b dark">Risque de propagation par voie lymphatique. Traitement antibiotique préalable obligatoire avant reprise.</p>
+      </div>
+      <div class="card red">
+        <div class="card-t red">🛑 Insuffisance cardiaque décompensée</div>
+        <p class="card-b dark">Le retour lymphatique massif peut aggraver la défaillance cardiaque. Avis cardiologique requis sans exception.</p>
+      </div>
+    </div>
+    <span class="pnum pnum-light">Page 13</span>
+  </div>
+</div>
+
+<!-- ═══ S7 — CI RELATIVES + FAQ ═══ -->
+<div class="spread" id="s7">
+  <div class="pg pg-left bg-beige">
+    <div class="inner on-beige">
+      <div class="sh-badge">Sécurité clinique — 2/2</div>
+      <div class="sh-title">Contre-indications<br>relatives</div>
+      <div class="sh-rule"></div>
+      <div class="alert a-orange">
+        <strong>⚠️ Évaluation au cas par cas</strong>
+        Nécessitent un avis médical préalable et/ou une adaptation des techniques. Le DLM peut être pratiqué avec précautions spécifiques.
+      </div>
+      <table class="tbl" style="margin-top:4px;">
+        <thead><tr><th>Situation</th><th>Précaution</th></tr></thead>
+        <tbody>
+          <tr><td>Asthme sévère</td><td>Éviter le thorax antérieur</td></tr>
+          <tr><td>Hyperthyroïdie non stabilisée</td><td>Éviter région cervicale ant.</td></tr>
+          <tr><td>Ganglions suspects non biopsiés</td><td>Attendre le bilan oncologique</td></tr>
+          <tr><td>1er trimestre de grossesse</td><td>Éviter manœuvres abdominales</td></tr>
+          <tr><td>Cicatrice &lt; 6 semaines</td><td>Adapter pressions, éviter zone op.</td></tr>
+          <tr><td>Insuffisance rénale chronique</td><td>Coordination néphrologue requise</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <span class="pnum pnum-dark">Page 14</span>
+  </div>
+  <div class="pg pg-right bg-beige">
+    <div class="inner on-beige">
+      <div class="sh-badge">Questions fréquentes</div>
+      <div class="sh-title">FAQ</div>
+      <div class="sh-rule"></div>
+      <div class="faq">
+        <div class="fq">Le DLM fait-il maigrir ?</div>
+        <div class="fa"><strong>Non.</strong> Le DLM réduit la rétention d'eau (œdème), pas la masse grasse. La sensation d'amincissement post-séance est due à la réduction de l'œdème.</div>
+      </div>
+      <div class="faq">
+        <div class="fq">Est-ce douloureux ?</div>
+        <div class="fa">Non. Une séance correctement réalisée est indolore et souvent très relaxante. Toute douleur doit être signalée immédiatement.</div>
+      </div>
+      <div class="faq">
+        <div class="fq">Est-ce remboursé ?</div>
+        <div class="fa">Oui, sur prescription médicale pour les indications NGAP Art.7 (lymphœdème, IVC documentée, lipœdème + comorbidité). Non pour les séances esthétiques ou de bien-être.</div>
+      </div>
+      <div class="faq">
+        <div class="fq">DLM et lipœdème ?</div>
+        <div class="fa">Le DLM améliore le confort (douleurs, pesanteur, tension cutanée) sans traiter la cause. Il est complémentaire de la contention médicale et de l'activité physique adaptée.</div>
+      </div>
+    </div>
+    <span class="pnum pnum-dark">Page 15</span>
+  </div>
+</div>
+
+<!-- ═══ S8 — SOURCES + 4e DE COUVERTURE ═══ -->
+<div class="spread" id="s8">
+  <div class="pg pg-left bg-beige">
+    <div class="inner on-beige">
+      <div class="sh-badge">Bibliographie</div>
+      <div class="sh-title">Sources &amp;<br>Références</div>
+      <div class="sh-rule"></div>
+      <div class="src"><strong>Ferrandez J.C., Theys S., Bouchet J.Y.</strong><br>Rééducation du système lymphatique, Masson, Paris, 2006.</div>
+      <div class="src"><strong>Leduc A., Leduc O.</strong><br>Le drainage lymphatique : théorie et pratique, 3e éd., Masson, Paris, 2003.</div>
+      <div class="src"><strong>Foldi M., Foldi E.</strong><br>Foldi's Textbook of Lymphology, 3e éd., Urban &amp; Fischer (Elsevier), Munich, 2012.</div>
+      <div class="src"><strong>Vodder E.</strong><br>Le drainage lymphatique : une nouvelle méthode thérapeutique, Santé pour tous, Paris, 1936.</div>
+      <div class="src"><strong>NGAP Article 7</strong> — Actes de masso-kinésithérapie, mise à jour 2025. ameli.fr</div>
+      <div class="alert a-green push" style="margin-top:auto;">
+        <strong>✅ Engagement éditorial</strong>
+        Chaque affirmation est sourcée et vérifiable. En cas de doute sur votre situation personnelle, consultez votre médecin ou votre MK.
+      </div>
+    </div>
+    <span class="pnum pnum-dark">Page 16</span>
+  </div>
+  <div class="pg pg-right bg-vert">
+    <div class="inner on-vert" style="align-items:center;justify-content:center;text-align:center;">
+      <div style="width:64px;height:64px;background:rgba(200,216,168,0.18);border:2px solid rgba(200,216,168,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px;">🌿</div>
+      <div style="font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--sauge2);margin-bottom:7px;">La Canopée du 100</div>
+      <div style="font-size:22px;font-weight:800;color:var(--beige);line-height:1.2;margin-bottom:12px;">Guide du<br>Drainage<br>Lymphatique</div>
+      <div style="width:34px;height:2px;background:var(--sauge2);border-radius:2px;margin:0 auto 18px;"></div>
+      <div style="font-size:12px;color:rgba(237,232,216,0.72);line-height:1.8;margin-bottom:20px;">
+        100 rue Lazare Carnot<br>56100 Lorient<br>Julien Fresnaud, MK-DE<br>ADELI 567017157
+      </div>
+      <a href="https://lacanopeedu100.github.io" style="color:var(--sauge2);font-size:11px;font-weight:600;letter-spacing:0.5px;text-decoration:none;border-bottom:1px solid rgba(200,216,168,0.38);padding-bottom:2px;">lacanopeedu100.github.io</a>
+      <div style="margin-top:auto;font-size:9.5px;color:rgba(237,232,216,0.35);line-height:1.7;max-width:230px;text-align:center;padding-top:20px;">
+        Ce guide est un document d'information patient. Il ne constitue pas un avis médical personnalisé et ne remplace pas une consultation professionnelle.<br>© 2025 La Canopée du 100
+      </div>
+    </div>
+    <span class="pnum pnum-light">Fin</span>
+  </div>
+</div>
+
+</div><!-- /book-wrap -->
+
+<!-- ═══ NAVIGATION ═══ -->
+<div class="nav-row">
+  <button class="nbtn" id="bp" onclick="nav(-1)" disabled>&#8592;</button>
+  <div class="dots" id="dots"></div>
+  <button class="nbtn" id="bn" onclick="nav(1)">&#8594;</button>
+</div>
+<div class="pctr" id="pctr">Couverture</div>
+<div class="khint">← → Flèches clavier &nbsp;·&nbsp; Swipe tactile</div>
+
+<script>
+const N = 9;
+const LABELS = [
+  'Couverture & Avant-propos',
+  'Anatomie & Physiologie',
+  'Histoire & Définition',
+  'Remboursement AM',
+  'Santé de la femme',
+  'La séance',
+  'Après la séance & CI absolues',
+  'CI relatives & FAQ',
+  'Sources & Fin'
+];
+let cur = 0;
+
+const dotsEl = document.getElementById('dots');
+for (let i = 0; i < N; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i===0?' on':'');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+
+function goTo(n) {
+  if (n === cur || n < 0 || n >= N) return;
+  const old = document.getElementById('s'+cur);
+  old.classList.add('out');
+  setTimeout(() => {
+    old.classList.remove('active','out');
+    cur = n;
+    const nw = document.getElementById('s'+cur);
+    nw.classList.add('active');
+    document.getElementById('bp').disabled = cur===0;
+    document.getElementById('bn').disabled = cur===N-1;
+    document.getElementById('pctr').textContent = LABELS[cur];
+    dotsEl.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on',i===cur));
+  }, 200);
+}
+
+function nav(d){ goTo(cur+d); }
+
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') nav(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') nav(-1);
+});
+
+let tx=0;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)>50) nav(dx<0?1:-1);
+},{passive:true});
+</script>
+</body>
+</html>
