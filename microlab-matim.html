@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Microlab by Matim — Microcourant | La Canopée du 100</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#2D4A1E; --green-deep:#1E3314; --beige:#EDE8D8; --cream:#FBF9F4;
+    --gold:#C8A96E; --rose:#B98B82; --ink:#2B2822; --line: rgba(45,74,30,0.16);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--beige);color:var(--ink);font-family:'Montserrat',sans-serif;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 28px;}
+
+  header.hero{
+    background:radial-gradient(circle at 80% 15%, rgba(200,169,110,0.20), transparent 55%), var(--green);
+    color:var(--cream); padding:70px 0 54px; position:relative; overflow:hidden;
+  }
+  .eyebrow{letter-spacing:.22em;text-transform:uppercase;font-size:11.5px;color:var(--gold);font-weight:600;}
+  h1.title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(2.3rem,5vw,3.4rem);margin:14px 0 8px;}
+  .subtitle{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:rgba(251,249,244,0.82);margin:0 0 26px;max-width:560px;}
+  .hero-lede{font-size:.97rem;line-height:1.75;max-width:560px;color:rgba(251,249,244,0.88);font-weight:300;}
+
+  section{padding:56px 0;}
+  section + section{border-top:1px solid var(--line);}
+  .kicker{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--green);font-size:1.05rem;margin:0 0 6px;text-align:center;}
+  h2.sec-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.7rem;color:var(--green-deep);margin:0 0 34px;text-align:center;}
+
+  /* signature: gentle microcurrent pulse along a line */
+  .pulse-holder{width:min(380px,84vw);margin:0 auto 8px;}
+  svg.pulseline{width:100%;display:block;}
+  .baseline{stroke:var(--line);stroke-width:2;fill:none;}
+  .pulsepath{stroke:var(--gold);stroke-width:2.5;fill:none;stroke-linecap:round;
+    stroke-dasharray:14 220; animation:travel 3.2s linear infinite;}
+  @keyframes travel{ to{ stroke-dashoffset:-234; } }
+  .node{fill:var(--cream);stroke:var(--green-deep);stroke-width:2.5;}
+
+  .explain-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:36px;}
+  @media(max-width:700px){.explain-grid{grid-template-columns:1fr;}}
+  .explain-card{background:var(--cream);border:1px solid var(--line);border-radius:6px;padding:26px 28px;}
+  .explain-card h3{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin:0 0 12px;}
+  .explain-card p{line-height:1.7;font-size:.92rem;margin:0;}
+
+  .tag-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:760px;margin:0 auto;}
+  .tag{background:var(--cream);border:1px solid var(--line);border-radius:20px;padding:9px 18px;font-size:.85rem;color:var(--green-deep);font-weight:500;}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:900px;margin:0 auto;}
+  @media(max-width:700px){.steps{grid-template-columns:1fr;}}
+  .step{background:var(--cream);border:1px solid var(--line);border-radius:6px;padding:26px 22px;}
+  .step .n{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold);line-height:1;margin-bottom:10px;}
+  .step h4{font-size:.98rem;margin:0 0 8px;color:var(--green-deep);font-weight:600;}
+  .step p{font-size:.85rem;line-height:1.6;margin:0;color:var(--ink);}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:0;max-width:900px;margin:0 auto;background:var(--cream);border:1px solid var(--line);border-radius:6px;overflow:hidden;}
+  @media(max-width:700px){.split{grid-template-columns:1fr;}}
+  .split > div{padding:30px 32px;}
+  .split .feel{border-right:1px dashed var(--line);}
+  @media(max-width:700px){.split .feel{border-right:none;border-bottom:1px dashed var(--line);}}
+  .split h3{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin:0 0 14px;}
+  .split .feel h3{color:var(--green);}
+  .split .ci h3{color:var(--rose);}
+  .split ul{list-style:none;margin:0;padding:0;}
+  .split li{display:flex;gap:10px;padding:8px 0;font-size:.88rem;line-height:1.55;}
+  .split .dot{flex:0 0 5px;width:5px;height:5px;border-radius:50%;margin-top:7px;}
+  .split .feel .dot{background:var(--green);}
+  .split .ci .dot{background:var(--rose);}
+
+  footer{padding:36px 0 60px;text-align:center;}
+  footer p{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--green);opacity:.7;font-size:.95rem;max-width:520px;margin:0 auto;}
+  footer .brand{margin-top:10px;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;}
+
+  @media (prefers-reduced-motion: reduce){ *{animation-duration:.001ms !important;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">La Canopée du 100 · Guide patiente</div>
+    <h1 class="title">Microlab by Matim</h1>
+    <p class="subtitle">Le microcourant, à l'échelle cellulaire</p>
+    <p class="hero-lede">Le Microlab délivre un courant électrique d'une intensité infime — quelques microampères — pour stimuler l'activité cellulaire sans provoquer de contraction musculaire. Une technologie discrète, pensée pour la régénération tissulaire et la tonicité, sans aucune sensation désagréable.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">Le principe</div>
+    <h2 class="sec-title">Comment ça marche</h2>
+
+    <div class="pulse-holder">
+      <svg class="pulseline" viewBox="0 0 380 100">
+        <path class="baseline" d="M 20,50 Q 100,20 190,50 T 360,50"></path>
+        <path class="pulsepath" d="M 20,50 Q 100,20 190,50 T 360,50"></path>
+        <circle class="node" cx="20" cy="50" r="7"></circle>
+        <circle class="node" cx="360" cy="50" r="7"></circle>
+      </svg>
+    </div>
+
+    <div class="explain-grid">
+      <div class="explain-card">
+        <h3>Une intensité infime</h3>
+        <p>Le courant est mille fois plus faible qu'en électrostimulation classique. Il reproduit les signaux bioélectriques naturels du corps plutôt que de les forcer.</p>
+      </div>
+      <div class="explain-card">
+        <h3>Une action cellulaire</h3>
+        <p>Cette stimulation douce favorise la production d'énergie cellulaire (ATP) et soutient les processus naturels de régénération et de tonicité tissulaire.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">Utilisations</div>
+    <h2 class="sec-title">Pour quelles situations</h2>
+    <div class="tag-grid">
+      <span class="tag">Tonicité cutanée &amp; musculaire</span>
+      <span class="tag">Régénération tissulaire</span>
+      <span class="tag">Cicatrices</span>
+      <span class="tag">Drainage léger</span>
+      <span class="tag">Soin du visage</span>
+      <span class="tag">Zones sensibles ou fragilisées</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">En pratique</div>
+    <h2 class="sec-title">Le déroulé d'une séance</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="n">01</div>
+        <h4>Préparation</h4>
+        <p>Un gel conducteur est appliqué sur la zone, pour assurer un contact optimal entre les sondes et la peau.</p>
+      </div>
+      <div class="step">
+        <div class="n">02</div>
+        <h4>Application des sondes</h4>
+        <p>Les électrodes sont posées ou déplacées doucement sur la zone à traiter, selon un protocole précis.</p>
+      </div>
+      <div class="step">
+        <div class="n">03</div>
+        <h4>Séance douce</h4>
+        <p>Aucune stimulation musculaire visible : la sensation reste neutre ou à peine perceptible. Durée de 20 à 30 minutes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">À savoir</div>
+    <h2 class="sec-title">Sensations &amp; contre-indications</h2>
+    <div class="split">
+      <div class="feel">
+        <h3>Ce que vous ressentez</h3>
+        <ul>
+          <li><span class="dot"></span>Une sensation neutre, parfois un très léger picotement</li>
+          <li><span class="dot"></span>Aucune contraction musculaire, contrairement à l'électrostimulation classique</li>
+          <li><span class="dot"></span>Une séance perçue comme relaxante</li>
+        </ul>
+      </div>
+      <div class="ci">
+        <h3>Contre-indications</h3>
+        <ul>
+          <li><span class="dot"></span>Port d'un pacemaker ou implant électronique actif</li>
+          <li><span class="dot"></span>Épilepsie non stabilisée</li>
+          <li><span class="dot"></span>Grossesse</li>
+          <li><span class="dot"></span>Plaies ouvertes sur la zone traitée</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Le Microlab s'intègre souvent en complément d'autres soins, selon votre objectif et la sensibilité de la zone traitée.</p>
+  <div class="brand">La Canopée du 100 · Lorient</div>
+</footer>
+
+</body>
+</html>

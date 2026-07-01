@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cycle Menstruel & Récupération — La Canopée du 100</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#2D4A1E;
+    --green-deep:#1E3314;
+    --beige:#EDE8D8;
+    --cream:#FBF9F4;
+    --gold:#C8A96E;
+    --rose:#B98B82;
+    --ink:#2B2822;
+    --line: rgba(45,74,30,0.16);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--beige);
+    color:var(--ink);
+    font-family:'Montserrat',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:radial-gradient(circle at 78% 18%, rgba(200,169,110,0.16), transparent 55%), var(--green);
+    color:var(--cream);
+    padding:72px 0 56px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::after{
+    content:"";
+    position:absolute;
+    right:-120px; bottom:-160px;
+    width:420px;height:420px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.03);
+  }
+  .eyebrow{
+    font-family:'Montserrat',sans-serif;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    font-size:11.5px;
+    color:var(--gold);
+    font-weight:600;
+  }
+  h1.title{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    font-size:clamp(2.4rem, 5vw, 3.6rem);
+    margin:14px 0 8px;
+    letter-spacing:.01em;
+  }
+  .subtitle{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:1.25rem;
+    color:rgba(251,249,244,0.82);
+    margin:0 0 28px;
+    max-width:560px;
+  }
+  .hero-lede{
+    font-size:.98rem;
+    line-height:1.75;
+    max-width:560px;
+    color:rgba(251,249,244,0.88);
+    font-weight:300;
+  }
+
+  /* ---------- WHEEL NAV ---------- */
+  section.wheel-section{
+    padding:64px 0 40px;
+    text-align:center;
+  }
+  .wheel-kicker{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    color:var(--green);
+    font-size:1.05rem;
+    margin-bottom:6px;
+  }
+  .wheel-title{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    font-size:1.7rem;
+    color:var(--green-deep);
+    margin:0 0 36px;
+  }
+  .wheel-holder{
+    position:relative;
+    width:min(420px, 84vw);
+    aspect-ratio:1/1;
+    margin:0 auto;
+  }
+  svg.wheel{width:100%;height:100%;display:block;}
+  .wheel-center{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    pointer-events:none;
+  }
+  .wheel-center .day-label{
+    font-family:'Montserrat';
+    font-size:10.5px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--green);
+    opacity:.65;
+  }
+  .wheel-center .phase-name{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    font-size:1.5rem;
+    color:var(--green-deep);
+    margin-top:4px;
+  }
+  .arc{
+    cursor:pointer;
+    transition:opacity .35s ease;
+  }
+  .arc:hover, .arc.active{ opacity:1; }
+  .arc.inactive{ opacity:.45; }
+  .arc-label{
+    font-family:'Montserrat';
+    font-weight:600;
+    font-size:11px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    fill:var(--cream);
+    pointer-events:none;
+  }
+  .wheel-hint{
+    margin-top:22px;
+    font-size:12.5px;
+    color:var(--green);
+    opacity:.6;
+    letter-spacing:.03em;
+  }
+
+  /* ---------- SPREAD ---------- */
+  section.spread{
+    display:none;
+    padding:8px 0 72px;
+    animation:fade .5s ease;
+  }
+  section.spread.active{ display:block; }
+  @keyframes fade{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+  .spread-card{
+    background:var(--cream);
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:0 24px 60px -30px rgba(45,74,30,0.35);
+    border:1px solid var(--line);
+  }
+  .spread-head{
+    padding:34px 40px 26px;
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:baseline; justify-content:space-between; gap:20px;
+    flex-wrap:wrap;
+  }
+  .spread-head .num{
+    font-family:'Cormorant Garamond',serif;
+    font-size:2.6rem;
+    color:var(--gold);
+    line-height:1;
+  }
+  .spread-head .headings{ flex:1; }
+  .spread-head .days{
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--green); opacity:.7; font-weight:600;
+  }
+  .spread-head h2{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    font-size:1.9rem;
+    color:var(--green-deep);
+    margin:4px 0 0;
+  }
+  .hormone-tag{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:1rem;
+    color:var(--rose);
+  }
+
+  .pages{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+  @media (max-width:760px){ .pages{grid-template-columns:1fr;} }
+  .page{ padding:36px 40px 40px; }
+  .page.left{ border-right:1px dashed var(--line); }
+  @media (max-width:760px){ .page.left{ border-right:none; border-bottom:1px dashed var(--line);} }
+
+  .page h3{
+    font-family:'Montserrat';
+    font-size:11.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:700;
+    margin:0 0 16px;
+  }
+  .page p{ line-height:1.75; font-size:.95rem; margin:0 0 14px; color:var(--ink); }
+  .page p:last-child{margin-bottom:0;}
+
+  .impact-grid{ display:grid; gap:14px; margin-top:4px; }
+  .impact-row{
+    display:grid; grid-template-columns:120px 1fr; gap:14px; align-items:start;
+    padding-bottom:12px; border-bottom:1px solid var(--line);
+  }
+  .impact-row:last-child{border-bottom:none;padding-bottom:0;}
+  .impact-row .k{
+    font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.95rem; color:var(--green);
+  }
+  .impact-row .v{ font-size:.88rem; line-height:1.6; color:var(--ink); }
+
+  .reco-list{ list-style:none; margin:0; padding:0; }
+  .reco-list li{
+    display:flex; gap:12px; padding:11px 0; border-bottom:1px solid var(--line);
+    font-size:.9rem; line-height:1.55;
+  }
+  .reco-list li:last-child{border-bottom:none;}
+  .reco-list li .dot{
+    flex:0 0 6px; width:6px; height:6px; border-radius:50%; margin-top:7px;
+    background:var(--gold);
+  }
+  .caution{
+    margin-top:18px;
+    background:rgba(185,139,130,0.1);
+    border-left:3px solid var(--rose);
+    padding:12px 16px;
+    font-size:.85rem;
+    line-height:1.6;
+    border-radius:0 4px 4px 0;
+  }
+  .caution strong{ color:var(--rose); }
+
+  .spread-nav{
+    display:flex; justify-content:space-between; padding:18px 40px;
+    background:rgba(45,74,30,0.03);
+    border-top:1px solid var(--line);
+  }
+  .spread-nav button{
+    background:none; border:none; cursor:pointer;
+    font-family:'Montserrat'; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--green); font-weight:600;
+    display:flex; align-items:center; gap:6px;
+    padding:6px 4px;
+    opacity:.8;
+  }
+  .spread-nav button:hover{ opacity:1; }
+
+  /* ---------- FOOTER NOTE ---------- */
+  footer{
+    padding:36px 0 60px;
+    text-align:center;
+  }
+  footer p{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    color:var(--green);
+    opacity:.7;
+    font-size:.95rem;
+    max-width:520px;
+    margin:0 auto;
+  }
+  footer .brand{
+    margin-top:10px;
+    font-family:'Montserrat';
+    font-size:10.5px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:700;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">La Canopée du 100 · Guide patiente</div>
+    <h1 class="title">Cycle Menstruel &amp; Récupération</h1>
+    <p class="subtitle">Adapter son quotidien par phase</p>
+    <p class="hero-lede">Le cycle hormonal ne rythme pas seulement les règles : il influence la récupération musculaire, la rétention d'eau, la perception de la douleur et la tolérance à l'effort. Comprendre ces variations permet d'ajuster son entraînement et ses soins, phase après phase — sans jamais s'interdire de bouger.</p>
+  </div>
+</header>
+
+<section class="wheel-section">
+  <div class="wrap">
+    <div class="wheel-kicker">28 jours, quatre visages</div>
+    <h2 class="wheel-title">Touchez une phase du cycle</h2>
+
+    <div class="wheel-holder">
+      <svg class="wheel" viewBox="0 0 300 300" id="wheelSvg">
+        <!-- Menstruelle: 0-5/28 -->
+        <path id="arc-menstruelle" class="arc" data-phase="menstruelle" fill="#B98B82"></path>
+        <!-- Folliculaire: 5-13/28 -->
+        <path id="arc-folliculaire" class="arc" data-phase="folliculaire" fill="#C8A96E"></path>
+        <!-- Ovulatoire: 13-16/28 -->
+        <path id="arc-ovulatoire" class="arc" data-phase="ovulatoire" fill="#2D4A1E"></path>
+        <!-- Luteale: 16-28/28 -->
+        <path id="arc-luteale" class="arc" data-phase="luteale" fill="#7C8B5E"></path>
+      </svg>
+      <div class="wheel-center">
+        <span class="day-label" id="wheelDays">JOURS 1–5</span>
+        <span class="phase-name" id="wheelPhase">Menstruelle</span>
+      </div>
+    </div>
+    <div class="wheel-hint">Cliquez sur un segment pour ouvrir la fiche correspondante</div>
+  </div>
+</section>
+
+<div class="wrap">
+
+  <!-- PHASE 1 : MENSTRUELLE -->
+  <section class="spread active" data-phase="menstruelle">
+    <div class="spread-card">
+      <div class="spread-head">
+        <div class="num">01</div>
+        <div class="headings">
+          <div class="days">Jours 1 à 5</div>
+          <h2>Phase menstruelle</h2>
+        </div>
+        <div class="hormone-tag">Œstrogènes &amp; progestérone au plus bas</div>
+      </div>
+      <div class="pages">
+        <div class="page left">
+          <h3>Ce qui se passe</h3>
+          <p>La chute des hormones ovariennes déclenche la desquamation de l'endomètre. C'est le point le plus bas du cycle hormonal : le corps fonctionne avec un minimum d'œstrogènes et de progestérone.</p>
+          <div class="impact-grid">
+            <div class="impact-row">
+              <div class="k">Récupération</div>
+              <div class="v">Souvent perçue comme plus lente ; la fatigue peut être plus marquée les deux premiers jours.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Rétention d'eau</div>
+              <div class="v">En net recul par rapport à la fin de la phase précédente — sensation d'allègement fréquente.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Douleur</div>
+              <div class="v">Sensibilité pelvienne et lombaire possible (crampes, tensions), variable selon les personnes.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Tolérance à l'effort</div>
+              <div class="v">Globalement conservée, parfois réduite en tout début de phase selon l'intensité des douleurs.</div>
+            </div>
+          </div>
+        </div>
+        <div class="page">
+          <h3>Recommandations</h3>
+          <ul class="reco-list">
+            <li><span class="dot"></span>Privilégier une activité modérée (marche, mobilité douce, yoga) plutôt qu'une interruption totale.</li>
+            <li><span class="dot"></span>La chaleur locale et le TECAR en mode athermique/doux peuvent soulager les tensions pelviennes.</li>
+            <li><span class="dot"></span>Écouter la fatigue sans culpabiliser : réduire le volume d'entraînement de 10 à 20 % si besoin.</li>
+            <li><span class="dot"></span>S'hydrater normalement ; le fer alimentaire mérite une attention particulière en cas de flux abondant.</li>
+          </ul>
+          <div class="caution"><strong>À signaler en séance</strong> — des douleurs très invalidantes ou un flux inhabituel méritent d'être évoqués : ils ne sont pas une fatalité du cycle.</div>
+        </div>
+      </div>
+      <div class="spread-nav">
+        <span></span>
+        <button onclick="goPhase('folliculaire')">Phase suivante · Folliculaire →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHASE 2 : FOLLICULAIRE -->
+  <section class="spread" data-phase="folliculaire">
+    <div class="spread-card">
+      <div class="spread-head">
+        <div class="num">02</div>
+        <div class="headings">
+          <div class="days">Jours 6 à 13</div>
+          <h2>Phase folliculaire</h2>
+        </div>
+        <div class="hormone-tag">Œstrogènes en hausse progressive</div>
+      </div>
+      <div class="pages">
+        <div class="page left">
+          <h3>Ce qui se passe</h3>
+          <p>Les œstrogènes remontent de façon continue jusqu'au pic pré-ovulatoire. Cette montée hormonale a un effet globalement favorable sur la synthèse tissulaire et la sensation d'énergie.</p>
+          <div class="impact-grid">
+            <div class="impact-row">
+              <div class="k">Récupération</div>
+              <div class="v">La meilleure fenêtre du cycle : réparation musculaire et tolérance à la charge d'entraînement optimisées.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Rétention d'eau</div>
+              <div class="v">Faible, stable — période de plus grande légèreté corporelle.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Douleur</div>
+              <div class="v">Seuil de perception plus élevé : les inconforts sont généralement mieux tolérés.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Tolérance à l'effort</div>
+              <div class="v">En hausse constante ; l'endurance et la force progressent naturellement.</div>
+            </div>
+          </div>
+        </div>
+        <div class="page">
+          <h3>Recommandations</h3>
+          <ul class="reco-list">
+            <li><span class="dot"></span>C'est le moment idéal pour placer les séances les plus exigeantes (charge, intensité, technique).</li>
+            <li><span class="dot"></span>Profiter de cette phase pour introduire de nouveaux exercices ou progresser en volume.</li>
+            <li><span class="dot"></span>Le travail en LPG / Cellu M6 est particulièrement bien toléré, sans rétention pour freiner la réponse tissulaire.</li>
+            <li><span class="dot"></span>Maintenir un sommeil suffisant pour capitaliser sur cette fenêtre de récupération favorable.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="spread-nav">
+        <button onclick="goPhase('menstruelle')">← Menstruelle</button>
+        <button onclick="goPhase('ovulatoire')">Phase suivante · Ovulatoire →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHASE 3 : OVULATOIRE -->
+  <section class="spread" data-phase="ovulatoire">
+    <div class="spread-card">
+      <div class="spread-head">
+        <div class="num">03</div>
+        <div class="headings">
+          <div class="days">Jours 14 à 16 (environ)</div>
+          <h2>Phase ovulatoire</h2>
+        </div>
+        <div class="hormone-tag">Pic d'œstrogènes &amp; de LH</div>
+      </div>
+      <div class="pages">
+        <div class="page left">
+          <h3>Ce qui se passe</h3>
+          <p>Le pic hormonal précède l'ovulation de peu. La performance physique est souvent à son maximum, mais l'œstrogène augmente aussi transitoirement la laxité ligamentaire.</p>
+          <div class="impact-grid">
+            <div class="impact-row">
+              <div class="k">Récupération</div>
+              <div class="v">Toujours bonne, dans la continuité de la phase folliculaire.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Rétention d'eau</div>
+              <div class="v">Discrète, parfois une légère sensibilité pelvienne autour de l'ovulation.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Douleur</div>
+              <div class="v">Seuil élevé ; possible douleur ovulatoire brève et localisée (« mittelschmerz »).</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Tolérance à l'effort</div>
+              <div class="v">Au sommet du cycle — force, vitesse et VO2 perçus au mieux.</div>
+            </div>
+          </div>
+        </div>
+        <div class="page">
+          <h3>Recommandations</h3>
+          <ul class="reco-list">
+            <li><span class="dot"></span>Fenêtre à privilégier pour les tests de performance ou les objectifs sportifs ambitieux.</li>
+            <li><span class="dot"></span>Renforcer la proprioception et le contrôle articulaire, notamment genou et cheville.</li>
+            <li><span class="dot"></span>Rester vigilant sur les mouvements en pivot ou décélération brusque (sports de terrain).</li>
+          </ul>
+          <div class="caution"><strong>Point de vigilance</strong> — la laxité ligamentaire accrue est associée, dans la littérature, à un risque légèrement supérieur de blessure ligamentaire (ex. LCA). Un bon échauffement et un travail de gainage/stabilité restent la meilleure protection.</div>
+        </div>
+      </div>
+      <div class="spread-nav">
+        <button onclick="goPhase('folliculaire')">← Folliculaire</button>
+        <button onclick="goPhase('luteale')">Phase suivante · Lutéale →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHASE 4 : LUTEALE -->
+  <section class="spread" data-phase="luteale">
+    <div class="spread-card">
+      <div class="spread-head">
+        <div class="num">04</div>
+        <div class="headings">
+          <div class="days">Jours 17 à 28</div>
+          <h2>Phase lutéale</h2>
+        </div>
+        <div class="hormone-tag">Progestérone dominante</div>
+      </div>
+      <div class="pages">
+        <div class="page left">
+          <h3>Ce qui se passe</h3>
+          <p>La progestérone domine et fait légèrement grimper la température corporelle de base. En fin de phase, la chute conjointe des deux hormones précède les règles et peut accentuer les symptômes prémenstruels.</p>
+          <div class="impact-grid">
+            <div class="impact-row">
+              <div class="k">Récupération</div>
+              <div class="v">Progressivement plus lente, surtout dans les 3 à 5 derniers jours du cycle.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Rétention d'eau</div>
+              <div class="v">En augmentation nette — sensation de gonflement, de jambes lourdes ou de tension mammaire possible.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Douleur</div>
+              <div class="v">Seuil de perception qui baisse en fin de phase : les inconforts sont ressentis plus intensément.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Tolérance à l'effort</div>
+              <div class="v">Diminue graduellement ; la thermorégulation à l'effort demande davantage de vigilance.</div>
+            </div>
+          </div>
+        </div>
+        <div class="page">
+          <h3>Recommandations</h3>
+          <ul class="reco-list">
+            <li><span class="dot"></span>Ajuster le volume et l'intensité à la baisse dans la seconde moitié de la phase, sans tout arrêter.</li>
+            <li><span class="dot"></span>Le drainage lymphatique manuel et la marche aident à limiter la sensation de rétention et de jambes lourdes.</li>
+            <li><span class="dot"></span>Prévoir une hydratation et des pauses fraîcheur plus généreuses si l'effort est intense ou la chaleur présente.</li>
+            <li><span class="dot"></span>Anticiper les séances de soin plus douces (TECAR bas débit, mobilisations lentes) en fin de phase.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="spread-nav">
+        <button onclick="goPhase('ovulatoire')">← Ovulatoire</button>
+        <button onclick="goPhase('menstruelle')">Retour au début · Menstruelle →</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>Chaque cycle est unique : ces repères sont des tendances générales, pas des règles absolues. Votre kinésithérapeute adapte toujours la prise en charge à votre ressenti.</p>
+  <div class="brand">La Canopée du 100 · Lorient</div>
+</footer>
+
+<script>
+  const phases = [
+    { id:'menstruelle', label:'Menstruelle', days:'JOURS 1–5', start:0, end:5 },
+    { id:'folliculaire', label:'Folliculaire', days:'JOURS 6–13', start:5, end:13 },
+    { id:'ovulatoire', label:'Ovulatoire', days:'JOURS 14–16', start:13, end:16 },
+    { id:'luteale', label:'Lutéale', days:'JOURS 17–28', start:16, end:28 }
+  ];
+  const TOTAL = 28;
+  const R = 130, CX = 150, CY = 150, INNER = 78;
+
+  function polar(cx, cy, r, angleDeg){
+    const a = (angleDeg - 90) * Math.PI / 180;
+    return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+  }
+
+  function donutPath(startFrac, endFrac){
+    const a0 = startFrac * 360, a1 = endFrac * 360;
+    const large = (a1 - a0) > 180 ? 1 : 0;
+    const p0o = polar(CX, CY, R, a0), p1o = polar(CX, CY, R, a1);
+    const p0i = polar(CX, CY, INNER, a1), p1i = polar(CX, CY, INNER, a0);
+    return `M ${p0o.x} ${p0o.y} A ${R} ${R} 0 ${large} 1 ${p1o.x} ${p1o.y} L ${p0i.x} ${p0i.y} A ${INNER} ${INNER} 0 ${large} 0 ${p1i.x} ${p1i.y} Z`;
+  }
+
+  phases.forEach(p=>{
+    const el = document.getElementById('arc-'+p.id);
+    el.setAttribute('d', donutPath(p.start/TOTAL, p.end/TOTAL));
+    el.classList.add('inactive');
+    el.addEventListener('click', ()=> goPhase(p.id));
+  });
+
+  function goPhase(id){
+    document.querySelectorAll('.spread').forEach(s=>{
+      s.classList.toggle('active', s.dataset.phase === id);
+    });
+    document.querySelectorAll('.arc').forEach(a=>{
+      const isActive = a.dataset.phase === id;
+      a.classList.toggle('active', isActive);
+      a.classList.toggle('inactive', !isActive);
+    });
+    const p = phases.find(p=>p.id===id);
+    document.getElementById('wheelDays').textContent = p.days;
+    document.getElementById('wheelPhase').textContent = p.label;
+    document.querySelector('.wrap > .spread.active').scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+
+  goPhase('menstruelle');
+</script>
+
+</body>
+</html>

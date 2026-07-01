@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cellu M6 Infinity — LPG | La Canopée du 100</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#2D4A1E; --green-deep:#1E3314; --beige:#EDE8D8; --cream:#FBF9F4;
+    --gold:#C8A96E; --rose:#B98B82; --ink:#2B2822; --line: rgba(45,74,30,0.16);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--beige);color:var(--ink);font-family:'Montserrat',sans-serif;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 28px;}
+
+  header.hero{
+    background:radial-gradient(circle at 80% 15%, rgba(185,139,130,0.20), transparent 55%), var(--green);
+    color:var(--cream); padding:70px 0 54px; position:relative; overflow:hidden;
+  }
+  .eyebrow{letter-spacing:.22em;text-transform:uppercase;font-size:11.5px;color:var(--gold);font-weight:600;}
+  h1.title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(2.3rem,5vw,3.4rem);margin:14px 0 8px;}
+  .subtitle{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:rgba(251,249,244,0.82);margin:0 0 26px;max-width:560px;}
+  .hero-lede{font-size:.97rem;line-height:1.75;max-width:560px;color:rgba(251,249,244,0.88);font-weight:300;}
+
+  section{padding:56px 0;}
+  section + section{border-top:1px solid var(--line);}
+  .kicker{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--green);font-size:1.05rem;margin:0 0 6px;text-align:center;}
+  h2.sec-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.7rem;color:var(--green-deep);margin:0 0 34px;text-align:center;}
+
+  /* signature: rollers + suction */
+  .roller-holder{width:min(340px,80vw);margin:0 auto 8px;}
+  svg.roller{width:100%;display:block;}
+  .head{fill:var(--cream);stroke:var(--green-deep);stroke-width:3;}
+  .roll{fill:var(--rose);stroke:var(--green-deep);stroke-width:2;transform-origin:center;animation:spin 2.2s linear infinite;}
+  .roll.r2{animation-direction:reverse;}
+  @keyframes spin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+  .suction{stroke:var(--gold);stroke-width:2;fill:none;stroke-dasharray:4 5;opacity:.7;animation:draw 1.6s linear infinite;}
+  @keyframes draw{ to{ stroke-dashoffset:-18; } }
+
+  .explain-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:36px;}
+  @media(max-width:700px){.explain-grid{grid-template-columns:1fr;}}
+  .explain-card{background:var(--cream);border:1px solid var(--line);border-radius:6px;padding:26px 28px;}
+  .explain-card h3{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);font-weight:700;margin:0 0 12px;}
+  .explain-card p{line-height:1.7;font-size:.92rem;margin:0;}
+
+  .tag-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:760px;margin:0 auto;}
+  .tag{background:var(--cream);border:1px solid var(--line);border-radius:20px;padding:9px 18px;font-size:.85rem;color:var(--green-deep);font-weight:500;}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:900px;margin:0 auto;}
+  @media(max-width:700px){.steps{grid-template-columns:1fr;}}
+  .step{background:var(--cream);border:1px solid var(--line);border-radius:6px;padding:26px 22px;}
+  .step .n{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold);line-height:1;margin-bottom:10px;}
+  .step h4{font-size:.98rem;margin:0 0 8px;color:var(--green-deep);font-weight:600;}
+  .step p{font-size:.85rem;line-height:1.6;margin:0;color:var(--ink);}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:0;max-width:900px;margin:0 auto;background:var(--cream);border:1px solid var(--line);border-radius:6px;overflow:hidden;}
+  @media(max-width:700px){.split{grid-template-columns:1fr;}}
+  .split > div{padding:30px 32px;}
+  .split .feel{border-right:1px dashed var(--line);}
+  @media(max-width:700px){.split .feel{border-right:none;border-bottom:1px dashed var(--line);}}
+  .split h3{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;margin:0 0 14px;}
+  .split .feel h3{color:var(--green);}
+  .split .ci h3{color:var(--rose);}
+  .split ul{list-style:none;margin:0;padding:0;}
+  .split li{display:flex;gap:10px;padding:8px 0;font-size:.88rem;line-height:1.55;}
+  .split .dot{flex:0 0 5px;width:5px;height:5px;border-radius:50%;margin-top:7px;}
+  .split .feel .dot{background:var(--green);}
+  .split .ci .dot{background:var(--rose);}
+
+  footer{padding:36px 0 60px;text-align:center;}
+  footer p{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--green);opacity:.7;font-size:.95rem;max-width:520px;margin:0 auto;}
+  footer .brand{margin-top:10px;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;}
+
+  @media (prefers-reduced-motion: reduce){ *{animation-duration:.001ms !important;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">La Canopée du 100 · Guide patiente</div>
+    <h1 class="title">Cellu M6 Infinity — LPG</h1>
+    <p class="subtitle">Le palpé-roulé, amplifié et régulier</p>
+    <p class="hero-lede">L'endermologie LPG reproduit mécaniquement le palpé-roulé manuel : deux rouleaux motorisés associés à une légère aspiration mobilisent la peau et le tissu conjonctif en profondeur, avec une régularité qu'aucune main ne peut maintenir sur la durée d'une séance complète.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">Le principe</div>
+    <h2 class="sec-title">Comment ça marche</h2>
+
+    <div class="roller-holder">
+      <svg class="roller" viewBox="0 0 300 200">
+        <path class="suction" d="M 60,60 Q 150,10 240,60"></path>
+        <path class="suction" d="M 60,140 Q 150,190 240,140"></path>
+        <rect class="head" x="90" y="60" width="120" height="80" rx="14"></rect>
+        <g class="roll r1" style="transform-origin:130px 100px;">
+          <circle cx="130" cy="100" r="22" fill="none" stroke="#2D4A1E" stroke-width="2"></circle>
+          <line x1="130" y1="80" x2="130" y2="120" stroke="#2D4A1E" stroke-width="2"></line>
+        </g>
+        <g class="roll r2" style="transform-origin:170px 100px;">
+          <circle cx="170" cy="100" r="22" fill="none" stroke="#2D4A1E" stroke-width="2"></circle>
+          <line x1="170" y1="80" x2="170" y2="120" stroke="#2D4A1E" stroke-width="2"></line>
+        </g>
+      </svg>
+    </div>
+
+    <div class="explain-grid">
+      <div class="explain-card">
+        <h3>Rouleaux motorisés</h3>
+        <p>Deux rouleaux contrarotatifs pincent et roulent la peau en continu, exactement comme le ferait un palpé-roulé manuel — mais sans fatigue ni perte de régularité.</p>
+      </div>
+      <div class="explain-card">
+        <h3>Dépression associée</h3>
+        <p>Une légère aspiration soulève le pli cutané entre les rouleaux, ce qui amplifie l'action sur le tissu conjonctif et stimule la microcirculation locale.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">Utilisations</div>
+    <h2 class="sec-title">Pour quelles situations</h2>
+    <div class="tag-grid">
+      <span class="tag">Drainage lymphatique</span>
+      <span class="tag">Fermeté cutanée</span>
+      <span class="tag">Lipœdème</span>
+      <span class="tag">Cicatrices</span>
+      <span class="tag">Récupération sportive</span>
+      <span class="tag">Confort circulatoire des jambes</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">En pratique</div>
+    <h2 class="sec-title">Le déroulé d'une séance</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="n">01</div>
+        <h4>Tenue adaptée</h4>
+        <p>Une combinaison fine en textile technique est portée sur la zone traitée, pour un glissement optimal des rouleaux.</p>
+      </div>
+      <div class="step">
+        <div class="n">02</div>
+        <h4>Passage de la tête</h4>
+        <p>La tête motorisée est déplacée sur la zone selon des trajets précis, adaptés à l'objectif de la séance.</p>
+      </div>
+      <div class="step">
+        <div class="n">03</div>
+        <h4>Intensité ajustée</h4>
+        <p>La dépression et la vitesse des rouleaux sont réglées en continu selon la zone et votre confort. Séance de 20 à 40 minutes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker">À savoir</div>
+    <h2 class="sec-title">Sensations &amp; contre-indications</h2>
+    <div class="split">
+      <div class="feel">
+        <h3>Ce que vous ressentez</h3>
+        <ul>
+          <li><span class="dot"></span>Une sensation de massage profond, type ventouse-roulement</li>
+          <li><span class="dot"></span>Indolore ; parfois une légère rougeur transitoire après la séance</li>
+          <li><span class="dot"></span>Une impression de légèreté sur la zone traitée</li>
+        </ul>
+      </div>
+      <div class="ci">
+        <h3>Contre-indications</h3>
+        <ul>
+          <li><span class="dot"></span>Phlébite ou antécédent de thrombose récente</li>
+          <li><span class="dot"></span>Infection cutanée active sur la zone</li>
+          <li><span class="dot"></span>Pathologie tumorale évolutive sur la zone traitée</li>
+          <li><span class="dot"></span>Grossesse pour la zone abdominale</li>
+          <li><span class="dot"></span>Fragilité capillaire ou cutanée sévère</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Le protocole LPG (zones, dépression, fréquence des séances) est toujours défini selon votre objectif initial.</p>
+  <div class="brand">La Canopée du 100 · Lorient</div>
+</footer>
+
+</body>
+</html>

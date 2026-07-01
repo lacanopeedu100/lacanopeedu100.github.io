@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ménopause &amp; Tissu Conjonctif — La Canopée du 100</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#2D4A1E;
+    --green-deep:#1E3314;
+    --beige:#EDE8D8;
+    --cream:#FBF9F4;
+    --gold:#C8A96E;
+    --rose:#B98B82;
+    --ink:#2B2822;
+    --line: rgba(45,74,30,0.16);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--beige);
+    color:var(--ink);
+    font-family:'Montserrat',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:radial-gradient(circle at 78% 18%, rgba(200,169,110,0.16), transparent 55%), var(--green);
+    color:var(--cream);
+    padding:72px 0 56px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::after{
+    content:"";
+    position:absolute;
+    right:-120px; bottom:-160px;
+    width:420px;height:420px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.03);
+  }
+  .eyebrow{
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    font-size:11.5px;
+    color:var(--gold);
+    font-weight:600;
+  }
+  h1.title{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    font-size:clamp(2.4rem, 5vw, 3.6rem);
+    margin:14px 0 8px;
+    letter-spacing:.01em;
+  }
+  .subtitle{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:1.25rem;
+    color:rgba(251,249,244,0.82);
+    margin:0 0 28px;
+    max-width:560px;
+  }
+  .hero-lede{
+    font-size:.98rem;
+    line-height:1.75;
+    max-width:560px;
+    color:rgba(251,249,244,0.88);
+    font-weight:300;
+  }
+
+  /* ---------- TIMELINE / COURBE ---------- */
+  section.timeline-section{
+    padding:64px 0 40px;
+    text-align:center;
+  }
+  .tl-kicker{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    color:var(--green);
+    font-size:1.05rem;
+    margin-bottom:6px;
+  }
+  .tl-title{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    font-size:1.7rem;
+    color:var(--green-deep);
+    margin:0 0 36px;
+  }
+  .tl-holder{
+    position:relative;
+    max-width:760px;
+    margin:0 auto;
+  }
+  svg.tl-svg{ width:100%; height:auto; display:block; overflow:visible; }
+  .tl-curve{
+    fill:none;
+    stroke:var(--rose);
+    stroke-width:2.5;
+    stroke-linecap:round;
+  }
+  .tl-fill{ fill:url(#curveFade); }
+  .tl-node{
+    cursor:pointer;
+  }
+  .tl-node circle.dot{
+    fill:var(--cream);
+    stroke:var(--green);
+    stroke-width:2.5;
+    transition:all .3s ease;
+  }
+  .tl-node.active circle.dot{
+    fill:var(--gold);
+    stroke:var(--green-deep);
+    r:9;
+  }
+  .tl-node text{
+    font-family:'Montserrat';
+    font-weight:600;
+    font-size:11px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    fill:var(--green-deep);
+  }
+  .tl-node text.age{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:12.5px;
+    letter-spacing:0;
+    fill:var(--green);
+    opacity:.7;
+    text-transform:none;
+  }
+  .tl-hint{
+    margin-top:6px;
+    font-size:12.5px;
+    color:var(--green);
+    opacity:.6;
+    letter-spacing:.03em;
+  }
+
+  /* ---------- SPREAD ---------- */
+  section.spread{
+    display:none;
+    padding:8px 0 72px;
+    animation:fade .5s ease;
+  }
+  section.spread.active{ display:block; }
+  @keyframes fade{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+  .spread-card{
+    background:var(--cream);
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:0 24px 60px -30px rgba(45,74,30,0.35);
+    border:1px solid var(--line);
+  }
+  .spread-head{
+    padding:34px 40px 26px;
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:baseline; justify-content:space-between; gap:20px;
+    flex-wrap:wrap;
+  }
+  .spread-head .num{
+    font-family:'Cormorant Garamond',serif;
+    font-size:2.6rem;
+    color:var(--gold);
+    line-height:1;
+  }
+  .spread-head .headings{ flex:1; }
+  .spread-head .days{
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--green); opacity:.7; font-weight:600;
+  }
+  .spread-head h2{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:600;
+    font-size:1.9rem;
+    color:var(--green-deep);
+    margin:4px 0 0;
+  }
+  .hormone-tag{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:1rem;
+    color:var(--rose);
+    text-align:right;
+  }
+
+  .pages{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+  @media (max-width:760px){ .pages{grid-template-columns:1fr;} }
+  .page{ padding:36px 40px 40px; }
+  .page.left{ border-right:1px dashed var(--line); }
+  @media (max-width:760px){ .page.left{ border-right:none; border-bottom:1px dashed var(--line);} }
+
+  .page h3{
+    font-size:11.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:700;
+    margin:0 0 16px;
+  }
+  .page p{ line-height:1.75; font-size:.95rem; margin:0 0 14px; color:var(--ink); }
+  .page p:last-child{margin-bottom:0;}
+
+  .impact-grid{ display:grid; gap:14px; margin-top:4px; }
+  .impact-row{
+    display:grid; grid-template-columns:120px 1fr; gap:14px; align-items:start;
+    padding-bottom:12px; border-bottom:1px solid var(--line);
+  }
+  .impact-row:last-child{border-bottom:none;padding-bottom:0;}
+  .impact-row .k{
+    font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.95rem; color:var(--green);
+  }
+  .impact-row .v{ font-size:.88rem; line-height:1.6; color:var(--ink); }
+
+  .reco-list{ list-style:none; margin:0; padding:0; }
+  .reco-list li{
+    display:flex; gap:12px; padding:11px 0; border-bottom:1px solid var(--line);
+    font-size:.9rem; line-height:1.55;
+  }
+  .reco-list li:last-child{border-bottom:none;}
+  .reco-list li .dot{
+    flex:0 0 6px; width:6px; height:6px; border-radius:50%; margin-top:7px;
+    background:var(--gold);
+  }
+  .caution{
+    margin-top:18px;
+    background:rgba(185,139,130,0.1);
+    border-left:3px solid var(--rose);
+    padding:12px 16px;
+    font-size:.85rem;
+    line-height:1.6;
+    border-radius:0 4px 4px 0;
+  }
+  .caution strong{ color:var(--rose); }
+
+  .spread-nav{
+    display:flex; justify-content:space-between; padding:18px 40px;
+    background:rgba(45,74,30,0.03);
+    border-top:1px solid var(--line);
+  }
+  .spread-nav button{
+    background:none; border:none; cursor:pointer;
+    font-family:'Montserrat'; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--green); font-weight:600;
+    display:flex; align-items:center; gap:6px;
+    padding:6px 4px;
+    opacity:.8;
+  }
+  .spread-nav button:hover{ opacity:1; }
+  .spread-nav button:disabled{ opacity:.25; cursor:default; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:36px 0 60px;
+    text-align:center;
+  }
+  footer p{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    color:var(--green);
+    opacity:.7;
+    font-size:.95rem;
+    max-width:520px;
+    margin:0 auto;
+  }
+  footer .brand{
+    margin-top:10px;
+    font-size:10.5px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:700;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">La Canopée du 100 · Guide patiente</div>
+    <h1 class="title">Ménopause &amp; Tissu Conjonctif</h1>
+    <p class="subtitle">Comprendre et accompagner les changements</p>
+    <p class="hero-lede">La baisse des œstrogènes ne se limite pas à l'arrêt des règles : elle transforme progressivement la peau, les fascias et la capacité de récupération. Trois étapes, une même trajectoire hormonale — et à chaque étape, une kinésithérapie qui a un rôle concret à jouer.</p>
+  </div>
+</header>
+
+<section class="timeline-section">
+  <div class="wrap">
+    <div class="tl-kicker">Une même pente, trois étapes</div>
+    <h2 class="tl-title">Suivez la courbe hormonale</h2>
+
+    <div class="tl-holder">
+      <svg class="tl-svg" viewBox="0 0 700 220" id="tlSvg">
+        <defs>
+          <linearGradient id="curveFade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#B98B82" stop-opacity="0.16"/>
+            <stop offset="100%" stop-color="#B98B82" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path class="tl-fill" d="M 40,50 C 200,60 260,150 360,165 C 460,178 560,182 660,186 L 660,210 L 40,210 Z"></path>
+        <path class="tl-curve" d="M 40,50 C 200,60 260,150 360,165 C 460,178 560,182 660,186"></path>
+
+        <g class="tl-node" data-stage="perimenopause" transform="translate(70,54)">
+          <circle class="dot" r="7"></circle>
+          <text x="0" y="-42" text-anchor="middle">Périménopause</text>
+          <text class="age" x="0" y="-26" text-anchor="middle">≈ 45–50 ans</text>
+        </g>
+        <g class="tl-node" data-stage="menopause" transform="translate(360,165)">
+          <circle class="dot" r="7"></circle>
+          <text x="0" y="34" text-anchor="middle">Ménopause</text>
+          <text class="age" x="0" y="50" text-anchor="middle">≈ 51 ans en moyenne</text>
+        </g>
+        <g class="tl-node" data-stage="postmenopause" transform="translate(630,184)">
+          <circle class="dot" r="7"></circle>
+          <text x="-10" y="-20" text-anchor="middle">Postménopause</text>
+          <text class="age" x="-10" y="-4" text-anchor="middle">Au-delà</text>
+        </g>
+      </svg>
+    </div>
+    <div class="tl-hint">Cliquez sur une étape pour ouvrir la fiche correspondante</div>
+  </div>
+</section>
+
+<div class="wrap">
+
+  <!-- ETAPE 1 : PERIMENOPAUSE -->
+  <section class="spread active" data-stage="perimenopause">
+    <div class="spread-card">
+      <div class="spread-head">
+        <div class="num">01</div>
+        <div class="headings">
+          <div class="days">≈ 45 à 50 ans</div>
+          <h2>Périménopause</h2>
+        </div>
+        <div class="hormone-tag">Œstrogènes en dents de scie</div>
+      </div>
+      <div class="pages">
+        <div class="page left">
+          <h3>Ce qui se passe</h3>
+          <p>Les cycles s'irrégularisent : les ovaires produisent des œstrogènes de façon fluctuante, avec des pics et des chutes parfois brusques, avant le déclin définitif.</p>
+          <div class="impact-grid">
+            <div class="impact-row">
+              <div class="k">Peau</div>
+              <div class="v">Premiers signes de sécheresse et de perte d'élasticité ; le renouvellement cutané commence à ralentir.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Fascias</div>
+              <div class="v">Légère perte de souplesse myofasciale, parfois des raideurs matinales plus fréquentes.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Récupération</div>
+              <div class="v">Encore proche de la normale, avec une variabilité liée aux fluctuations hormonales et au sommeil.</div>
+            </div>
+          </div>
+        </div>
+        <div class="page">
+          <h3>Le rôle du kinésithérapeute</h3>
+          <ul class="reco-list">
+            <li><span class="dot"></span>Installer un travail fascial régulier avant que la raideur ne s'installe durablement.</li>
+            <li><span class="dot"></span>Débuter ou renforcer un travail de renforcement musculaire global, en anticipation de la sarcopénie à venir.</li>
+            <li><span class="dot"></span>Le LPG Cellu M6 soutient la microcirculation cutanée et la sensation de tonicité.</li>
+            <li><span class="dot"></span>Accompagner les éventuels troubles du sommeil liés aux fluctuations hormonales par une approche globale (détente, respiration).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="spread-nav">
+        <button disabled>← Périménopause</button>
+        <button onclick="goStage('menopause')">Étape suivante · Ménopause →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ETAPE 2 : MENOPAUSE -->
+  <section class="spread" data-stage="menopause">
+    <div class="spread-card">
+      <div class="spread-head">
+        <div class="num">02</div>
+        <div class="headings">
+          <div class="days">Confirmée après 12 mois sans règles</div>
+          <h2>Ménopause installée</h2>
+        </div>
+        <div class="hormone-tag">Chute œstrogénique nette et stable</div>
+      </div>
+      <div class="pages">
+        <div class="page left">
+          <h3>Ce qui se passe</h3>
+          <p>La baisse des œstrogènes devient franche et durable. C'est la période où les effets sur le tissu conjonctif s'accélèrent le plus nettement, en particulier durant les cinq premières années.</p>
+          <div class="impact-grid">
+            <div class="impact-row">
+              <div class="k">Peau</div>
+              <div class="v">Perte de collagène marquée, amincissement cutané, sécheresse et diminution de la fermeté.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Fascias</div>
+              <div class="v">Le tissu conjonctif se déshydrate et perd en élasticité : tensions myofasciales et raideurs plus fréquentes.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Récupération</div>
+              <div class="v">Ralentie : la sarcopénie débute et la récupération à l'effort demande davantage de temps.</div>
+            </div>
+          </div>
+        </div>
+        <div class="page">
+          <h3>Le rôle du kinésithérapeute</h3>
+          <ul class="reco-list">
+            <li><span class="dot"></span>Le TECAR (Winback) stimule la vascularisation profonde et soutient la trophicité tissulaire.</li>
+            <li><span class="dot"></span>Un travail manuel fascial régulier limite l'installation de tensions myofasciales chroniques.</li>
+            <li><span class="dot"></span>Le renforcement musculaire ciblé devient prioritaire pour freiner la perte de masse et de force.</li>
+            <li><span class="dot"></span>Le LPG Cellu M6 accompagne la fermeté cutanée et la sensation de confort tissulaire.</li>
+          </ul>
+          <div class="caution"><strong>Point de vigilance</strong> — bouffées de chaleur, troubles du sommeil ou douleurs articulaires nouvelles méritent d'être partagés en séance : ils orientent l'adaptation du protocole de soin.</div>
+        </div>
+      </div>
+      <div class="spread-nav">
+        <button onclick="goStage('perimenopause')">← Périménopause</button>
+        <button onclick="goStage('postmenopause')">Étape suivante · Postménopause →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ETAPE 3 : POSTMENOPAUSE -->
+  <section class="spread" data-stage="postmenopause">
+    <div class="spread-card">
+      <div class="spread-head">
+        <div class="num">03</div>
+        <div class="headings">
+          <div class="days">Au-delà de la ménopause</div>
+          <h2>Postménopause</h2>
+        </div>
+        <div class="hormone-tag">Œstrogènes stabilisés à bas niveau</div>
+      </div>
+      <div class="pages">
+        <div class="page left">
+          <h3>Ce qui se passe</h3>
+          <p>Le déclin hormonal se poursuit plus lentement. Les effets sur le tissu conjonctif deviennent chroniques : c'est la phase où l'entretien régulier fait toute la différence à long terme.</p>
+          <div class="impact-grid">
+            <div class="impact-row">
+              <div class="k">Peau</div>
+              <div class="v">Perte de collagène continue mais ralentie ; l'entretien de l'hydratation et de la microcirculation reste utile.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Fascias</div>
+              <div class="v">Risque de tensions myofasciales chroniques si le tissu n'est pas mobilisé régulièrement.</div>
+            </div>
+            <div class="impact-row">
+              <div class="k">Récupération</div>
+              <div class="v">Dépend surtout du niveau d'activité physique maintenu ; la masse musculaire conservée protège la récupération.</div>
+            </div>
+          </div>
+        </div>
+        <div class="page">
+          <h3>Le rôle du kinésithérapeute</h3>
+          <ul class="reco-list">
+            <li><span class="dot"></span>Maintenir une routine de mobilité fasciale et de renforcement, sur la durée plutôt qu'en cure ponctuelle.</li>
+            <li><span class="dot"></span>Le TECAR et le travail manuel restent des outils d'entretien tissulaire à long terme.</li>
+            <li><span class="dot"></span>Prévenir la sarcopénie par un renforcement musculaire régulier, pilier le plus protecteur à cette étape.</li>
+            <li><span class="dot"></span>Ajuster l'intensité et la fréquence des soins selon l'évolution des besoins, sans jamais tout arrêter.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="spread-nav">
+        <button onclick="goStage('menopause')">← Ménopause</button>
+        <button disabled>Postménopause →</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>Chaque femme vit cette transition différemment : ces repères sont des tendances générales. Votre kinésithérapeute adapte toujours le protocole à votre histoire et à votre ressenti.</p>
+  <div class="brand">La Canopée du 100 · Lorient</div>
+</footer>
+
+<script>
+  const stages = ['perimenopause','menopause','postmenopause'];
+
+  function goStage(id){
+    document.querySelectorAll('.spread').forEach(s=>{
+      s.classList.toggle('active', s.dataset.stage === id);
+    });
+    document.querySelectorAll('.tl-node').forEach(n=>{
+      n.classList.toggle('active', n.dataset.stage === id);
+    });
+    document.querySelector('.wrap > .spread.active').scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+
+  document.querySelectorAll('.tl-node').forEach(n=>{
+    n.addEventListener('click', ()=> goStage(n.dataset.stage));
+  });
+
+  goStage('perimenopause');
+</script>
+
+</body>
+</html>
