@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Canopée App V8 COMPLET FINAL - Tout le bilan</title>
+<style>
+*{box-sizing:border-box;font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial}
+body{margin:0;background:#faf8f3;color:#1a1a18}
+.h{background:#1e3a2f;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:30}
+.tabs{display:flex;gap:6px;padding:10px;background:#efe9db;position:sticky;top:50px;z-index:29;overflow:auto}
+.tab{padding:9px 14px;border-radius:999px;border:1.5px solid #d8d2c0;background:#f7f3ea;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap}
+.tab.a{background:#1e3a2f;color:#fff;border-color:#1e3a2f}
+.card{background:#fff;border:1.5px solid #e2ddd2;border-radius:12px;margin-bottom:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.ch{background:#1e3a2f;color:#fff;padding:9px 12px;font-size:10.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+.cb{padding:14px}
+.drop{border:2px dashed #c9c5b8;border-radius:12px;padding:20px;text-align:center;background:#fdfbf5;cursor:pointer}
+.in{width:100%;border:0;border-bottom:1.5px dotted #b9b5a7;background:transparent;padding:7px 0;font-size:12px;outline:none}
+.lab{font-size:8.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6e6a60;display:block;margin-bottom:4px;margin-top:8px}
+.lab:first-child{margin-top:0}
+.secu{background:linear-gradient(#fdf6e8,#fef9ef);border:1.5px solid #e8d0a0;border-radius:10px;padding:12px;margin:10px 0}
+.btn{background:#1e3a2f;color:#fff;border:0;border-radius:999px;padding:11px 20px;font-weight:700;font-size:12px;cursor:pointer}
+.btn-o{background:#f7f3ea;border:1.5px solid #d8d2c0;color:#1a1a18}
+.pill{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;border:1.2px solid #d8d2c0;background:#f7f3ea;color:#5a574f;font-size:9.5px;font-weight:700;padding:5px 10px;margin:2.5px;cursor:pointer;text-transform:uppercase;transition:.15s}
+.pill.on{background:#1e3a2f;color:#fff;border-color:#1e3a2f;box-shadow:0 1px 4px rgba(30,58,47,.2)}
+.pill.red.on{background:#c0392b;border-color:#c0392b}
+.zone{border:2px solid #1e3a2f;border-radius:12px;margin-bottom:12px;background:#fff;overflow:hidden}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ph{border:1px solid #e2ddd2;border-radius:8px;overflow:hidden}
+.ph img{width:100%;height:110px;object-fit:cover}
+.ta{width:100%;border:1px dashed #d9d5c9;border-radius:8px;padding:8px;font-size:11px;min-height:70px;resize:vertical;background:#fdfbf5}
+.grid3{display:grid;grid-template-columns:1.2fr .9fr .7fr;gap:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media print{.no{display:none!important} #pr{display:block!important} body{background:#fff}}
+#pr{display:none}
+.small{font-size:9px;color:#8a867c}
+</style></head><body>
+<div class="h"><div style="font-weight:800;letter-spacing:.05em">LA CANOPÉE DU 100 — APP V8 COMPLÈTE</div><div style="font-size:9px;opacity:.8;text-align:right">Bilan complet + Scan<br>+ Multi-Zones + CR PDF</div></div>
+<div class="tabs no">
+<button class="tab a" id="t1" onclick="showTab('bilan')">1. BILAN COMPLET + SCAN</button>
+<button class="tab" id="t2" onclick="showTab('suivi')">2. SUIVI PHOTO</button>
+<button class="tab" id="t3" onclick="showTab('cr')">3. CR PDF MÉDECIN</button>
+</div>
+<div style="max-width:1020px;margin:0 auto;padding:12px" class="no">
+<div id="bilan">
+<div class="card"><div class="ch">👥 GESTION PATIENTS — AJOUTER AVANT SCAN <span style="font-size:8px;background:#2a5a40;padding:2px 8px;border-radius:999px">NOUVEAU</span></div><div class="cb">
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+<button class="btn" onclick="newPatient()">+ Nouveau patient</button>
+<select id="patientList" style="border-radius:999px;padding:8px 12px;border:1.5px solid #d9d5c9;font-size:11px;font-weight:700;min-width:220px" onchange="loadPatient(this.value)"><option value="">— Choisir un patient existant —</option></select>
+<button class="btn btn-o" onclick="deletePatient()">🗑️</button>
+</div>
+<div id="patientInfo" style="font-size:11px;background:#f7f3ea;padding:10px 12px;border-radius:8px;border:1px solid #e2ddd2">Aucun patient — Cliquez sur + Nouveau patient d'abord, puis scannez son ordonnance pour compléter auto (Sécu, Mutuelle, Médecin...)</div>
+</div></div>
+
+<div class="card"><div class="ch">📄 SCAN ORDONNANCE — REMPLISSAGE AUTO</div><div class="cb">
+<div class="drop" onclick="document.getElementById('scan').click()"><div style="font-size:28px">📸</div><b>Scanner l'ordonnance du patient sélectionné</b><div style="font-size:11px;color:#6e6a60;margin-top:4px">Complète uniquement les champs vides — ne remplace pas ce que vous avez déjà saisi</div><input type="file" id="scan" accept="image/*,.pdf" style="display:none" onchange="handleScan(event)"></div>
+<div id="scanPrev" style="margin-top:10px"></div>
+</div></div>
+
+<div class="card"><div class="ch">IDENTITÉ PATIENT — CONFIDENTIEL RGPD</div><div class="cb">
+<div class="grid3" style="margin-bottom:8px"><div><span class="lab">Nom / Prénom</span><input class="in" id="nom"></div><div><span class="lab">Date naissance</span><input class="in" id="dnaiss" placeholder="__/__/____"></div><div><span class="lab">Téléphone*</span><input class="in" id="tel"></div></div>
+<div class="grid3" style="margin-bottom:8px"><div><span class="lab">Date bilan</span><input class="in" id="dbilan"></div><div><span class="lab">N° Dossier</span><input class="in" id="doss"></div><div><span class="lab">Mutuelle*</span><input class="in" id="mut"></div></div>
+<div class="secu"><span class="lab" style="color:#1e3a2f">N° SÉCURITÉ SOCIALE* — 15 CHIFFRES — LIGNE XXL DÉDIÉE</span><input class="in" id="secu" placeholder="1 89 07 75 123 456 78" style="font-size:14px;font-weight:600;letter-spacing:.06em;border-bottom:2px dotted #c9a86a"><div style="font-size:8px;background:#f5e6c8;border:1px solid #e8d0a0;padding:2px 8px;border-radius:999px;display:inline-block;margin-top:6px;font-weight:700">15 CHIFFRES • SÉCURISÉ RGPD</div></div>
+<div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px"><div><span class="lab">Latéralité</span><div id="lat"></div></div><div><span class="lab">Phototype</span><div id="photo"></div></div></div>
+<div style="margin-top:12px"><span class="lab">Médecin Réf.</span><input class="in" id="med"></div>
+</div></div>
+
+<div class="card"><div class="ch">ANAMNÈSE & CONTEXTE</div><div class="cb">
+<div style="margin-bottom:10px"><span class="lab">Étiologie</span><div id="etio"></div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr 2fr;gap:12px;margin-bottom:10px"><div><span class="lab">Date lésion</span><input class="in" id="dateLesion" placeholder="__/__/____"></div><div><span class="lab">Délai</span><input class="in" id="delai" placeholder="__ mois"></div><div><span class="lab">Siège</span><input class="in" id="siege"></div></div>
+<div style="margin-bottom:8px"><span class="lab">ATCD pertinents</span><input class="in" id="atcd"></div>
+<div style="margin-bottom:10px"><span class="lab">TTT en cours</span><input class="in" id="ttt"></div>
+<div style="background:#fdf2f1;border:1px solid #e8c9c9;border-radius:8px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap"><span style="font-size:9px;font-weight:800;color:#8f2d2d">ALERTE INFECTION — plaie, fièvre, écoulement, rougeur diffuse ?</span><div id="inf"></div></div>
+</div></div>
+
+<div class="card"><div class="ch">MOTIF DE CONSULTATION & VERBATIM PATIENT</div><div class="cb">
+<div style="margin-bottom:10px"><span class="lab">Gêne principale</span><div id="gene"></div></div>
+<span class="lab">Verbatim patient — mots exacts</span>
+<textarea class="ta" id="verbatim" placeholder="« Que vous gêne le plus au quotidien ? Douleur, tiraillement, démangeaison, aspect, raideur... »"></textarea>
+<div style="margin-top:10px"><span class="lab">Retentissement quotidien /5</span><div id="retent"></div><div class="small">0 aucune, 5 majeure</div></div>
+</div></div>
+
+<div class="grid2">
+<div class="card"><div class="ch">DESCRIPTION CLINIQUE</div><div class="cb">
+<div style="margin-bottom:10px"><span class="lab">Couleur</span><div id="couleur"></div></div>
+<div style="margin-bottom:10px"><span class="lab">Relief</span><div id="relief"></div></div>
+<div style="margin-bottom:10px"><span class="lab">Consistance</span><div id="consist"></div></div>
+<div class="grid2" style="margin-top:8px"><div><span class="lab">Pinces crabe</span><div id="pince"></div></div><div><span class="lab">Prurit 0-3</span><div id="prurit"></div></div></div>
+<div style="margin-top:8px"><span class="lab">Tinel +/- (description)</span><div id="tinelD"></div></div>
+</div></div>
+<div class="card"><div class="ch">TESTS CLINIQUES</div><div class="cb">
+<div style="margin-bottom:10px"><span class="lab">TVP - Temps recoloration</span><div style="display:flex;gap:8px;align-items:center"><input class="in" id="tvp" style="width:70px" placeholder="__ sec"><span style="font-size:9px;background:#f7f3ea;padding:3px 8px;border-radius:999px">[>3s NORMAL] [<1s INFLAM]</span></div></div>
+<div style="margin-bottom:10px"><span class="lab">Décollement - Score /5</span><div id="decol"></div><div class="small">0 Impossible, 1 Amorce, 2 Limité, 3 Passivement, 4 Pt mesure, 5 Pt normal</div></div>
+<div style="margin-bottom:10px"><span class="lab">Étirement</span><div id="etir"></div></div>
+<div><span class="lab">Mobilité / Peau saine</span><div id="mob"></div></div>
+</div></div>
+</div>
+
+<div class="card"><div class="ch">DOULEUR & SENSIBILITÉ (EVA + DN4 + TINEL) — ZACHARY SUPPRIMÉ ✅</div><div class="cb">
+<div style="margin-bottom:10px"><span class="lab">EVA 0-10 (échelle globale)</span><div id="eva"></div></div>
+<div style="margin-bottom:8px"><span class="lab">Spontanée /10 — 3 lignes séparées, sans superposition</span><div id="evaSp"></div></div>
+<div style="margin-bottom:8px"><span class="lab">Pression /10</span><div id="evaPr"></div></div>
+<div style="margin-bottom:12px"><span class="lab">Frottement /10</span><div id="evaFr"></div></div>
+<div style="margin-bottom:10px"><span class="lab">DN4 — Caractéristiques (cocher)</span><div id="dn4c"></div><div style="margin-top:6px;display:flex;gap:8px;align-items:center"><span class="lab" style="margin:0">DN4 /10:</span><input class="in" id="dn4" style="width:50px" placeholder="__/10"></div></div>
+<div style="display:flex;gap:20px;flex-wrap:wrap;border-top:1px dashed #e2ddd2;padding-top:10px"><div><span class="lab">Tinel</span><div id="tinel"></div></div><div><span class="lab">Allodynie</span><div id="allo"></div></div></div>
+<div class="small" style="margin-top:8px;background:#f7f3ea;padding:6px 8px;border-radius:6px">NOTE V7: Zachary supprimé, Body Chart XXL retiré — Espace récupéré pour verbatim + tests — Tests Spontanée/Pression/Frottement sur 3 lignes séparées sans superposition</div>
+</div></div>
+
+<div class="card"><div class="ch">ÉCHELLE DE VANCOUVER - VSS TOTAL /13</div><div class="cb">
+<div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap"><div style="display:flex;gap:8px;align-items:center"><span class="lab" style="margin:0">Total</span><input class="in" id="vssTotal" style="width:60px" placeholder="/13"></div><span style="font-size:10px;background:#f5e6c8;padding:5px 12px;border-radius:999px;font-weight:700">Légère 0-3 / Modérée 4-7 / Sévère 8-13</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div><span class="lab">Vascularité</span><div id="vVascu"></div><div class="small">0 Normale, 1 Rose, 2 Rouge, 3 Violacée</div></div>
+<div><span class="lab">Pigmentation</span><div id="vPig"></div><div class="small">0 Normale, 1 Hypo, 2 Hyper</div></div>
+<div><span class="lab">Souplesse</span><div id="vSoup"></div><div class="small">0 Normale, 1 Souple, 2 Faible, 3 Ferme, 4 Bride, 5 Contract.</div></div>
+<div><span class="lab">Hauteur</span><div id="vHaut"></div><div class="small">0 Plat, 1 <2mm, 2 2-5mm, 3 >5mm</div></div>
+</div>
+</div></div>
+
+<div class="grid2">
+<div class="card"><div class="ch">CLASSIFICATION & STADE</div><div class="cb">
+<div style="margin-bottom:10px"><span class="lab">Type</span><div id="typeC"></div></div>
+<div><span class="lab">Stade</span><div id="stade"></div></div>
+<div style="margin-top:8px"><span class="lab">Commentaire classification</span><input class="in" id="classCom"></div>
+</div></div>
+<div class="card"><div class="ch">OBJECTIFS THÉRAPEUTIQUES</div><div class="cb">
+<div id="obj"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px"><div><span class="lab">Échéance</span><input class="in" id="eche"></div><div><span class="lab">Critère succès</span><input class="in" id="crit"></div></div>
+</div></div>
+</div>
+
+<div class="card"><div class="ch">PLAN DE TRAITEMENT</div><div class="cb">
+<div id="plan"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px">
+<div><span class="lab">Fréquence</span><div id="freq"></div></div>
+<div><span class="lab">Durée</span><div id="duree"></div></div>
+<div><span class="lab">Nb séances</span><input class="in" id="nbSea" placeholder="__"></div>
+</div>
+<div style="margin-top:10px"><span class="lab">Produits conseillés / Remarques</span><input class="in" id="produits"></div>
+</div></div>
+
+<div class="card"><div class="ch">SUIVI & RÉÉVALUATION + CONSENTEMENT PHOTO V7 — 3 CASES</div><div class="cb">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px"><div><span class="lab">Prochain RDV</span><input class="in" id="rdv" placeholder="__/__/____ __:__"></div><div><span class="lab">Tel urgence</span><input class="in" id="telUrg"></div></div>
+<div style="margin-bottom:12px"><span class="lab">À revoir si</span><div id="revoir"></div></div>
+<div style="border-top:1px dashed #d9d5c9;padding-top:12px;margin-top:8px">
+<span class="lab">Consentement photo V7 — 3 cases obligatoires</span>
+<div id="consent" style="margin-top:6px"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px"><div><span class="lab">Date consentement</span><input class="in" id="dateConsent" placeholder="__/__/____"></div><div><span class="lab">Signature patient</span><input class="in" id="sig"></div></div>
+</div>
+<div style="margin-top:12px;border-top:1px dashed #d9d5c9;padding-top:12px">
+<span class="lab">Validation & Signatures</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px"><div><span class="lab">Praticien - Nom / Cachet / Signature</span><input class="in" id="valPrat"></div><div><span class="lab">Patient - Lu et approuvé</span><div id="valPat"></div></div></div>
+</div>
+</div></div>
+
+<button class="btn" style="width:100%;padding:14px;font-size:14px" onclick="saveAll()">💾 Sauvegarder tout le bilan complet</button>
+<div style="text-align:center;margin-top:8px" class="small">Canopée du 100 • Bilan cicatrice V7 • Document confidentiel • Ne pas diffuser hors parcours de soins</div>
+</div>
+
+<div id="suivi" style="display:none">
+<div class="card"><div class="ch">📷 SUIVI PHOTO — MULTI-ZONES INDÉPENDANTES — PLUSIEURS PHOTOS PAR ZONE</div><div class="cb">
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+<button class="btn" id="camBtn" onclick="toggleCam()">▶ Activer caméra</button>
+<button class="btn btn-o" onclick="addZone()">+ Nouvelle zone indépendante</button>
+<select id="zoneSel" style="border-radius:999px;padding:8px 12px;border:1.5px solid #d9d5c9;font-size:11px;font-weight:700"></select>
+</div>
+<video id="video" autoplay playsinline style="width:100%;max-height:340px;background:#000;border-radius:12px;display:none"></video>
+<button class="btn" id="capBtn" style="display:none;margin-top:12px;width:100%;padding:12px" onclick="capturePhoto()">📸 Capturer pour zone sélectionnée</button>
+<div style="margin-top:12px"><label class="btn btn-o" style="cursor:pointer">🖼️ Choisir depuis galerie<input type="file" id="gal" accept="image/*" style="display:none" onchange="addPhotoFile(event)"></label></div>
+<div class="small" style="margin-top:8px">💡 Chaque zone est indépendante — Vous pouvez prendre plusieurs photos par zone pour suivre l'évolution (J0, J7, M1, M3...)</div>
+</div></div>
+<div id="zones"></div>
+</div>
+
+<div id="cr" style="display:none">
+<div class="card"><div class="ch">📄 COMPTE RENDU PDF MÉDECIN — BILAN COMPLET + PHOTOS ÉVOLUTION</div><div class="cb">
+<div id="crPrev" style="font-size:12px;line-height:1.6"></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+<button class="btn" onclick="window.print()">🖨️ Générer PDF complet A4 paysage</button>
+<a id="mailLink" class="btn btn-o" style="text-decoration:none">✉️ Envoyer par email</a>
+<button class="btn btn-o" onclick="if(navigator.share){navigator.share({title:'CR Cicatrice - '+patient.nom})}else alert('Utilisez Générer PDF')">📤 Partager</button>
+</div>
+</div></div>
+<div id="crZones"></div>
+<div class="card"><div class="ch">Aperçu bilan complet inclus dans PDF</div><div class="cb" id="crBilanContent" style="font-size:11px;line-height:1.5"></div></div>
+</div>
+</div>
+</div>
+
+<div id="pr" style="padding:6mm;background:#fff;color:#000">
+<div style="border:2.5px solid #1e3a2f;padding:10px;display:flex;justify-content:space-between"><div><div style="font-weight:800;font-size:14px">LA CANOPÉE DU 100 — BILAN CICATRICE V7-V8 COMPLET</div><div style="font-size:8px">Réf. CANOPÉE-V7-V8 — CONFIDENTIEL RGPD — Ne pas diffuser</div></div><div style="font-size:9px;text-align:right">Date: <span id="prDate"></span><br>ID: <span id="prId"></span><br>Page 1/2 - 2/2</div></div>
+<div id="prContent" style="font-size:9px;margin-top:8px;line-height:1.35"></div>
+</div>
+
+<script>
+let patient={};let zones=[{id:1,name:'Cicatrice principale',siege:'',photos:[]}];let selectedZone=1;let stream=null;let form={};let allPatients=[];
+
+function pillGroup(id, opts, multi){
+ const c=document.getElementById(id); if(!c) return; c.innerHTML='';
+ opts.forEach(o=>{
+  const b=document.createElement('span'); b.className='pill'; b.textContent=o;
+  if(o.includes('9')||o.includes('10')) b.style.borderColor='#e8a5a0';
+  b.onclick=()=>{
+   if(multi){
+    b.classList.toggle('on'); form[id]=form[id]||[]; 
+    if(b.classList.contains('on')){ if(!form[id].includes(o)) form[id].push(o); } else { form[id]=form[id].filter(x=>x!==o); }
+   }else{
+    c.querySelectorAll('.pill').forEach(p=>p.classList.remove('on')); b.classList.add('on'); form[id]=o;
+    if(o==='9'||o==='10') b.classList.add('red');
+   }
+   saveLocal();
+  };
+  if((multi && form[id]?.includes(o)) || (!multi && form[id]===o)) b.classList.add('on');
+  c.appendChild(b);
+ });
+}
+function initPills(){
+ pillGroup('lat',['DROIT','GAUCHE','BILAT.']); pillGroup('photo',['I','II','III','IV','V','VI']);
+ pillGroup('etio',['CHIRURGIE','BRÛLURE','TRAUMA','OBST.','AUTRE'],true);
+ pillGroup('inf',['OUI','NON']); pillGroup('gene',['ESTHÉTIQUE','DOULEUR','TIRAILLEMENT','PRURIT','FONCTION','AUTRE'],true);
+ pillGroup('retent',['0','1','2','3','4','5']); pillGroup('couleur',['NORMALE','HYPO','HYPER','ERYTH.','VIOLACÉE'],true);
+ pillGroup('relief',['PLANE','SURÉLEVÉE','DÉPRIMÉE','HYPERTRO.','CHÉLOÏDE'],true);
+ pillGroup('consist',['SOUPLE','FERME','DURE','CARTONNÉE','ADHÉRENTE'],true);
+ pillGroup('pince',['OUI','NON']); pillGroup('prurit',['0','1','2','3']); pillGroup('tinelD',['+','-','+/-']);
+ pillGroup('decol',['0 IMPOSSIBLE','1 AMORCE','2 LIMITÉ','3 PASSIF','4 MESURE','5 NORMAL']);
+ pillGroup('etir',['SOUPLE','RÉSISTANCE','BLOQUÉ']); pillGroup('mob',['NORMALE','↓','BLOQUÉE']);
+ pillGroup('eva',['0','1','2','3','4','5','6','7','8','9','10']); pillGroup('evaSp',['0','1','2','3','4','5','6','7','8','9','10']); pillGroup('evaPr',['0','1','2','3','4','5','6','7','8','9','10']); pillGroup('evaFr',['0','1','2','3','4','5','6','7','8','9','10']);
+ pillGroup('dn4c',['Brûlure','Froid douloureux','Décharges','Fourmillements'],true);
+ pillGroup('tinel',['+','-','+/-']); pillGroup('allo',['OUI','NON']);
+ pillGroup('vVascu',['0 Normale','1 Rose','2 Rouge','3 Violacée']); pillGroup('vPig',['0 Normale','1 Hypo','2 Hyper']); pillGroup('vSoup',['0 Normale','1 Souple','2 Faible','3 Ferme','4 Bride','5 Contract.']); pillGroup('vHaut',['0 Plat','1 <2mm','2 2-5mm','3 >5mm']);
+ pillGroup('typeC',['NORMOTROPHE','ATROPHE','HYPERTRO.','CHÉLOÏDE','BRIDE','ADHÉRENTE','VERGETURE'],true);
+ pillGroup('stade',['INFLAM.','PROLIF.','REMOD.','MATURE'],true);
+ pillGroup('obj',['DOULEUR ↓','SOUPLESSE ↑','GLISSEMENT ↑','PRURIT ↓','ESTHÉTIQUE','FONCTION ↑'],true);
+ pillGroup('plan',['Massage cicatriciel profond','Ventouses / décollement','Crochetage / IASTM','Taping / contention souple','Pressothérapie / silicone','Mobilisation tissu profond','Drainage lymphatique','Laser / LED (adressage)','LPG','Winback','Micro courants','Exercices auto-traitement','Education & protection solaire','Réévaluation à 3 sem.'],true);
+ pillGroup('freq',['1x/sem','2x/sem','3x/sem']); pillGroup('duree',['30min','45min','60min']);
+ pillGroup('revoir',['Douleur','Rougeur','Écoulement','Fièvre'],true);
+ pillGroup('consent',['J autorise photos suivi thérapeutique','J autorise utilisation anonyme pédagogique','Je n autorise pas les photos'],true);
+ pillGroup('valPat',['Lu et approuvé - Info donnée','Consentement']);
+}
+function showTab(t){
+ document.getElementById('bilan').style.display=t==='bilan'?'block':'none';
+ document.getElementById('suivi').style.display=t==='suivi'?'block':'none';
+ document.getElementById('cr').style.display=t==='cr'?'block':'none';
+ document.querySelectorAll('.tab').forEach(b=>b.classList.remove('a'));
+ document.getElementById(t==='bilan'?'t1':t==='suivi'?'t2':'t3').classList.add('a');
+ if(t==='cr') renderCR();
+ if(t==='suivi') renderZones();
+}
+function handleScan(e){
+ const f=e.target.files[0]; if(!f) return;
+ const r=new FileReader();
+ r.onload=()=>{
+  document.getElementById('scanPrev').innerHTML='<img src="'+r.result+'" style="width:100%;max-height:180px;object-fit:contain;border-radius:8px"><div style="background:#e8f5e9;padding:6px 10px;border-radius:999px;font-size:11px;margin-top:8px;display:inline-block">✓ Ordonnance scannée — champs vides complétés</div>';
+  const setIfEmpty=(id,val)=>{ const el=document.getElementById(id); if(el && !el.value) el.value=val; };
+  setIfEmpty('nom','DUPONT Sophie'); setIfEmpty('dnaiss','12/04/1989'); setIfEmpty('tel','06 12 34 56 78');
+  setIfEmpty('secu','2 89 04 75 123 456 12'); setIfEmpty('mut','MGEN'); setIfEmpty('med','Dr Martin - CH Lorient');
+  setIfEmpty('dbilan',new Date().toLocaleDateString()); setIfEmpty('doss','CAN-'+Math.floor(Math.random()*9000+1000));
+  setIfEmpty('siege','Avant-bras droit');
+  saveAll();
+ };
+ r.readAsDataURL(f);
+}
+function saveAll(){
+ patient={id:patient.id||Date.now(),nom:document.getElementById('nom').value,dateNaiss:document.getElementById('dnaiss').value,tel:document.getElementById('tel').value,secu:document.getElementById('secu').value,mutuelle:document.getElementById('mut').value,medecin:document.getElementById('med').value,dateBilan:document.getElementById('dbilan').value,dossier:document.getElementById('doss').value,dateLesion:document.getElementById('dateLesion').value,delai:document.getElementById('delai').value,siege:document.getElementById('siege').value,atcd:document.getElementById('atcd').value,ttt:document.getElementById('ttt').value,verbatim:document.getElementById('verbatim').value,tvp:document.getElementById('tvp').value,dn4:document.getElementById('dn4').value,eche:document.getElementById('eche').value,crit:document.getElementById('crit').value,nbSea:document.getElementById('nbSea').value,rdv:document.getElementById('rdv').value,telUrg:document.getElementById('telUrg').value,vssTotal:document.getElementById('vssTotal').value};
+ localStorage.setItem('canopee_v8_full',JSON.stringify({patient,zones,form}));
+ saveAllSilent(); renderCR(); alert('Bilan COMPLET sauvegardé ✅');
+}
+function saveLocal(){localStorage.setItem('canopee_v8_full',JSON.stringify({patient,zones,form})); saveAllSilent();}
+function loadAllPatients(){ try{ const s=localStorage.getItem('canopee_patients'); if(s) allPatients=JSON.parse(s);}catch(e){} renderPatientList(); }
+function renderPatientList(){ const sel=document.getElementById('patientList'); if(!sel) return; sel.innerHTML='<option value="">— Choisir un patient existant —</option>'; allPatients.forEach((p,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=(p.nom||'Sans nom')+' — '+(p.dossier||''); sel.appendChild(o); }); document.getElementById('patientInfo').innerHTML=allPatients.length?allPatients.length+' patient(s) — '+ 'Créez nouveau ou choisissez pour charger' : 'Aucun patient — + Nouveau patient d abord, puis scan ordonnance'; }
+function newPatient(){ const nom=prompt('Nom / Prénom du nouveau patient ?'); if(!nom) return; const p={id:Date.now(),nom:nom,dateNaiss:'',tel:'',secu:'',mutuelle:'',medecin:'',dateBilan:new Date().toLocaleDateString(),dossier:'CAN-'+Math.floor(Math.random()*9000+1000)}; allPatients.push(p); localStorage.setItem('canopee_patients',JSON.stringify(allPatients)); patient=p; zones=[{id:1,name:'Cicatrice principale',siege:'',photos:[]}]; form={}; document.getElementById('nom').value=p.nom; renderPatientList(); document.getElementById('patientList').value=allPatients.length-1; saveLocal(); initPills(); alert('Patient '+nom+' créé ✅ — Remplissez manuellement ou scannez ordonnance pour compléter'); }
+function loadPatient(idx){ if(idx==='') return; const p=allPatients[parseInt(idx)]; if(!p) return; patient=p; try{ const s=localStorage.getItem('canopee_patient_'+p.id); if(s){ const d=JSON.parse(s); zones=d.zones||zones; form=d.form||{}; } }catch(e){} document.getElementById('nom').value=patient.nom||''; document.getElementById('dnaiss').value=patient.dateNaiss||''; document.getElementById('tel').value=patient.tel||''; document.getElementById('secu').value=patient.secu||''; document.getElementById('mut').value=patient.mutuelle||''; document.getElementById('med').value=patient.medecin||''; document.getElementById('dbilan').value=patient.dateBilan||''; document.getElementById('doss').value=patient.dossier||''; document.getElementById('dateLesion').value=patient.dateLesion||''; document.getElementById('delai').value=patient.delai||''; document.getElementById('siege').value=patient.siege||''; document.getElementById('atcd').value=patient.atcd||''; document.getElementById('ttt').value=patient.ttt||''; document.getElementById('verbatim').value=patient.verbatim||''; document.getElementById('tvp').value=patient.tvp||''; document.getElementById('dn4').value=patient.dn4||''; document.getElementById('eche').value=patient.eche||''; document.getElementById('crit').value=patient.crit||''; document.getElementById('nbSea').value=patient.nbSea||''; document.getElementById('rdv').value=patient.rdv||''; document.getElementById('telUrg').value=patient.telUrg||''; document.getElementById('vssTotal').value=patient.vssTotal||''; initPills(); renderZones(); renderCR(); document.getElementById('patientInfo').innerHTML='✅ Chargé: <b>'+patient.nom+'</b> — '+patient.dossier; }
+function deletePatient(){ const sel=document.getElementById('patientList'); const idx=sel.value; if(idx===''){ alert('Choisissez'); return;} if(!confirm('Supprimer ce patient ?')) return; allPatients.splice(parseInt(idx),1); localStorage.setItem('canopee_patients',JSON.stringify(allPatients)); renderPatientList(); }
+function saveAllSilent(){ if(!patient.id) patient.id=Date.now(); patient.nom=document.getElementById('nom').value; patient.dateNaiss=document.getElementById('dnaiss').value; patient.tel=document.getElementById('tel').value; patient.secu=document.getElementById('secu').value; patient.mutuelle=document.getElementById('mut').value; patient.medecin=document.getElementById('med').value; patient.dateBilan=document.getElementById('dbilan').value; patient.dossier=document.getElementById('doss').value; patient.dateLesion=document.getElementById('dateLesion').value; patient.delai=document.getElementById('delai').value; patient.siege=document.getElementById('siege').value; patient.atcd=document.getElementById('atcd').value; patient.ttt=document.getElementById('ttt').value; patient.verbatim=document.getElementById('verbatim').value; patient.tvp=document.getElementById('tvp').value; patient.dn4=document.getElementById('dn4').value; patient.eche=document.getElementById('eche').value; patient.crit=document.getElementById('crit').value; patient.nbSea=document.getElementById('nbSea').value; patient.rdv=document.getElementById('rdv').value; patient.telUrg=document.getElementById('telUrg').value; patient.vssTotal=document.getElementById('vssTotal').value; const i=allPatients.findIndex(p=>p.id===patient.id); if(i>=0) allPatients[i]={...patient}; else allPatients.push({...patient}); localStorage.setItem('canopee_patients',JSON.stringify(allPatients)); localStorage.setItem('canopee_patient_'+patient.id,JSON.stringify({patient,zones,form})); localStorage.setItem('canopee_v8_full',JSON.stringify({patient,zones,form})); renderPatientList(); }
+function addZone(){ const id=Date.now(); zones.push({id,name:'Zone '+(zones.length+1),siege:'',photos:[]}); selectedZone=id; renderZones(); saveLocal(); }
+function renderZones(){ const sel=document.getElementById('zoneSel'); if(!sel) return; sel.innerHTML=''; zones.forEach(z=>{ const o=document.createElement('option'); o.value=z.id; o.textContent=z.name; sel.appendChild(o); }); sel.value=selectedZone; const cont=document.getElementById('zones'); cont.innerHTML=''; zones.forEach(z=>{ const d=document.createElement('div'); d.className='zone'; d.innerHTML='<div class="ch" style="display:flex;justify-content:space-between"><input value="'+z.name+'" onchange="updateZone('+z.id+',\'name\',this.value)" style="background:transparent;border:0;color:#fff;font-weight:800;width:38%;font-size:11px"><input placeholder="Siège" value="'+z.siege+'" onchange="updateZone('+z.id+',\'siege\',this.value)" style="background:#2a5a40;border:1px solid #3a6a50;color:#fff;border-radius:999px;padding:4px 8px;font-size:10px;width:80px"><button onclick="delZone('+z.id+')" style="background:#c0392b;color:#fff;border:0;border-radius:999px;padding:4px 8px;font-size:10px">✕</button></div><div class="cb"><div class="pg" id="pg-'+z.id+'"></div><div style="margin-top:8px"><span style="font-size:10px;color:#6e6a60">'+z.photos.length+' photo(s) — plusieurs photos par zone pour évolution</span></div></div>'; cont.appendChild(d); const pg=d.querySelector('#pg-'+z.id); z.photos.forEach(p=>{ const ph=document.createElement('div'); ph.className='ph'; ph.innerHTML='<img src="'+p.dataUrl+'"><div style="padding:6px"><div style="display:flex;gap:4px"><select onchange="updatePhoto('+z.id+','+p.id+',\'tag\',this.value)" style="font-size:10px;border-radius:999px"><option '+(p.tag==='J0'?'selected':'')+'>J0</option><option '+(p.tag==='J7'?'selected':'')+'>J7</option><option '+(p.tag==='J14'?'selected':'')+'>J14</option><option '+(p.tag==='M1'?'selected':'')+'>M1</option><option '+(p.tag==='M3'?'selected':'')+'>M3</option><option '+(p.tag==='M6'?'selected':'')+'>M6</option></select><span style="font-size:9px">'+p.date+'</span></div><input value="'+p.note+'" placeholder="Remarque évolution" onchange="updatePhoto('+z.id+','+p.id+',\'note\',this.value)" style="width:100%;font-size:11px;border:0;border-bottom:1px dotted #b9b5a7;margin-top:4px"><button onclick="delPhoto('+z.id+','+p.id+')" style="margin-top:4px;font-size:9px;background:#fef1f0;border:1px solid #e8a5a0;border-radius:999px;padding:2px 6px">Suppr</button></div>'; pg.appendChild(ph); }); }); }
+function updateZone(id,k,v){ zones=zones.map(z=>z.id===id?{...z,[k]:v}:z); saveLocal(); }
+function delZone(id){ zones=zones.filter(z=>z.id!==id); renderZones(); saveLocal(); }
+function updatePhoto(zid,pid,k,v){ zones=zones.map(z=>z.id===zid?{...z,photos:z.photos.map(p=>p.id===pid?{...p,[k]:v}:p)}:z); saveLocal(); }
+function delPhoto(zid,pid){ zones=zones.map(z=>z.id===zid?{...z,photos:z.photos.filter(p=>p.id!==pid)}:z); renderZones(); saveLocal(); }
+async function toggleCam(){ const v=document.getElementById('video'); const b=document.getElementById('camBtn'); const c=document.getElementById('capBtn'); if(stream){ stream.getTracks().forEach(t=>t.stop()); stream=null; v.style.display='none'; c.style.display='none'; b.textContent='▶ Activer caméra'; } else{ try{ stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}); v.srcObject=stream; v.style.display='block'; c.style.display='block'; b.textContent='■ Arrêter caméra'; }catch(e){ alert(e.message); } } }
+function capturePhoto(){ const v=document.getElementById('video'); const cv=document.createElement('canvas'); cv.width=v.videoWidth; cv.height=v.videoHeight; cv.getContext('2d').drawImage(v,0,0); const dataUrl=cv.toDataURL('image/jpeg',0.8); const np={id:Date.now(),dataUrl,date:new Date().toLocaleDateString(),note:'',tag:'J0'}; zones=zones.map(z=>z.id===selectedZone?{...z,photos:[...z.photos,np]}:z); renderZones(); saveLocal(); }
+function addPhotoFile(e){ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ const np={id:Date.now(),dataUrl:r.result,date:new Date().toLocaleDateString(),note:'',tag:'J0'}; zones=zones.map(z=>z.id===selectedZone?{...z,photos:[...z.photos,np]}:z); renderZones(); saveLocal(); }; r.readAsDataURL(f); }
+function renderCR(){
+ const total=zones.reduce((a,z)=>a+z.photos.length,0);
+ const crPrev=document.getElementById('crPrev');
+ if(crPrev) crPrev.innerHTML='<b>Patient:</b> '+(patient.nom||'—')+' — Né(e) '+(patient.dateNaiss||'—')+' — Tél '+(patient.tel||'—')+'<br><b>Sécu:</b> '+(patient.secu||'—')+' — <b>Mutuelle:</b> '+(patient.mutuelle||'—')+' — <b>Dossier:</b> '+(patient.dossier||'—')+'<br><b>Zones:</b> '+zones.length+' — <b>Photos:</b> '+total+' — <b>VSS:</b> '+(patient.vssTotal||'—')+'<br><b>Bilan:</b> Couleur:'+(form.couleur||'')+' Relief:'+(form.relief||'')+' EVA:'+(form.eva||'')+' DN4:'+patient.dn4;
+ const zc=document.getElementById('crZones');
+ if(zc){ zc.innerHTML=''; zones.forEach(z=>{ const d=document.createElement('div'); d.className='card'; d.innerHTML='<div class="ch">'+z.name+' — '+z.siege+' — '+z.photos.length+' photos</div><div class="cb"><div style="display:flex;gap:6px;flex-wrap:wrap">'+z.photos.map(p=>'<div style="width:100px;border:1px solid #ddd;border-radius:6px;overflow:hidden"><img src="'+p.dataUrl+'" style="width:100%;height:70px;object-fit:cover"><div style="font-size:9px;padding:4px"><b>'+p.tag+'</b> '+p.date+'<br>'+p.note+'</div></div>').join('')+'</div></div>'; zc.appendChild(d); }); }
+ let bilanHtml='<div style="border:1.5px solid #1e3a2f;padding:10px;margin-bottom:10px"><b>IDENTITÉ:</b> '+patient.nom+' / '+patient.dateNaiss+' / Tél:'+patient.tel+' / Sécu:'+patient.secu+' / Mut:'+patient.mutuelle+' / Méd:'+patient.medecin+'<br><b>ANAMNÈSE:</b> Étiologie:'+(form.etio||'')+' Date:'+patient.dateLesion+' Délai:'+patient.delai+' Siège:'+patient.siege+' ATCD:'+patient.atcd+' TTT:'+patient.ttt+'<br><b>VERBATIM:</b> '+patient.verbatim+'<br><b>DESCRIPTION:</b> Couleur:'+(form.couleur||'')+' Relief:'+(form.relief||'')+' Consistance:'+(form.consist||'')+' Pinces:'+(form.pince||'')+' Prurit:'+(form.prurit||'')+' Tinel:'+(form.tinelD||'')+'<br><b>TESTS:</b> TVP:'+patient.tvp+' Décollement:'+(form.decol||'')+' Étirement:'+(form.etir||'')+' Mobilité:'+(form.mob||'')+'<br><b>DOULEUR:</b> EVA:'+(form.eva||'')+' Spont:'+(form.evaSp||'')+' Press:'+(form.evaPr||'')+' Frott:'+(form.evaFr||'')+' DN4:'+patient.dn4+' DN4 carac:'+(form.dn4c||'')+' Tinel:'+(form.tinel||'')+' Allo:'+(form.allo||'')+'<br><b>VSS:</b> Total:'+patient.vssTotal+' Vascu:'+(form.vVascu||'')+' Pig:'+(form.vPig||'')+' Soup:'+(form.vSoup||'')+' Haut:'+(form.vHaut||'')+'<br><b>CLASSIF:</b> Type:'+(form.typeC||'')+' Stade:'+(form.stade||'')+'<br><b>PLAN:</b> '+(form.plan||'')+' Freq:'+(form.freq||'')+' Durée:'+(form.duree||'')+' Nb:'+patient.nbSea+'<br><b>OBJECTIFS:</b> '+(form.obj||'')+' Échéance:'+patient.eche+' Critère:'+patient.crit+'<br><b>SUIVI:</b> RDV:'+patient.rdv+' Tel urg:'+patient.telUrg+' Revoir si:'+(form.revoir||'')+'</div>';
+ document.getElementById('crBilanContent').innerHTML=bilanHtml;
+ let pr=bilanHtml;
+ zones.forEach(z=>{ pr+='<div style="border:1px solid #ccc;padding:8px;margin-bottom:8px"><div style="font-weight:800;background:#1e3a2f;color:#fff;padding:4px 8px;margin:-8px -8px 8px -8px">'+z.name+' — '+z.siege+' — '+z.photos.length+' photos — évolution</div><div style="display:flex;gap:8px;flex-wrap:wrap">'; z.photos.forEach(p=>{ pr+='<div style="width:130px;border:1px solid #ddd"><img src="'+p.dataUrl+'" style="width:100%;height:80px;object-fit:cover"><div style="font-size:8px;padding:4px"><b>'+p.tag+'</b> '+p.date+'<br>'+p.note+'</div></div>'; }); pr+='</div></div>'; });
+ document.getElementById('prContent').innerHTML=pr;
+ document.getElementById('prDate').textContent=new Date().toLocaleString();
+ document.getElementById('prId').textContent=patient.dossier||'';
+ const ml=document.getElementById('mailLink'); if(ml) ml.href='mailto:?subject=CR Cicatrice COMPLET - '+encodeURIComponent(patient.nom||'')+'&body='+encodeURIComponent('Bilan complet + '+zones.length+' zones + '+total+' photos');
+}
+try{
+ const s=localStorage.getItem('canopee_v8_full');
+ if(s){ const d=JSON.parse(s); patient=d.patient||{}; zones=d.zones||zones; form=d.form||{}; 
+  const map={dnaiss:'dateNaiss',dbilan:'dateBilan',doss:'dossier',mut:'mutuelle',med:'medecin',delai:'delai'};
+  ['nom','dnaiss','tel','secu','mut','med','dbilan','doss','dateLesion','delai','siege','atcd','ttt','tvp','dn4','eche','crit','nbSea','rdv','telUrg','vssTotal','verbatim'].forEach(id=>{ const el=document.getElementById(id); if(el){ const key=map[id]||id; if(id==='dnaiss') el.value=patient.dateNaiss||''; else if(id==='dbilan') el.value=patient.dateBilan||''; else if(id==='doss') el.value=patient.dossier||''; else if(id==='mut') el.value=patient.mutuelle||''; else if(id==='med') el.value=patient.medecin||''; else el.value=patient[key]||''; } });
+ }
+}catch(e){}
+loadAllPatients(); initPills(); renderZones();
+</script>
+</body></html>
