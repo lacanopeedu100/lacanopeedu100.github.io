@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trieur de Cicatrices — La Canopée du 100</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Space Grotesk', sans-serif;
+            background: #F2EDE4;
+            color: #1A1F1A;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #7A8C6E;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #1A1F1A;
+            margin-bottom: 8px;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #7A8C6E;
+            font-weight: 500;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: white;
+            border: 2px dashed #7A8C6E;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .upload-section:hover {
+            border-color: #1A1F1A;
+            background: #F9F8F6;
+        }
+
+        .upload-section input[type="file"] {
+            display: none;
+        }
+
+        .upload-label {
+            display: block;
+            cursor: pointer;
+        }
+
+        .upload-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .upload-text {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #1A1F1A;
+            font-weight: 500;
+        }
+
+        .upload-hint {
+            font-size: 13px;
+            color: #7A8C6E;
+        }
+
+        .file-count {
+            margin-top: 15px;
+            padding: 10px;
+            background: #EEF4EB;
+            border-left: 3px solid #7A8C6E;
+            text-align: left;
+            font-size: 13px;
+            color: #1A1F1A;
+        }
+
+        /* Triage Section */
+        .triage-section {
+            display: none;
+        }
+
+        .triage-section.active {
+            display: block;
+        }
+
+        .progress-bar {
+            background: #E8E8E8;
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #7A8C6E;
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .image-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .image-wrapper {
+            max-height: 400px;
+            overflow: hidden;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            background: #F9F8F6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-wrapper img {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+
+        .image-filename {
+            font-size: 12px;
+            color: #7A8C6E;
+            margin-bottom: 15px;
+            word-break: break-all;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1A1F1A;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #C4C8C0;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #1A1F1A;
+            background: white;
+            transition: border-color 0.2s;
+        }
+
+        select:focus, textarea:focus {
+            outline: none;
+            border-color: #7A8C6E;
+            box-shadow: 0 0 0 3px rgba(122, 140, 110, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="checkbox"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: #7A8C6E;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: normal;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-next {
+            background: #7A8C6E;
+            color: white;
+        }
+
+        .btn-next:hover {
+            background: #6A7C5E;
+        }
+
+        .btn-skip {
+            background: #E8E8E8;
+            color: #1A1F1A;
+        }
+
+        .btn-skip:hover {
+            background: #D8D8D8;
+        }
+
+        .btn-export {
+            background: #1A1F1A;
+            color: white;
+            width: 100%;
+            padding: 14px;
+            font-size: 15px;
+            margin-top: 15px;
+        }
+
+        .btn-export:hover {
+            background: #2A2F2A;
+        }
+
+        .btn-reset {
+            background: #C4C8C0;
+            color: #1A1F1A;
+            width: 100%;
+            padding: 12px;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .btn-reset:hover {
+            background: #B4B8B0;
+        }
+
+        .stats {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #7A8C6E;
+        }
+
+        .stats-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1A1F1A;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stats-content {
+            font-size: 13px;
+            color: #7A8C6E;
+            line-height: 1.8;
+        }
+
+        .completion-message {
+            background: #EEF4EB;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .completion-message h2 {
+            font-size: 20px;
+            color: #1A1F1A;
+            margin-bottom: 12px;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .completion-message p {
+            font-size: 14px;
+            color: #7A8C6E;
+            margin-bottom: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            button {
+                font-size: 13px;
+                padding: 11px 14px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .image-wrapper {
+                max-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Trieur de Cicatrices</h1>
+            <p class="subtitle">Catalogage intelligent de vos photos — Export CSV</p>
+        </header>
+
+        <!-- Upload Section -->
+        <div id="uploadSection" class="upload-section">
+            <label for="fileInput" class="upload-label">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">Sélectionnez vos photos</div>
+                <div class="upload-hint">ou glissez-déposez (PNG, JPG, WebP)</div>
+                <input type="file" id="fileInput" accept="image/*" multiple>
+            </label>
+            <div class="file-count" id="fileCount"></div>
+        </div>
+
+        <!-- Triage Section -->
+        <div id="triageSection" class="triage-section">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="image-container">
+                <div class="image-filename" id="fileName"></div>
+                <div class="image-wrapper">
+                    <img id="triageImage" src="" alt="Cicatrice à trier">
+                </div>
+
+                <form id="triageForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="typeSelect">Type de cicatrice</label>
+                            <select id="typeSelect" required>
+                                <option value="">— Sélectionner —</option>
+                                <option value="Post-partum_Vergetures">Post-partum — Vergetures</option>
+                                <option value="Post-partum_Cesarienne">Post-partum — Césarienne</option>
+                                <option value="Post-partum_Perineal">Post-partum — Périnéale</option>
+                                <option value="Chirurgicale_Plastique_sein">Chirurgicale — Plastique du sein</option>
+                                <option value="Chirurgicale_Liposuccion">Chirurgicale — Liposuccion</option>
+                                <option value="Chirurgicale_Esthetique_autre">Chirurgicale — Esthétique autre</option>
+                                <option value="Traumatique_Simple">Traumatique — Simple</option>
+                                <option value="Traumatique_Hypertrophique">Traumatique — Hypertrophique</option>
+                                <option value="Traumatique_Cheloides">Traumatique — Chéloïdes</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="stadeSelect">Stade de cicatrisation</label>
+                            <select id="stadeSelect" required>
+                                <option value="">— Sélectionner —</option>
+                                <option value="Recente">Récente (< 2 mois)</option>
+                                <option value="Intermediate">Intermédiaire (2-6 mois)</option>
+                                <option value="Ancienne">Ancienne (> 6 mois)</option>
+                                <option value="Indetermine">Indéterminé</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="qualiteAvant">Qualité avant</label>
+                            <select id="qualiteAvant">
+                                <option value="">— Sélectionner —</option>
+                                <option value="Nette">Nette</option>
+                                <option value="Acceptable">Acceptable</option>
+                                <option value="Flou">Floue</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="qualiteApres">Qualité après</label>
+                            <select id="qualiteApres">
+                                <option value="">— Sélectionner —</option>
+                                <option value="Nette">Nette</option>
+                                <option value="Acceptable">Acceptable</option>
+                                <option value="Flou">Floue</option>
+                                <option value="N/A">N/A</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Éléments présents</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="checkAvant" name="elements" value="Avant">
+                                <label for="checkAvant">Photo avant</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="checkApres" name="elements" value="Après">
+                                <label for="checkApres">Photo après</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="checkComparatif" name="elements" value="Comparatif côte à côte">
+                                <label for="checkComparatif">Comparatif côte à côte</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rgpdConsent">Consentement & statut</label>
+                        <select id="rgpdConsent" required>
+                            <option value="">— Sélectionner —</option>
+                            <option value="RGPD_OK_Publiable">✓ Consentement RGPD validé — Publiable</option>
+                            <option value="A_valider">À valider avec patiente</option>
+                            <option value="Archive_clinique">Archive clinique seulement</option>
+                            <option value="Non_anonymisable">Non anonymisable</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Notes cliniques (optionnel)</label>
+                        <textarea id="notes" placeholder="Ex: Protocole utilisé, timing post-intervention, détails pertinents..." rows="3"></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn-skip" onclick="skipImage()">Passer</button>
+                        <button type="submit" class="btn-next">Suivant</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Completion Section -->
+        <div id="completionSection" class="hidden">
+            <div class="completion-message">
+                <h2>Catalogage terminé ✓</h2>
+                <p id="completionStats"></p>
+                <button class="btn-export" onclick="exportCSV()">Télécharger le CSV</button>
+                <button class="btn-reset" onclick="resetApp()">Recommencer</button>
+            </div>
+
+            <div class="stats" id="finalStats"></div>
+        </div>
+    </div>
+
+    <script>
+        let images = [];
+        let catalogData = [];
+        let currentIndex = 0;
+
+        const fileInput = document.getElementById('fileInput');
+        const uploadSection = document.getElementById('uploadSection');
+        const triageSection = document.getElementById('triageSection');
+        const completionSection = document.getElementById('completionSection');
+        const triageForm = document.getElementById('triageForm');
+        const fileCount = document.getElementById('fileCount');
+
+        // Drag and drop
+        uploadSection.addEventListener('dragover', e => {
+            e.preventDefault();
+            uploadSection.style.borderColor = '#1A1F1A';
+            uploadSection.style.background = '#F5F0E8';
+        });
+
+        uploadSection.addEventListener('dragleave', () => {
+            uploadSection.style.borderColor = '#7A8C6E';
+            uploadSection.style.background = '';
+        });
+
+        uploadSection.addEventListener('drop', e => {
+            e.preventDefault();
+            uploadSection.style.borderColor = '#7A8C6E';
+            uploadSection.style.background = '';
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', e => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            images = [];
+            catalogData = [];
+            currentIndex = 0;
+
+            for (let file of files) {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = e => {
+                        images.push({
+                            name: file.name,
+                            data: e.target.result
+                        });
+
+                        if (images.length === Array.from(files).filter(f => f.type.startsWith('image/')).length) {
+                            startTriage();
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            fileCount.innerHTML = `📸 ${Array.from(files).filter(f => f.type.startsWith('image/')).length} image(s) chargée(s)`;
+        }
+
+        function startTriage() {
+            uploadSection.style.display = 'none';
+            triageSection.classList.add('active');
+            completionSection.classList.add('hidden');
+            showImage();
+        }
+
+        function showImage() {
+            if (currentIndex < images.length) {
+                const img = images[currentIndex];
+                document.getElementById('triageImage').src = img.data;
+                document.getElementById('fileName').textContent = `${currentIndex + 1}/${images.length} — ${img.name}`;
+                updateProgress();
+                resetForm();
+            }
+        }
+
+        function updateProgress() {
+            const percent = ((currentIndex + 1) / images.length) * 100;
+            document.getElementById('progressFill').style.width = percent + '%';
+        }
+
+        function resetForm() {
+            document.getElementById('typeSelect').value = '';
+            document.getElementById('stadeSelect').value = '';
+            document.getElementById('qualiteAvant').value = '';
+            document.getElementById('qualiteApres').value = '';
+            document.getElementById('notes').value = '';
+            document.querySelectorAll('input[name="elements"]').forEach(cb => cb.checked = false);
+            document.getElementById('rgpdConsent').value = '';
+        }
+
+        triageForm.addEventListener('submit', e => {
+            e.preventDefault();
+
+            const elements = Array.from(document.querySelectorAll('input[name="elements"]:checked')).map(cb => cb.value).join(' | ');
+
+            catalogData.push({
+                filename: images[currentIndex].name,
+                type: document.getElementById('typeSelect').value,
+                stade: document.getElementById('stadeSelect').value,
+                qualite_avant: document.getElementById('qualiteAvant').value,
+                qualite_apres: document.getElementById('qualiteApres').value,
+                elements: elements || 'N/A',
+                rgpd_consent: document.getElementById('rgpdConsent').value,
+                notes: document.getElementById('notes').value
+            });
+
+            currentIndex++;
+
+            if (currentIndex < images.length) {
+                showImage();
+            } else {
+                finishTriage();
+            }
+        });
+
+        function skipImage() {
+            currentIndex++;
+            if (currentIndex < images.length) {
+                showImage();
+            } else {
+                finishTriage();
+            }
+        }
+
+        function finishTriage() {
+            triageSection.classList.remove('active');
+            completionSection.classList.remove('hidden');
+
+            const publiables = catalogData.filter(d => d.rgpd_consent === 'RGPD_OK_Publiable').length;
+            const aValider = catalogData.filter(d => d.rgpd_consent === 'A_valider').length;
+
+            document.getElementById('completionStats').textContent = 
+                `${catalogData.length} photo(s) cataloguée(s) — ${publiables} publiable(s), ${aValider} à valider`;
+
+            const stats = generateStats();
+            document.getElementById('finalStats').innerHTML = stats;
+        }
+
+        function generateStats() {
+            const typeCount = {};
+            const stadeCount = {};
+            const rgpdCount = {};
+
+            catalogData.forEach(d => {
+                typeCount[d.type] = (typeCount[d.type] || 0) + 1;
+                stadeCount[d.stade] = (stadeCount[d.stade] || 0) + 1;
+                rgpdCount[d.rgpd_consent] = (rgpdCount[d.rgpd_consent] || 0) + 1;
+            });
+
+            let html = '<div class="stats-title">Résumé du catalogage</div><div class="stats-content">';
+            html += '<strong>Par type :</strong><br>';
+            for (let [type, count] of Object.entries(typeCount)) {
+                html += `${type}: ${count}<br>`;
+            }
+            html += '<br><strong>Par stade :</strong><br>';
+            for (let [stade, count] of Object.entries(stadeCount)) {
+                html += `${stade}: ${count}<br>`;
+            }
+            html += '<br><strong>Statut RGPD :</strong><br>';
+            for (let [consent, count] of Object.entries(rgpdCount)) {
+                html += `${consent}: ${count}<br>`;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function exportCSV() {
+            if (catalogData.length === 0) return;
+
+            const headers = ['Filename', 'Type', 'Stade', 'Qualité Avant', 'Qualité Après', 'Éléments', 'RGPD Consent', 'Notes'];
+            const rows = catalogData.map(d => [
+                d.filename,
+                d.type,
+                d.stade,
+                d.qualite_avant,
+                d.qualite_apres,
+                d.elements,
+                d.rgpd_consent,
+                d.notes
+            ]);
+
+            let csv = headers.join(',') + '\n';
+            rows.forEach(row => {
+                csv += row.map(cell => `"${(cell || '').replace(/"/g, '""')}"`).join(',') + '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `catalogage_cicatrices_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+
+        function resetApp() {
+            images = [];
+            catalogData = [];
+            currentIndex = 0;
+            uploadSection.style.display = '';
+            triageSection.classList.remove('active');
+            completionSection.classList.add('hidden');
+            fileInput.value = '';
+            fileCount.innerHTML = '';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocole cicatrices — La Canopée du 100 — A4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page{ size:A4; margin:9mm; }
+  *{box-sizing:border-box;}
+  :root{
+    --green:#2D4A1E; --green-soft:#3f6329;
+    --beige:#EDE8D8; --cream:#FBF9F4;
+    --gold:#C8A96E; --rose:#B98B82; --ink:#26311f;
+  }
+  html,body{
+    margin:0; background:#e9e5d6;
+    font-family:'Montserrat',sans-serif; color:var(--ink);
+  }
+  .page{
+    width:210mm; height:297mm;
+    margin:8mm auto; background:var(--cream);
+    padding:10mm 11mm 8mm;
+    display:flex; flex-direction:column;
+  }
+
+  header{text-align:center; margin-bottom:6mm;}
+  .eyebrow{
+    font-size:8px; letter-spacing:.24em; text-transform:uppercase;
+    color:var(--rose); font-weight:700; margin-bottom:3px;
+  }
+  h1{
+    font-family:'Cormorant Garamond',serif; font-weight:600;
+    font-size:26px; color:var(--green); margin:0 0 2px;
+  }
+  header p.sub{
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    font-size:12px; color:var(--green-soft); margin:0;
+  }
+  .suture{display:flex; justify-content:center; margin:3mm 0;}
+  .suture svg{width:120mm; height:9px;}
+
+  .legend{
+    display:flex; justify-content:center; gap:16px;
+    font-size:8px; margin-bottom:5mm; color:var(--ink);
+  }
+  .legend .item{display:flex; align-items:center; gap:5px;}
+  .legend .swatch{width:7px; height:7px; border-radius:50%; display:inline-block;}
+  .lpg{background:var(--green);} .tecar{background:var(--gold);} .micro{background:var(--rose);}
+
+  .section-title{display:flex; align-items:baseline; gap:8px; margin:0 0 3mm;}
+  .section-title .num{font-family:'Cormorant Garamond',serif; font-size:10px; color:var(--rose); letter-spacing:.08em;}
+  .section-title h2{font-family:'Cormorant Garamond',serif; font-weight:600; font-size:15px; color:var(--green); margin:0;}
+  .section-title .rule{flex:1; height:1px; background:linear-gradient(to right,var(--gold),transparent);}
+
+  .dots{display:inline-flex; gap:2px; margin-left:auto;}
+  .dot{width:4.5px; height:4.5px; border-radius:50%; background:#d8d2c0;}
+  .dot.on{background:currentColor;}
+  .device-row{display:flex; align-items:center; justify-content:space-between; font-size:7.3px; font-weight:600; margin-bottom:1.5px;}
+
+  /* TIMELINE */
+  .timeline{display:grid; grid-template-columns:repeat(4,1fr); gap:3mm; margin-bottom:5mm;}
+  .phase{background:var(--beige); border-top:2px solid var(--green); border-radius:1px; padding:3mm 2.8mm 2.6mm;}
+  .phase:nth-child(2){border-top-color:var(--gold);}
+  .phase:nth-child(3){border-top-color:var(--rose);}
+  .phase:nth-child(4){border-top-color:var(--ink);}
+  .phase .when{font-size:7px; letter-spacing:.08em; text-transform:uppercase; color:var(--green-soft); font-weight:700; margin-bottom:2px;}
+  .phase h3{font-family:'Cormorant Garamond',serif; font-size:13px; font-weight:600; margin:0 0 3px; color:var(--ink);}
+  .phase .state{font-size:7.3px; line-height:1.35; color:#4d5642; margin-bottom:3mm; min-height:19mm;}
+
+  /* PATHOLOGIES */
+  .path-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:3mm; margin-bottom:5mm;}
+  .path-card{background:#fff; border:0.75px solid #e3ddc9; border-radius:1px; padding:2.8mm 3mm;}
+  .path-card h3{font-family:'Cormorant Garamond',serif; font-size:12px; font-weight:600; color:var(--green); margin:0 0 2px;}
+  .path-card p{font-size:6.9px; line-height:1.35; color:#454f3a; margin:0 0 2.5mm; min-height:17mm;}
+
+  .vigilance{
+    background:var(--green); color:var(--cream); border-radius:1px;
+    padding:4mm 5mm; margin-top:auto;
+  }
+  .vigilance h2{font-family:'Cormorant Garamond',serif; font-weight:600; font-size:12px; margin:0 0 2mm; color:var(--gold);}
+  .vigilance ul{margin:0; padding-left:14px;}
+  .vigilance li{font-size:7.8px; line-height:1.45; margin-bottom:1px;}
+
+  footer{text-align:center; margin-top:3mm; font-size:6.5px; letter-spacing:.06em; color:#9a9481; text-transform:uppercase;}
+
+  @media print{
+    html,body{background:#fff;}
+    .page{margin:0; box-shadow:none;}
+  }
+  @media screen{
+    .page{box-shadow:0 4px 24px rgba(0,0,0,.12);}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="eyebrow">La Canopée du 100 — Cabinet de kinésithérapie</div>
+    <h1>Protocole cicatrices</h1>
+    <p class="sub">Timing de cicatrisation &amp; pathologies — LPG · Winback TECAR · Microlab</p>
+    <div class="suture">
+      <svg viewBox="0 0 300 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="4.5" x2="300" y2="4.5" stroke="#C8A96E" stroke-width="0.7"/>
+        <g stroke="#2D4A1E" stroke-width="0.9">
+          <path d="M10 1 L10 8"/><path d="M28 1 L28 8"/><path d="M46 1 L46 8"/><path d="M64 1 L64 8"/>
+          <path d="M82 1 L82 8"/><path d="M100 1 L100 8"/><path d="M118 1 L118 8"/><path d="M136 1 L136 8"/>
+          <path d="M154 1 L154 8"/><path d="M172 1 L172 8"/><path d="M190 1 L190 8"/><path d="M208 1 L208 8"/>
+          <path d="M226 1 L226 8"/><path d="M244 1 L244 8"/><path d="M262 1 L262 8"/><path d="M280 1 L280 8"/>
+        </g>
+      </svg>
+    </div>
+  </header>
+
+  <div class="legend">
+    <span class="item"><span class="swatch lpg"></span>LPG — mécano, décollement, drainage</span>
+    <span class="item"><span class="swatch tecar"></span>TECAR — chaleur, régénération</span>
+    <span class="item"><span class="swatch micro"></span>Microlab — microcourants, antalgique</span>
+  </div>
+
+  <div class="section-title"><span class="num">I.</span><h2>Par timing</h2><span class="rule"></span></div>
+  <div class="timeline">
+    <div class="phase">
+      <div class="when">J0 → J15-21</div>
+      <h3>Inflammatoire</h3>
+      <div class="state">Plaie fragile, sutures parfois en place. Aucune manipulation directe sur la cicatrice.</div>
+      <div class="device-row"><span>LPG</span><span class="dots" style="color:var(--green)"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></div>
+      <div class="device-row"><span>TECAR</span><span class="dots" style="color:var(--gold)"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>
+      <div class="device-row"><span>Microlab</span><span class="dots" style="color:var(--rose)"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></div>
+    </div>
+    <div class="phase">
+      <div class="when">J15 → J60</div>
+      <h3>Bourgeonnement</h3>
+      <div class="state">Plaie fermée, fils retirés. Tissu de granulation fragile, néo-vascularisation active.</div>
+      <div class="device-row"><span>LPG</span><span class="dots" style="color:var(--green)"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></div>
+      <div class="device-row"><span>TECAR</span><span class="dots" style="color:var(--gold)"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></div>
+      <div class="device-row"><span>Microlab</span><span class="dots" style="color:var(--rose)"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></div>
+    </div>
+    <div class="phase">
+      <div class="when">J60 → J360+</div>
+      <h3>Remodelage</h3>
+      <div class="state">Cicatrice consolidée. Remodelage collagénique, adhérences profondes possibles.</div>
+      <div class="device-row"><span>LPG</span><span class="dots" style="color:var(--green)"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></div>
+      <div class="device-row"><span>TECAR</span><span class="dots" style="color:var(--gold)"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></div>
+      <div class="device-row"><span>Microlab</span><span class="dots" style="color:var(--rose)"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></div>
+    </div>
+    <div class="phase">
+      <div class="when">&gt; 1 an</div>
+      <h3>Cicatrice ancienne</h3>
+      <div class="state">Tissu fibreux, adhérent. Objectif mobilité plus qu'esthétique, résultats plus lents.</div>
+      <div class="device-row"><span>LPG</span><span class="dots" style="color:var(--green)"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></div>
+      <div class="device-row"><span>TECAR</span><span class="dots" style="color:var(--gold)"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></div>
+      <div class="device-row"><span>Microlab</span><span class="dots" style="color:var(--rose)"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></div>
+    </div>
+  </div>
+
+  <div class="section-title"><span class="num">II.</span><h2>Par pathologie</h2><span class="rule"></span></div>
+  <div class="path-grid">
+    <div class="path-card">
+      <h3>Chirurgicale linéaire</h3>
+      <p>Coelio/laparoscopie. Timing standard. Attention aux trocarts, décollement doux dès phase 2.</p>
+      <div class="device-row"><span>LPG</span><span class="dots" style="color:var(--green)"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></div>
+      <div class="device-row"><span>TECAR</span><span class="dots" style="color:var(--gold)"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></div>
+      <div class="device-row"><span>Microlab</span><span class="dots" style="color:var(--rose)"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></div>
+    </div>
+    <div class="path-card">
+      <h3>Césarienne</h3>
+      <p>Adhérences fréquentes plan aponévrotique/vessie. Vérifier l'absence de diastasis avant travail appuyé.</p>
+      <div class="device-row"><span>LPG</span><span class="dots" style="color:var(--green)"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></div>
+      <div class="device-row"><span>TECAR</span><span class="dots" style="color:var(--gold)"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></div>
+      <div class="device-row"><span>Microlab</span><span class="dots" style="color:var(--rose)"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></div>
+    </div>
+    <div class="path-card">
+      <h3>Épisiotomie / périnée</h3>
+      <p>Zone très sensible. Microcourants en 1ère intention. TECAR externe faible seulement, jamais endocavitaire.</p>
+      <div class="device-row"><span>LPG</span><span class="dots" style="color:var(--green)"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></div>
+      <div class="device-row"><span>TECAR</span><span class="dots" style="color:var(--gold)"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></div>
+      <div class="device-row"><span>Microlab</span><span class="dots" style="color:var(--rose)"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></div>
+    </div>
+    <div class="path-card">
+      <h3>Hypertrophique / chéloïde</h3>
+      <p>Risque d'aggravation si stim. trop précoce/intense. Surveiller réaction après séance. Associer compression silicone.</p>
+      <div class="device-row"><span>LPG</span><span class="dots" style="color:var(--green)"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></div>
+      <div class="device-row"><span>TECAR</span><span class="dots" style="color:var(--gold)"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></div>
+      <div class="device-row"><span>Microlab</span><span class="dots" style="color:var(--rose)"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></div>
+    </div>
+    <div class="path-card">
+      <h3>Adhérente (post-mastectomie)</h3>
+      <p>Risque lymphatique : dépression LPG modérée côté opéré. TECAR profond adhérences pect./axillaires. Microlab sur névromes.</p>
+      <div class="device-row"><span>LPG</span><span class="dots" style="color:var(--green)"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></div>
+      <div class="device-row"><span>TECAR</span><span class="dots" style="color:var(--gold)"><span class="dot on"></span><span class="dot on"></span><span class="dot on"></span></span></div>
+      <div class="device-row"><span>Microlab</span><span class="dots" style="color:var(--rose)"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></div>
+    </div>
+    <div class="path-card">
+      <h3>Post-radique (sein)</h3>
+      <p>Peau fragilisée, fibrose radio-induite. Pas de chaleur forte. Dépression LPG minimale. Microcourants bien tolérés.</p>
+      <div class="device-row"><span>LPG</span><span class="dots" style="color:var(--green)"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></div>
+      <div class="device-row"><span>TECAR</span><span class="dots" style="color:var(--gold)"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span></div>
+      <div class="device-row"><span>Microlab</span><span class="dots" style="color:var(--rose)"><span class="dot on"></span><span class="dot on"></span><span class="dot"></span></span></div>
+    </div>
+  </div>
+
+  <div class="vigilance">
+    <h2>Points de vigilance transversaux</h2>
+    <ul>
+      <li>Valider le timing avec le chirurgien/prescripteur avant tout travail mécanique appuyé.</li>
+      <li>Utiliser l'échelle VSS/POSAS pour objectiver l'évolution et ajuster séance après séance.</li>
+      <li>Adapter l'intensité à la réaction cutanée — érythème &gt; 24h = réduire au prochain rendez-vous.</li>
+    </ul>
+  </div>
+
+  <footer>La Canopée du 100 · 100 rue Lazare Carnot, 56100 Lorient</footer>
+
+</div>
+</body>
+</html>
