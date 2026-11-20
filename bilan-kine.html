@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bilan Kiné Généraliste</title>
+<style>
+*{box-sizing:border-box} body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:#eef4f3;color:#12221f}
+header{background:#0f766e;color:#fff;padding:18px 16px;position:sticky;top:0} header h1{margin:0;font-size:22px} header p{margin:4px 0 0;opacity:.9}
+main{max-width:900px;margin:auto;padding:16px} .card{background:#fff;border-radius:14px;padding:16px;margin:12px 0;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+h2{margin:0 0 12px;font-size:18px;color:#0f766e} label{display:block;font-weight:600;font-size:13px;margin:12px 0 5px} input,textarea,select{width:100%;padding:11px;border:1px solid #cbd5d1;border-radius:10px;font-size:15px;font-family:inherit} textarea{min-height:70px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px} @media(max-width:600px){.row{grid-template-columns:1fr}}
+.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:700;cursor:pointer;font-size:15px} .primary{background:#0f766e;color:#fff} .soft{background:#dcefeC;color:#0f766e} .danger{background:#fee2e2;color:#991b1b} .actions{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.bilan{border:1px solid #e2e8e6;border-radius:12px;padding:12px;margin:10px 0} .bilan b{color:#0f766e} .muted{color:#64748b;font-size:13px}
+input[type=range]{accent-color:#0f766e}
+</style></head><body>
+<header><h1>Bilan Kiné Généraliste</h1><p>Simple, complet, téléchargeable</p></header>
+<main>
+<div class="card">
+<h2>Patient</h2>
+<div class="row"><div><label>Nom prénom</label><input id="nom" placeholder="Ex : Martin Léa"></div><div><label>Date du bilan</label><input id="date" type="date"></div></div>
+<div class="row"><div><label>Âge / Date de naissance</label><input id="age" placeholder="Ex : 42 ans"></div><div><label>Praticien</label><input id="praticien" placeholder="Nom du kiné"></div></div>
+</div>
+
+<div class="card"><h2>1. Anamnèse</h2>
+<label>Motif de consultation</label><textarea id="motif"></textarea>
+<label>Histoire de la plainte</label><textarea id="histoire" placeholder="Début, mode d'apparition, évolution, facteurs aggravants et soulageants"></textarea>
+<label>Douleur : <span id="douleurVal">5</span> / 10</label><input id="douleur" type="range" min="0" max="10" value="5">
+<label>Douleur au repos / en activité / la nuit</label><input id="douleurDetail" placeholder="Ex : 2 / 6 / 3">
+<label>Antécédents</label><textarea id="antecedents"></textarea>
+<label>Traitements en cours</label><textarea id="traitements"></textarea>
+<label>Contexte : profession, sport, sommeil, activité</label><textarea id="contexte"></textarea>
+<label>Objectif du patient</label><textarea id="objectif"></textarea>
+<label>Drapeaux rouges</label><textarea id="drapeaux" placeholder="Si présents, conduite tenue"></textarea>
+</div>
+
+<div class="card"><h2>2. Examen clinique</h2>
+<label>Observation</label><textarea id="observation" placeholder="Posture, démarche, oedème, rougeur"></textarea>
+<label>Palpation</label><textarea id="palpation"></textarea>
+<label>Mobilités : actives puis passives</label><textarea id="mobilites"></textarea>
+<label>Force musculaire</label><textarea id="force"></textarea>
+<label>Tests spécifiques</label><textarea id="tests" placeholder="Test, résultat positif ou négatif"></textarea>
+<label>Fonction</label><textarea id="fonction"></textarea>
+<label>Examen neurologique si indiqué</label><textarea id="neuro" placeholder="Sensibilité, réflexes, force segmentaire"></textarea>
+</div>
+
+<div class="card"><h2>3. Synthèse</h2>
+<label>Diagnostic kinésithérapique</label><textarea id="diag"></textarea>
+<label>Facteurs favorisants</label><textarea id="facteurs"></textarea>
+<label>Pronostic</label><input id="pronostic" placeholder="Favorable, réservé...">
+</div>
+
+<div class="card"><h2>4. Plan de traitement</h2>
+<label>Objectifs à court terme</label><textarea id="objCourt"></textarea>
+<label>Objectifs à moyen terme</label><textarea id="objMoyen"></textarea>
+<label>Techniques envisagées</label><textarea id="techniques" placeholder="Thérapie manuelle, exercices, éducation, reconditionnement"></textarea>
+<label>Fréquence proposée</label><input id="frequence" placeholder="Ex : 2 fois par semaine, réévaluation à 3 semaines">
+<label>Conseils donnés</label><textarea id="conseils"></textarea>
+</div>
+
+<div class="card"><h2>5. Suivi</h2>
+<label>Critères de réévaluation</label><textarea id="criteres" placeholder="Douleur, amplitude, force, fonction"></textarea>
+<label>Évolution</label><textarea id="evolution"></textarea>
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="enregistrer()">Enregistrer le bilan</button>
+<button class="btn soft" onclick="telecharger()">⬇ Télécharger le bilan</button>
+<button class="btn soft" onclick="nouveau()">Nouveau bilan</button>
+<button class="btn soft" onclick="telechargerAppli()">⬇ Télécharger l'appli HTML</button>
+</div>
+
+<div class="card"><h2>Bilans enregistrés</h2><input id="recherche" placeholder="Rechercher par nom..." oninput="afficher()"><div id="liste"></div></div>
+</main>
+<script>
+const champs=["nom","date","age","praticien","motif","histoire","douleur","douleurDetail","antecedents","traitements","contexte","objectif","drapeaux","observation","palpation","mobilites","force","tests","fonction","neuro","diag","facteurs","pronostic","objCourt","objMoyen","techniques","frequence","conseils","criteres","evolution"];
+document.getElementById('date').value=new Date().toISOString().slice(0,10);
+document.getElementById('douleur').oninput=e=>document.getElementById('douleurVal').textContent=e.target.value;
+function getData(){let o={};champs.forEach(c=>o[c]=document.getElementById(c).value);o.id=Date.now();return o;}
+function setData(o){champs.forEach(c=>{if(o[c]!=null) document.getElementById(c).value=o[c]});document.getElementById('douleurVal').textContent=o.douleur||5;}
+function load(){try{return JSON.parse(localStorage.getItem('bilans_kine')||'[]')}catch(e){return []}}
+function save(list){localStorage.setItem('bilans_kine',JSON.stringify(list))}
+function enregistrer(){let list=load();list.unshift(getData());save(list);afficher();alert('Bilan enregistré');}
+function nouveau(){champs.forEach(c=>document.getElementById(c).value='');document.getElementById('date').value=new Date().toISOString().slice(0,10);document.getElementById('douleur').value=5;document.getElementById('douleurVal').textContent='5';}
+function afficher(){let q=(document.getElementById('recherche').value||'').toLowerCase();let list=load().filter(b=>(b.nom||'').toLowerCase().includes(q));
+document.getElementById('liste').innerHTML=list.length?list.map((b,i)=>`<div class="bilan"><b>${b.nom||'Sans nom'}</b> <span class="muted">${b.date||''} • Douleur ${b.douleur||'-'}/10</span><br><span class="muted">${(b.motif||'').slice(0,120)}</span><div class="actions"><button class="btn soft" onclick="ouvrir(${b.id})">Ouvrir</button><button class="btn soft" onclick="telechargerUn(${b.id})">Télécharger</button><button class="btn danger" onclick="supprimer(${b.id})">Supprimer</button></div></div>`).join(''):'<p class="muted">Aucun bilan pour le moment.</p>';}
+function ouvrir(id){let b=load().find(x=>x.id==id);if(b) setData(b);window.scrollTo({top:0,behavior:'smooth'});}
+function supprimer(id){if(confirm('Supprimer ce bilan ?')){save(load().filter(x=>x.id!=id));afficher();}}
+function htmlBilan(b){let lignes=[['Patient',b.nom],['Date',b.date],['Âge',b.age],['Praticien',b.praticien],['Motif',b.motif],['Histoire',b.histoire],['Douleur',b.douleur+'/10'],['Douleur détail',b.douleurDetail],['Antécédents',b.antecedents],['Traitements',b.traitements],['Contexte',b.contexte],['Objectif',b.objectif],['Drapeaux rouges',b.drapeaux],['Observation',b.observation],['Palpation',b.palpation],['Mobilités',b.mobilites],['Force',b.force],['Tests',b.tests],['Fonction',b.fonction],['Neuro',b.neuro],['Diagnostic kiné',b.diag],['Facteurs',b.facteurs],['Pronostic',b.pronostic],['Objectifs court terme',b.objCourt],['Objectifs moyen terme',b.objMoyen],['Techniques',b.techniques],['Fréquence',b.frequence],['Conseils',b.conseils],['Critères réévaluation',b.criteres],['Évolution',b.evolution]];
+return '<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Bilan Kiné - '+(b.nom||'')+'</title><style>body{font-family:system-ui,sans-serif;max-width:800px;margin:30px auto;padding:20px}h1{color:#0f766e}h2{color:#0f766e;border-bottom:1px solid #ddd;padding-bottom:5px}b{display:block;margin-top:12px}</style></head><body><h1>Bilan Kiné Généraliste</h1>'+lignes.map(x=>'<b>'+x[0]+'</b><div>'+(x[1]||'').replace(/\n/g,'<br>')+'</div>').join('')+'</body></html>';}
+function telechargerUn(id){let b=load().find(x=>x.id==id);if(!b) return;let blob=new Blob([htmlBilan(b)],{type:'text/html'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='bilan-kine-'+(b.nom||'patient').replace(/\s+/g,'-')+'.html';a.click();}
+function telecharger(){let b=getData();let blob=new Blob([htmlBilan(b)],{type:'text/html'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='bilan-kine-'+(b.nom||'patient').replace(/\s+/g,'-')+'.html';a.click();}
+function telechargerAppli(){let blob=new Blob([document.documentElement.outerHTML],{type:'text/html'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='appli-bilan-kine.html';a.click();}
+afficher();
+</script></body></html>
